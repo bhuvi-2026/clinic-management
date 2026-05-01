@@ -29,6 +29,7 @@ public class DoctorController {
         Doctor savedDoctor = doctorRepository.save(doctor);
         return new ResponseEntity<>(savedDoctor, HttpStatus.CREATED);
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDoctor(@PathVariable Long id) {
