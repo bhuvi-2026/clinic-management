@@ -1,0 +1,14 @@
+# Java/Spring Boot
+/backend/target/
+/backend/data/
+*.class
+
+# Angular/Node
+/frontend/node_modules/
+/frontend/dist/
+.angular/
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store

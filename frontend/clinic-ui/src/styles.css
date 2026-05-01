@@ -1,0 +1,13 @@
+:root {
+  --allo-primary: #1a5f6e;    /* Deep, trustworthy Teal */
+  --allo-bg-light: #f9fbfc;   /* Very soft blue-gray background */
+  --allo-text: #2d3748;       /* Soft dark gray (not pure black) */
+  --allo-accent: #ff7a59;     /* Soft coral for attention-grabbing buttons */
+  --white: #ffffff;
+}
+
+body {
+  background-color: var(--allo-bg-light);
+  font-family: 'Inter', sans-serif; /* A clean, modern sans-serif */
+  color: var(--allo-text);
+}

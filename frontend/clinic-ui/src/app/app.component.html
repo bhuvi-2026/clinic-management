@@ -1,0 +1,39 @@
+<nav class="navbar">
+  <div class="logo-container">
+    <span class="logo-text">VB Clinic</span>
+  </div>
+
+  <div class="nav-actions">
+    @if (!isLoggedIn) {
+      <button class="login-trigger-btn" (click)="showLoginOverlay = true">
+        Login
+      </button>
+    } @else {
+      <div class="user-profile">
+        <span class="welcome-msg">Welcome, Patient</span>
+      </div>
+    }
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Quality Care, <span class="highlight">Simplified.</span></h1>
+    <p>Consult with expert doctors from the comfort of your home.</p>
+  </div>
+  <div class="hero-image">
+    <!-- Image sourced from Unsplash for a professional feel -->
+    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" alt="Doctor Consultation">
+  </div>
+</section>
+
+<!-- This loads your doctors dashboard -->
+<app-health-home [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true"></app-health-home> 
+
+<!-- This loads the login popup when requested -->
+@if (showLoginOverlay) {
+  <app-login 
+    (loginSuccess)="handleLoginSuccess()" 
+    (closeLogin)="showLoginOverlay = false">
+  </app-login>
+}
