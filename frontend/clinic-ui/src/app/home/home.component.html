@@ -1,0 +1,57 @@
+<!-- Wrapper to control the view -->
+<div class="main-container">
+  
+  @if (currentView === 'dashboard') {
+  <div class="popup-overlay" (click)="currentView = 'home'">
+    <div class="popup-content" (click)="$event.stopPropagation()">
+      <button class="close-popup" (click)="currentView = 'home'">×</button>
+      
+      <app-user-dashboard 
+        [name]="userName" 
+        [email]="userEmail"
+        (backToHome)="currentView = 'home'">
+      </app-user-dashboard>
+    </div>
+  </div>
+}
+  @else {
+    <!-- Landing Page Content -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Quality Care, <span class="highlight">Simplified</span></h1>
+        <p>Consult with our team of expert specialists from the comfort of your home.</p>
+        <div class="hero-actions">
+          <button class="cta-btn" (click)="scrollToDoctors()">Find a Doctor</button>
+          <button class="lab-btn" (click)="scrollToLab()">Blood Test &#64; Home</button>
+        </div>
+      </div>
+
+      <div class="hero-image-container">
+        <div class="image-wrapper main-image">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" alt="Doctor">
+        </div>
+        <div class="image-wrapper secondary-image">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800" alt="Specialist">
+        </div>
+      </div>
+    </section>
+
+    <div id="target-section">
+      @if (currentView === 'home') {
+        <app-health-home id="doctor-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true"
+        (bookingFinished)="handleBookingEmail($any($event))">
+        </app-health-home>
+      } 
+      @if (currentView === 'tests') {
+        <app-lab-tests id="lab-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
+        </app-lab-tests>
+      }
+    </div>
+  }
+</div>
+
+<!-- Login Overlay stays global -->
+@if (showLoginOverlay) {
+  <app-login (loginSuccess)="handleLoginSuccess($event)" (closeLogin)="closeOverlay()">
+  </app-login>
+}

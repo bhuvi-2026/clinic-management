@@ -1,0 +1,124 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background: #ffffff !important; /* Force background to white */
+  min-height: 60px;
+  width: 90%;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.login-trigger-btn {
+  background-color: #1a5f6e;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 20px;
+}
+
+.login-trigger-btn:hover {
+  background-color: #144a56;
+  transform: translateY(-2px);
+}
+
+.welcome-msg {
+  font-weight: 700;
+  color: #0056b3;
+  font-size: xx-large;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 6px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 6%;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.logo-text {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a5f6e;
+}
+
+.user-session-group {
+  display: flex;
+  align-items: center;
+  /* Ensures items are one next to the other with 25px gaps */
+  gap: 25px; 
+}
+
+/* Welcome Label Styling */
+.welcome-label {
+  font-size: 20px;
+  color: #1a5f6e;
+  white-space: nowrap;
+}
+
+/* My Bookings Button Styling */
+.nav-link-btn {
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #1a5f6e;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 18px;
+}
+
+.nav-link-btn:hover {
+  background: #e2e8e7;
+}
+
+/* Logout Button Styling */
+.logout-outline-btn {
+  background: transparent;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-outline-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+
+

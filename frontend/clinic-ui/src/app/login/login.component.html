@@ -1,34 +1,40 @@
 <div class="login-overlay">
   <div class="login-card">
     <button class="close-btn" (click)="closeLogin.emit()">×</button>
-    
+
     <h2>{{ isOtpSent ? 'Verify OTP' : 'Login / Signup' }}</h2>
     <p class="subtitle">Please enter your details to continue</p>
 
     @if (!isOtpSent) {
-      <!-- Phone Input Section -->
-      <div class="form-group">
-        <label>Mobile Number</label>
-        <div class="input-wrapper">
-          <span class="prefix">+91</span>
-          <input type="tel" [(ngModel)]="mobileNumber" placeholder="Enter your contact number" maxlength="10">
-        </div>
+    <!-- Phone Input Section -->
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" [(ngModel)]="username" #nameRef="ngModel" (keypress)="blockNumbers($event)" placeholder="Enter your name" pattern="[a-zA-Z ]*"
+        class="login-input">
+    </div>
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <div class="input-wrapper">
+        <span class="prefix">+91</span>
+        <input type="tel" [(ngModel)]="mobileNumber" #mobileRef="ngModel" (keypress)="blockAlphabets($event)" maxlength="10" pattern="[6-9][0-9]{9}"
+          placeholder="Enter your contact number" maxlength="10">
       </div>
-      <button class="primary-btn" [disabled]="isLoading" (click)="onRequestOtp()">
-        {{ isLoading ? 'Sending...' : 'Get OTP' }}
-      </button>
+    </div>
+    <button class="primary-btn" [disabled]="isLoading || nameRef.invalid || mobileRef.invalid || !username || mobileNumber.length !== 10" (click)="onRequestOtp()">
+      {{ isLoading ? 'Sending...' : 'Get OTP' }}
+    </button>
     } @else {
-      <!-- OTP Input Section -->
-      <div class="form-group">
-        <label>Enter 6-Digit OTP</label>
-        <input type="text" [(ngModel)]="otp" placeholder="000000" maxlength="6" class="otp-input">
-        <p class="resend-text">Sent to +91 {{ mobileNumber }} 
-          <span (click)="isOtpSent = false" class="change-num">Change</span>
-        </p>
-      </div>
-      <button class="primary-btn verify-btn" [disabled]="isLoading" (click)="onVerifyOtp()">
-        {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
-      </button>
+    <!-- OTP Input Section -->
+    <div class="form-group">
+      <label>Enter 6-Digit OTP</label>
+      <input type="text" [(ngModel)]="otp" placeholder="000000" maxlength="6" class="otp-input">
+      <p class="resend-text">Sent to +91 {{ mobileNumber }}
+        <span (click)="isOtpSent = false" class="change-num">Change</span>
+      </p>
+    </div>
+    <button class="primary-btn verify-btn" [disabled]="isLoading" (click)="onVerifyOtp()">
+      {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
+    </button>
     }
   </div>
 </div>

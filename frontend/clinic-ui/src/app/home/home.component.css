@@ -1,0 +1,164 @@
+/* --- Hero Section Fixes --- */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 10% 0px 10%;
+  background: linear-gradient(135deg, #f9fbff 0%, #ffffff 100%);
+  min-height: 70vh;
+  gap: 40px;
+  overflow: hidden; /* Prevents images from creating scrollbars */
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 500px;
+  z-index: 10; /* Keeps text above images on small screens */
+}
+.hero-content h1 {
+    font-size: 3em;
+}
+
+.hero-image-container {
+  flex: 1;
+  position: relative;
+  height: 450px;
+  width: 500px; /* CRITICAL: Gives the container width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.highlight {
+  color: #1a5f6e; /* Allo-inspired Teal */
+  position: relative;
+}
+
+/* --- CTA Button Styling --- */
+.cta-btn {
+  background-color: #1a5f6e;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(26, 95, 110, 0.3);
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background-color: #144a56;
+  transform: translateY(-2px);
+}
+.hero-actions {
+    display: flex;
+    column-gap: 12px;
+}
+
+.lab-btn {
+  background-color: #1a5f6e; /* Medical Blue */
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transition: 0.3s;
+}
+
+.lab-btn:hover {
+  background-color: #144a56;
+  transform: translateY(-2px);
+}
+
+#doctor-list {
+  /* This creates a buffer so the section doesn't hide behind your navbar */
+  scroll-margin-top: 100px; 
+  display: block; /* Ensures the ID area has a physical presence for the scroll */
+}
+
+.image-wrapper {
+  width: 320px;
+  height: 380px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Hover Effect: Bring the image forward */
+.image-wrapper:hover {
+  transform: scale(1.08) rotate(0deg);
+  z-index: 5;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+}
+
+/* --- Position the Images --- */
+
+/* The Consultation Image (Back) */
+.main-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: rotate(-3deg); /* Adds a stylish tilt */
+}
+
+/* The Doctors Image (Front) */
+.secondary-image {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  border: 8px solid white; /* Thick white border like a photo frame */
+  transform: rotate(3deg); /* Counter-tilt for style */
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Darkens the background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000; /* Higher than header and login */
+  backdrop-filter: blur(4px); /* Professional blur effect */
+}
+
+.popup-content {
+  background: #fff;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  position: relative;
+  overflow-y: auto; /* Allows scrolling inside the popup */
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.close-popup {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.close-popup:hover {
+  color: #e74c3c;
+}

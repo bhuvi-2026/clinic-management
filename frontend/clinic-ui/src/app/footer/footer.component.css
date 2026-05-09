@@ -1,0 +1,18 @@
+.main-footer {
+    background: #f9fbff;
+    padding: 40px 10%;
+    border-top: 1px solid #eef2f6;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.footer-content p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #1a5f6e;
+    cursor: pointer;
+    margin: 0 5px;
+}

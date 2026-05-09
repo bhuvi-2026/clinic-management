@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
@@ -8,59 +8,60 @@ import { AuthService } from '../auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  @Output() loginSuccess = new EventEmitter<void>();
+  @Output() loginSuccess = new EventEmitter<{name: string, email: string}>();
   @Output() closeLogin = new EventEmitter<void>();
 
+  username: string = '';
   mobileNumber: string = '';
   otp: string = '';
-  isOtpSent: boolean = false;
-  isLoading: boolean = false;
+  isOtpSent = false;
+  isLoading = false;
 
   constructor(private authService: AuthService) {}
 
-  // Step 1: Request OTP from Backend
   onRequestOtp() {
-    if (this.mobileNumber.length !== 10) {
-      alert('Please enter a valid 10-digit mobile number');
-      return;
-    }
     this.isLoading = true;
-    
-    // For now, we simulate a successful API call
-    console.log('Requesting OTP for:', this.mobileNumber);
     this.authService.requestOtp(this.mobileNumber).subscribe({
-      next: (response) => {
-        console.log('OTP Requested');
+      next: () => {
         this.isOtpSent = true;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to send OTP. Check if Backend is running.');
-        this.isLoading = false;
-      }
+      error: () => this.isLoading = false
     });
   }
+  blockNumbers(event: any) {
+  const pattern = /[a-zA-Z ]/;
+  const inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
 
-  // Step 2: Verify OTP with Backend
+// Block alphabets and symbols in the Mobile field
+blockAlphabets(event: any) {
+  const pattern = /[0-9]/;
+  const inputChar = String.fromCharCode(event.charCode);
+  if (!pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
+
   onVerifyOtp() {
     this.isLoading = true;
     this.authService.verifyOtp(this.mobileNumber, this.otp).subscribe({
       next: (res) => {
         if (res.success) {
-          this.loginSuccess.emit(); // Closes overlay & updates navbar
-        } else {
-          alert('Invalid OTP. Please check your console/terminal.');
+          this.loginSuccess.emit({
+            name: this.username,
+            email: res.userEmail
+          });
         }
         this.isLoading = false;
       },
-      error: (err) => {
-        alert('Verification error.');
-        this.isLoading = false;
-      }
+      error: () => this.isLoading = false
     });
   }
 }

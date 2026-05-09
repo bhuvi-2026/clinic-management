@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "appointments")
 public class Appointment {
 
     @Id
@@ -13,15 +14,19 @@ public class Appointment {
     private String patientName;
     private String patientPhone;
     private String appointmentSlot;
-    private LocalDateTime bookingTime;
+    private LocalDateTime bookingTime = LocalDateTime.now();
+    private String userEmail;
+    private String status;
+
+    @Column(columnDefinition = "TEXT")
+    private String zoomJoinUrl;
+
+    @Column(columnDefinition = "TEXT")
+    private String zoomStartUrl;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-
-    public Appointment() {
-        this.bookingTime = LocalDateTime.now();
-    }
 
     // Getters and Setters
     public Long getId() {
@@ -48,6 +53,14 @@ public class Appointment {
         this.patientPhone = patientPhone;
     }
 
+    public String getAppointmentSlot() {
+        return appointmentSlot;
+    }
+
+    public void setAppointmentSlot(String appointmentSlot) {
+        this.appointmentSlot = appointmentSlot;
+    }
+
     public LocalDateTime getBookingTime() {
         return bookingTime;
     }
@@ -56,19 +69,43 @@ public class Appointment {
         this.bookingTime = bookingTime;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getZoomJoinUrl() {
+        return zoomJoinUrl;
+    }
+
+    public void setZoomJoinUrl(String zoomJoinUrl) {
+        this.zoomJoinUrl = zoomJoinUrl;
+    }
+
+    public String getZoomStartUrl() {
+        return zoomStartUrl;
+    }
+
+    public void setZoomStartUrl(String zoomStartUrl) {
+        this.zoomStartUrl = zoomStartUrl;
+    }
+
     public Doctor getDoctor() {
         return doctor;
     }
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
-    }
-
-    public String getAppointmentSlot() {
-        return appointmentSlot;
-    }
-
-    public void setAppointmentSlot(String appointmentSlot) {
-        this.appointmentSlot = appointmentSlot;
     }
 }

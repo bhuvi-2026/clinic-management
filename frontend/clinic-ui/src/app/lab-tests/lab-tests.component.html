@@ -1,0 +1,50 @@
+<div class="lab-container">
+  <div class="lab-header">
+    <h2>Packages For You!</h2>
+    <p>Compare packages and choose your best fit</p>
+  </div>
+
+  <div class="test-grid">
+    @for (pkg of packages; track pkg.name) {
+      <div class="test-card">
+        <div class="card-header">
+          <h3>{{ pkg.name }}</h3>
+          <span class="arrow-icon">❯</span>
+        </div>
+
+        <div class="card-body">
+          <p class="test-info">
+            <span class="blue-text">{{ pkg.testCount }} Tests:</span> 
+            {{ pkg.description }}
+          </p>
+
+          <div class="pricing-section">
+            <div class="price-box">
+              <span class="current-price">₹ {{ pkg.price }}</span>
+              @if (pkg.originalPrice) {
+                <span class="old-price">₹ {{ pkg.originalPrice }}</span>
+              }
+            </div>
+            <!-- This triggers the logic in the .ts file -->
+            <button class="book-now-btn" (click)="bookNow(pkg)">Book Now</button>
+          </div>
+
+          <div class="card-footer">
+            <span class="fasting-label">
+              <i class="icon-clock"></i> Fasting Required: 
+              <strong>{{ pkg.fastingRequired ? 'Yes' : 'No' }}</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- The Modal rendered inside the Lab component -->
+  @if (selectedPackage) {
+    <app-lab-booking-modal 
+      [package]="selectedPackage" 
+      (closeForm)="closeModal()">
+    </app-lab-booking-modal>
+  }
+</div>

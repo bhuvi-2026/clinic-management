@@ -85,15 +85,36 @@ input {
     font-size: 1.2em;
 }
 
+.login-input {
+  width: 91%;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd; /* Light grey border like the mobile field */
+  border-radius: 8px;     /* Rounded corners */
+  outline: none;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Placeholder styling */
+.login-input::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
 .primary-btn {
     width: 100%;
     padding: 12px;
     border: none;
     border-radius: 6px;
-    background: #007bff;
+    background: #28a745;
     color: white;
     font-weight: bold;
     cursor: pointer;
+}
+.primary-btn:hover {
+    background: #218838;
 }
 
 .primary-btn:disabled {

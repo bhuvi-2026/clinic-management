@@ -28,8 +28,11 @@
   <!-- This is the magical Parent-to-Child connection! -->
   @if (selectedDoctor) {
     <app-booking-modal 
-      [doctor]="selectedDoctor" 
-      (closeForm)="closeModal()">
+      *ngIf="selectedDoctor" 
+  [doctor]="selectedDoctor" 
+  [userEmail]="userEmail" 
+  (bookingSuccess)="onBookingComplete($event)"
+  (closeForm)="closeModal()">
     </app-booking-modal>
   }
 </div>
