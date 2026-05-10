@@ -30,7 +30,7 @@ public class AppointmentService {
                 emailService.sendBookingNotification(
                     ownerEmail, 
                     saved.getPatientName(), 
-                    saved.getPatientPhone(), 
+                    saved.getUserMobile(), 
                     saved.getAppointmentSlot(),
                     docName,
                     saved.getZoomJoinUrl(), // Fixed: pulling from the object

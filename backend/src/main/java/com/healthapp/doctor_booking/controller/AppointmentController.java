@@ -25,11 +25,11 @@ public class AppointmentController {
     @Autowired
     private ZoomService zoomService;
 
-    @Value("${CLINIC_OWNER_EMAIL:}")
-    private String ownerEmail;
 
     @PostMapping
-    public Appointment bookAppointment(@RequestBody Appointment app) {
+    public Appointment bookAppointment(@RequestBody Appointment app,
+        @RequestHeader(value = "Clinic-Owner-Email", required = true) String ownerEmail) {
+        
         try {
             if (app.getDoctor() != null) {
                 String localTime = app.getAppointmentSlot().replace(" ", "T");
@@ -55,9 +55,10 @@ public class AppointmentController {
         return appointmentService.saveAppointment(app, ownerEmail);
     }
 
-    @GetMapping("/history/{email}")
-    public ResponseEntity<List<Appointment>> getBookingHistory(@PathVariable String email) {
-        List<Appointment> history = appointmentRepository.findByUserEmailOrderByBookingTimeDesc(email);
+    @GetMapping("/history")
+    public ResponseEntity<List<Appointment>> getBookingHistory(
+        @RequestParam("mobile") String mobile) {
+        List<Appointment> history = appointmentRepository.findByUserMobileOrderByBookingTimeDesc(mobile);
         return ResponseEntity.ok(history);
     }
 }

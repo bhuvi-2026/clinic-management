@@ -16,6 +16,7 @@ export class HomeComponent {
   @Input() isLoggedIn = false;
   @Input() userName = '';
   @Input() userEmail = '';
+  @Input() loggedInUserMobile = '';
 
   showLoginOverlay = false;
 

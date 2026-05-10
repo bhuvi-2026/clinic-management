@@ -7,6 +7,7 @@
       <button class="close-popup" (click)="currentView = 'home'">×</button>
       
       <app-user-dashboard 
+      [mobile]="loggedInUserMobile"
         [name]="userName" 
         [email]="userEmail"
         (backToHome)="currentView = 'home'">

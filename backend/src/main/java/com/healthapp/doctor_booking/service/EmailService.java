@@ -65,5 +65,6 @@ public class EmailService {
 
         message.setText(content);
         mailSender.send(message);
+        System.out.println("Notification email successfully sent from: " + fromEmail);
     }
 }

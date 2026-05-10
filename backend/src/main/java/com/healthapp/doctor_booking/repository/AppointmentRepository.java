@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     // This allows the dashboard to fetch appointments for a specific user
-    List<Appointment> findByUserEmailOrderByBookingTimeDesc(String userEmail);
+    List<Appointment> findByUserMobileOrderByBookingTimeDesc(String userMobile);
 }

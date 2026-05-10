@@ -7,7 +7,11 @@
 }
 
 body {
-  background-color: var(--allo-bg-light);
-  font-family: 'Inter', sans-serif; /* A clean, modern sans-serif */
-  color: var(--allo-text);
+    overflow-y: auto !important;
+    height: auto !important;
+}
+
+/* Ensure the modal backdrop doesn't hang around */
+.modal-backdrop {
+    display: none !important;
 }

@@ -35,8 +35,10 @@ export class BookingModalComponent {
   }
   
   close() {
-    this.closeForm.emit();
-  }
+  // Reset body scroll manually just in case
+  document.body.style.overflow = 'auto';
+  this.closeForm.emit();
+}
 
   updateSlotString() {
     if (this.bookingDate && this.bookingTime) {
@@ -49,13 +51,14 @@ export class BookingModalComponent {
       alert('Please fill in all details and preferred date/time, including your email for the Zoom link.');
       return;
     }
+    let sanitizedPhone = this.patientPhone.replace(/\D/g, ''); // Remove all non-digits
 
     this.updateSlotString();
 
     // FIXED: Added userEmail and full doctor details
     const appointmentData = {
       patientName: this.patientName,
-      patientPhone: this.patientPhone,
+      userMobile: sanitizedPhone,
       appointmentSlot: this.selectedSlot,
       userEmail: this.patientEmail, // This allows the dashboard to find the booking
       doctor: {
@@ -68,9 +71,15 @@ export class BookingModalComponent {
       next: (response) => {
         console.log('Booking saved successfully', response);
         this.isConfirmed = true;
+        localStorage.setItem('userEmail', this.patientEmail);
         this.bookingSuccess.emit(response.userEmail);
+        document.body.style.overflow = 'auto';
+      
+      // Optional: Auto-close after 3 seconds
+      setTimeout(() => this.close(), 3000);
       },
       error: (err) => {
+        document.body.style.overflow = 'auto';
         console.error('Failed to save appointment:', err);
         alert('Database error. Booking could not be saved.');
       }

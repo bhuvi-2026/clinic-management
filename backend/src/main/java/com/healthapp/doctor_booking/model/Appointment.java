@@ -12,7 +12,10 @@ public class Appointment {
     private Long id;
 
     private String patientName;
-    private String patientPhone;
+
+    @Column(name = "patient_phone")
+    private String userMobile;
+    
     private String appointmentSlot;
     private LocalDateTime bookingTime = LocalDateTime.now();
     private String userEmail;
@@ -45,12 +48,12 @@ public class Appointment {
         this.patientName = patientName;
     }
 
-    public String getPatientPhone() {
-        return patientPhone;
+    public String getUserMobile() {
+        return userMobile;
     }
 
-    public void setPatientPhone(String patientPhone) {
-        this.patientPhone = patientPhone;
+    public void setUserMobile(String userMobile) {
+        this.userMobile = userMobile;
     }
 
     public String getAppointmentSlot() {

@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  @Output() loginSuccess = new EventEmitter<{name: string, email: string}>();
+  @Output() loginSuccess = new EventEmitter<{ name: string, email: string }>();
   @Output() closeLogin = new EventEmitter<void>();
 
   username: string = '';
@@ -20,7 +20,7 @@ export class LoginComponent {
   isOtpSent = false;
   isLoading = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   onRequestOtp() {
     this.isLoading = true;
@@ -33,27 +33,29 @@ export class LoginComponent {
     });
   }
   blockNumbers(event: any) {
-  const pattern = /[a-zA-Z ]/;
-  const inputChar = String.fromCharCode(event.charCode);
-  if (!pattern.test(inputChar)) {
-    event.preventDefault();
+    const pattern = /[a-zA-Z ]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
   }
-}
 
-// Block alphabets and symbols in the Mobile field
-blockAlphabets(event: any) {
-  const pattern = /[0-9]/;
-  const inputChar = String.fromCharCode(event.charCode);
-  if (!pattern.test(inputChar)) {
-    event.preventDefault();
+  // Block alphabets and symbols in the Mobile field
+  blockAlphabets(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
   }
-}
 
   onVerifyOtp() {
     this.isLoading = true;
     this.authService.verifyOtp(this.mobileNumber, this.otp).subscribe({
       next: (res) => {
         if (res.success) {
+          localStorage.setItem('userMobile', this.mobileNumber);
+          localStorage.setItem('userName', this.username);
           this.loginSuccess.emit({
             name: this.username,
             email: res.userEmail
