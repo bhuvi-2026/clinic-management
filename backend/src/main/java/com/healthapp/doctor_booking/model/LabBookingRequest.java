@@ -7,6 +7,7 @@ public class LabBookingRequest {
     private String address;
     private int patientCount;
     private boolean hardcopy;
+    private String patientPhone;
 
     // Getters and Setters are REQUIRED for Spring to map the JSON
     public String getPackageName() { return packageName; }
@@ -26,4 +27,7 @@ public class LabBookingRequest {
 
     public boolean isHardcopy() { return hardcopy; }
     public void setHardcopy(boolean hardcopy) { this.hardcopy = hardcopy; }
+
+    public String getPatientPhone() { return patientPhone; }
+    public void setPatientPhone(String patientPhone) { this.patientPhone = patientPhone; }
 }

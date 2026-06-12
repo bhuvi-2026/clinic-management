@@ -19,6 +19,7 @@ export class LoginComponent {
   otp: string = '';
   isOtpSent = false;
   isLoading = false;
+  errorMessage = '';
 
   constructor(private authService: AuthService) { }
 
@@ -63,7 +64,13 @@ export class LoginComponent {
         }
         this.isLoading = false;
       },
-      error: () => this.isLoading = false
+      error: (err: Error) =>  {
+        console.log("Captured error string:", err.message);
+        this.errorMessage =err.message;
+        this.otp = '';
+        console.log("errormsg", this.errorMessage);
+        this.isLoading = false;
+      }
     });
   }
 }

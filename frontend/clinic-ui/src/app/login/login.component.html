@@ -35,6 +35,9 @@
     <button class="primary-btn verify-btn" [disabled]="isLoading" (click)="onVerifyOtp()">
       {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
     </button>
+    @if (errorMessage) {
+      <small class="danger">{{ errorMessage }}</small>
+    }
     }
   </div>
 </div>

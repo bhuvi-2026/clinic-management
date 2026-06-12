@@ -133,3 +133,12 @@ input {
     font-weight: 600;
     margin-left: 5px;
 }
+
+.danger {
+    display: block;
+    color: #dc3545; /* Clean error red color */
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: 12px;
+    text-align: center;
+}

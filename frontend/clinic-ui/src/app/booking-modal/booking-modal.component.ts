@@ -22,6 +22,7 @@ export class BookingModalComponent {
   patientName: string = '';
   patientPhone: string = '';
   patientEmail: string = '';
+  isBookingLoading: boolean = false;
   isConfirmed: boolean = false;
   selectedSlot: string = '';
   bookingDate: string = '';
@@ -55,6 +56,8 @@ export class BookingModalComponent {
 
     this.updateSlotString();
 
+    this.isBookingLoading = true;
+
     // FIXED: Added userEmail and full doctor details
     const appointmentData = {
       patientName: this.patientName,
@@ -71,6 +74,7 @@ export class BookingModalComponent {
       next: (response) => {
         console.log('Booking saved successfully', response);
         this.isConfirmed = true;
+        this.isBookingLoading = false;
         localStorage.setItem('userEmail', this.patientEmail);
         this.bookingSuccess.emit(response.userEmail);
         document.body.style.overflow = 'auto';
@@ -79,6 +83,7 @@ export class BookingModalComponent {
       setTimeout(() => this.close(), 3000);
       },
       error: (err) => {
+        this.isBookingLoading = false;
         document.body.style.overflow = 'auto';
         console.error('Failed to save appointment:', err);
         alert('Database error. Booking could not be saved.');

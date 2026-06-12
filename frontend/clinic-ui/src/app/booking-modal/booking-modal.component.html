@@ -1,5 +1,12 @@
 <div class="modal-overlay" (click)="close()">
     <div class="modal-content" (click)="$event.stopPropagation()">
+
+        @if (isBookingLoading) {
+        <div class="loader-container">
+            <div class="spinner"></div>
+            <p>Booking your appointment...</p>
+        </div>
+        }
         @if (!isConfirmed) {
         <!-- STEP 1: THE FORM -->
         <h2>Book Appointment</h2>

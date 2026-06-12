@@ -23,6 +23,7 @@ export class LabBookingModalComponent implements OnInit {
   hardcopy: boolean = false;
   email: string = '';
   address: string = '';
+  patientPhone: string = '';
 
   // Date & Time Selection
   availableDays: any[] = [];
@@ -95,7 +96,8 @@ export class LabBookingModalComponent implements OnInit {
       schedule: this.selectedSlot,
       hardcopy: this.hardcopy,
       email: this.email,
-      address: this.address
+      address: this.address,
+      patientPhone: this.patientPhone
     }
 
     this.labService.saveLabBooking(bookingData).subscribe({
