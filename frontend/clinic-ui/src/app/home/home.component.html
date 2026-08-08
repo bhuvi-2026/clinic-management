@@ -19,11 +19,10 @@
     <!-- Landing Page Content -->
     <section class="hero">
       <div class="hero-content">
-        <h1>Quality Care, <span class="highlight">Simplified</span></h1>
-        <p>Consult with our team of expert specialists from the comfort of your home.</p>
+        <h1>Trusted lab testing, <span class="highlight">booked online with ease</span></h1>
+        <p>Fast, reliable diagnostics from accredited labs with convenient home collection.</p>
         <div class="hero-actions">
-          <button class="cta-btn" (click)="scrollToDoctors()">Find a Doctor</button>
-          <button class="lab-btn" (click)="scrollToLab()">Blood Test &#64; Home</button>
+          <button class="lab-btn" (click)="scrollToLab()">Book Your Test</button>
         </div>
       </div>
 
@@ -38,15 +37,9 @@
     </section>
 
     <div id="target-section">
-      @if (currentView === 'home') {
-        <app-health-home id="doctor-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true"
-        (bookingFinished)="handleBookingEmail($any($event))">
-        </app-health-home>
-      } 
-      @if (currentView === 'tests') {
+      
         <app-lab-tests id="lab-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
         </app-lab-tests>
-      }
     </div>
   }
 </div>

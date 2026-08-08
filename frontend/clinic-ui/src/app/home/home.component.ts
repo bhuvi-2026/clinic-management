@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HealthHomeComponent } from "../health-home/health-home.component";
 import { LabTestsComponent } from "../lab-tests/lab-tests.component";
 import { LoginComponent } from "../login/login.component";
 import { UserDashboardComponent } from "../user-dashboard/user-dashboard.component";
@@ -8,7 +7,7 @@ import { UserDashboardComponent } from "../user-dashboard/user-dashboard.compone
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HealthHomeComponent, LabTestsComponent, LoginComponent, UserDashboardComponent],
+  imports: [CommonModule, LabTestsComponent, LoginComponent, UserDashboardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

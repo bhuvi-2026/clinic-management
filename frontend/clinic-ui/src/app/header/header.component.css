@@ -3,15 +3,47 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 5%;
-  background: #ffffff !important; /* Force background to white */
+  background: #ffffff !important;
   min-height: 60px;
   width: 90%;
 }
 
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo-image {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+
 .logo-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0056b3;
+  font-size: clamp(2rem, 3vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #1b2e5a;
+  text-transform: uppercase;
+}
+
+.tagline {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: clamp(1rem, 1.6vw, 2rem);
+  font-weight: 400;
+  color: #d62828;
+  font-style: italic;
+  letter-spacing: 0.02em;
 }
 
 .nav-actions {
