@@ -74,10 +74,9 @@
   transform: translateY(-2px);
 }
 
-#doctor-list {
-  /* This creates a buffer so the section doesn't hide behind your navbar */
-  scroll-margin-top: 100px; 
-  display: block; /* Ensures the ID area has a physical presence for the scroll */
+#lab-list {
+  scroll-margin-top: 100px;
+  display: block;
 }
 
 .image-wrapper {
@@ -103,16 +102,16 @@
 
 /* --- Position the Images --- */
 
-/* The Consultation Image (Back) */
+/* The test image (back) */
 .main-image {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
-  transform: rotate(-3deg); /* Adds a stylish tilt */
+  transform: rotate(-3deg);
 }
 
-/* The Doctors Image (Front) */
+/* The second diagnostic image (front) */
 .secondary-image {
   position: absolute;
   bottom: 0;

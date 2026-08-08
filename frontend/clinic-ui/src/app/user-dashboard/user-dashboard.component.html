@@ -4,30 +4,25 @@
       <table class="booking-table">
         <thead>
           <tr>
-            <th>Provider</th>
-            <th>Scheduled Time</th>
+            <th>Test</th>
+            <th>Booked Slot</th>
             <th>Status</th>
-            <th>Zoom Meeting</th>
+            <th>Collection</th>
           </tr>
         </thead>
         <tbody>
           @for (booking of bookings; track booking.id) {
             <tr>
-              <!-- Displays the actual doctor name from the DB -->
-              <td>{{ booking.doctor?.name || 'Doctor' }}</td>
-              
-              <!-- Displays the actual slot from the DB -->
-              <td>{{ booking.appointmentSlot }}</td>
-              
+              <td>{{ booking.packageName || 'Lab Test' }}</td>
+              <td>{{ booking.schedule || booking.appointmentSlot || 'Pending' }}</td>
               <td>
                 <span class="status-badge" [class.upcoming]="booking.status === 'UPCOMING'">
-                  {{ booking.status }}
+                  {{ booking.status || 'Confirmed' }}
                 </span>
               </td>
-              
               <td>
-                @if (booking.zoomJoinUrl) {
-                  <a [href]="booking.zoomJoinUrl" target="_blank" class="join-link">Join Now</a>
+                @if (booking.address) {
+                  <span class="wait-text">Home collection</span>
                 } @else {
                   <span class="wait-text">Processing...</span>
                 }
@@ -39,8 +34,8 @@
     </div>
   } @else {
     <div class="empty-state">
-      <div class="empty-icon">📅</div>
-      <h3>No records found</h3>
+      <div class="empty-icon">🧪</div>
+      <h3>No lab bookings found</h3>
       <p>Logged in as: <strong>{{ email }}</strong></p>
     </div>
   }

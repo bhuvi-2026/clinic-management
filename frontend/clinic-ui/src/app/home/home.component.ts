@@ -51,11 +51,6 @@ export class HomeComponent {
     this.loginStateChange.emit({ name: this.userName, email: email });
   }
 
-  scrollToDoctors() {
-    this.currentView = 'home';
-    this.smoothScroll('doctor-list');
-  }
-
   scrollToLab() {
     this.currentView = 'tests';
     this.smoothScroll('lab-list');
