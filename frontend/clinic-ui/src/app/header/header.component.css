@@ -39,7 +39,7 @@
 .tagline {
   display: inline-block;
   margin-top: 8px;
-  font-size: clamp(1rem, 1.6vw, 2rem);
+  font-size: 24px;
   font-weight: 400;
   color: #d62828;
   font-style: italic;
