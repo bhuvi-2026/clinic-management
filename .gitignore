@@ -12,3 +12,23 @@
 .idea/
 .vscode/
 .DS_Store
+
+
+# Node.js dependencies (will ignore node_modules whenever generated)
+node_modules/
+
+# WhatsApp Web Session & Auth Cache (Crucial! Prevents pushing your logged-in session to GitHub)
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Environment files containing passwords / keys
+.env
+.env.local
+
+# Log files
+*.log
+npm-debug.log*
+
+# OS specific temporary files
+.DS_Store
+Thumbs.db
