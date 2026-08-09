@@ -18,6 +18,9 @@ export class LabTestsComponent implements OnInit {
   selectedPackage: LabPackage | null = null; 
   @Output() loginRequired = new EventEmitter<void>();
   @Input() isLoggedIn: boolean = false;
+   // This is the function called by your (click)="bookNow(pkg)"
+  @Output() categorySelected = new EventEmitter<string>();
+
 
   constructor(private labService: LabService) {}
 
@@ -32,17 +35,10 @@ export class LabTestsComponent implements OnInit {
     });
   }
 
-  // This is the function called by your (click)="bookNow(pkg)"
-  bookNow(pkg: LabPackage) {
-    console.log('Book Now clicked for package:', pkg);
-    if (this.isLoggedIn) {
-    this.selectedPackage = pkg; 
-    }
-    else {
-      this.loginRequired.emit();
-    }
+  onSelectCategory(category: string): void {
+    console.log('Selected Category:', category);
+    this.categorySelected.emit(category);
   }
-
   // This handles the (closeForm) event from the modal
   closeModal() {
     this.selectedPackage = null;

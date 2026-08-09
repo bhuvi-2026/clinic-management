@@ -94,3 +94,117 @@
   border-top: 1px dotted #ccc;
   padding-top: 10px;
 }
+
+
+.lab-container {
+  padding: 30px 5%;
+  background-color: #f8fbff;
+}
+
+.category-section {
+  margin-bottom: 20px;
+}
+
+.category-header h2 {
+  font-size: 1.6rem;
+  color: #1a5f6e;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.category-header p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* 4-Column Category Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  grid-auto-flow: column;
+}
+
+/* Category Card Styling matching your app theme */
+.category-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.category-card:hover {
+  border-color: #1a5f6e;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(26, 95, 110, 0.12);
+  background-color: #f7fcff;
+}
+
+/* Alignment inside card */
+.category-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.category-text h3 {
+  font-size: 1.05rem;
+  color: #2d3748;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.category-text h3 span {
+  display: block;
+  color: #1a5f6e;
+  font-weight: 800;
+}
+
+/* Soft colored background circles for modern medical look */
+.category-logo {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+/* Scale the inline SVG to fit the circle */
+.category-logo svg {
+  width: 38px;
+  height: 38px;
+}
+
+.category-card:hover .category-logo {
+  transform: scale(1.1);
+}
+
+/* Background Color Accents (matching Apollo reference style) */
+.heart-bg {
+  background-color: #ffebee; /* Soft Red */
+}
+
+.diabetic-bg {
+  background-color: #e3f2fd; /* Soft Blue */
+}
+
+.bone-bg {
+  background-color: #fff8e1; /* Soft Yellow */
+}
+
+.thyroid-bg {
+  background-color: #f3e5f5; /* Soft Purple */
+}

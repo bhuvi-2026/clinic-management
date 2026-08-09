@@ -21,8 +21,11 @@ public class LabPackage {
 
     private int testCount;
 
-    @Column(length = 500)
+    @Column(length = 2000) // Increased length to store test profiles details
     private String description;
+
+    @Column(columnDefinition = "TEXT") 
+    private String detailsJson; // Optional: Stores test list JSON or plain formatted text
 
     @Column(nullable = false)
     private Double price;

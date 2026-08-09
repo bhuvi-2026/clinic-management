@@ -31,6 +31,13 @@ public class LabPackageController {
         return labService.getAllPackages();
     }
 
+    // New Endpoint to add or import Lab Packages via Postman
+    @PostMapping
+    public ResponseEntity<LabPackage> createPackage(@RequestBody LabPackage labPackage) {
+        LabPackage savedPackage = labService.savePackage(labPackage);
+        return ResponseEntity.ok(savedPackage);
+    }
+
     @PostMapping("/confirm-booking")
     public ResponseEntity<?> confirmLabBooking(
             @RequestBody LabBookingRequest bookingRequest,
