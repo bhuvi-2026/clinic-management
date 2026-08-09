@@ -1,12 +1,16 @@
+.main-container {
+  margin-top: -30px;
+}
+
 /* --- Hero Section Fixes --- */
 .hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 80px 10% 0px 10%;
+  padding: 0px 10% 0px 10%;
   background: linear-gradient(135deg, #f9fbff 0%, #ffffff 100%);
   min-height: 70vh;
-  gap: 40px;
+  gap: 70px;
   overflow: hidden; /* Prevents images from creating scrollbars */
 }
 
@@ -17,20 +21,6 @@
 }
 .hero-content h1 {
     font-size: 3em;
-}
-
-.hero-image-container {
-  flex: 1;
-  position: relative;
-  height: 450px;
-  width: 500px; /* CRITICAL: Gives the container width */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.highlight {
-  color: #1a5f6e; /* Allo-inspired Teal */
-  position: relative;
 }
 
 /* --- CTA Button Styling --- */
@@ -79,9 +69,30 @@
   display: block;
 }
 
+.highlight {
+  color: #1a5f6e; /* Allo-inspired Teal */
+  position: relative;
+}
+.hero-image-container {
+  flex: 1;
+  position: relative;
+  height: 480px;
+  width: 520px; /* CRITICAL: Gives the container width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+  margin-left: 20px;
+}
+
+.highlight {
+  color: #1a5f6e; /* Allo-inspired Teal */
+  position: relative;
+}
+
 .image-wrapper {
-  width: 320px;
-  height: 380px;
+  width: 280px;
+  height: 350px;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
@@ -93,34 +104,45 @@
   height: 100%;
   object-fit: cover;
 }
-/* Hover Effect: Bring the image forward */
+
+/* Hover Effect: Bring the image forward cleanly */
 .image-wrapper:hover {
-  transform: scale(1.08) rotate(0deg);
-  z-index: 5;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+  transform: scale(1.08) rotate(0deg) !important;
+  z-index: 10 !important;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.22);
 }
 
-/* --- Position the Images --- */
+/* --- Position the 3 Images --- */
 
-/* The test image (back) */
+/* 1. Main Diagnostic Image (Back-Left) */
 .main-image {
   position: absolute;
-  top: 0;
+  top: 10px;
   left: 0;
   z-index: 1;
-  transform: rotate(-3deg);
+  border: 6px solid white;
+  transform: rotate(-6deg);
 }
 
-/* The second diagnostic image (front) */
+/* 2. Middle Sample Collection Image (Center) */
+.middle-image {
+  position: absolute;
+  top: 50px;
+  left: 110px;
+  z-index: 2;
+  border: 8px solid white;
+  transform: rotate(1deg);
+}
+
+/* 3. Secondary Patient Care Image (Front-Right) */
 .secondary-image {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   right: 0;
-  z-index: 2;
-  border: 8px solid white; /* Thick white border like a photo frame */
-  transform: rotate(3deg); /* Counter-tilt for style */
+  z-index: 3;
+  border: 8px solid white; /* Thick white photo frame border */
+  transform: rotate(6deg); /* Counter-tilt for style */
 }
-
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -160,4 +182,87 @@
 
 .close-popup:hover {
   color: #e74c3c;
+}
+
+.quick-booking-container {
+  margin: 20px 0;
+  width: 100%;
+}
+
+/* 3 Column Grid */
+.booking-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+/* Card Styling with Strict Side-by-Side Alignment */
+.booking-action-card {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 12px 18px;
+  border-radius: 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.booking-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Fixed Sizing for SVG Icons */
+.action-icon {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  margin-right: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0 !important; /* Prevents icon from shrinking */
+}
+
+.action-icon svg {
+  width: 36px !important;
+  height: 36px !important;
+  display: block;
+}
+
+/* Text Alignment */
+.action-text {
+  font-size: 0.95rem;
+  color: #2d3748;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.action-text strong {
+  color: #1a5f6e;
+  font-weight: 700;
+}
+
+/* Background Variations */
+.phone-card {
+  background-color: rgb(243 241 247 / 15%);
+  border: 1.5px solid rgba(156, 110, 250, 0.3);
+}
+
+.order-card {
+  background-color: rgb(249 247 246 / 15%);
+  border: 1.5px solid rgba(168, 119, 91, 0.3);
+}
+
+.whatsapp-card {
+  background-color: rgb(249 252 250 / 15%);
+  border: 1.5px solid rgba(6, 198, 89, 0.3);
 }

@@ -208,3 +208,206 @@
 .thyroid-bg {
   background-color: #f3e5f5; /* Soft Purple */
 }
+
+.packages-section {
+  width: 100%;
+  margin-top: 36px;
+  margin-bottom: 24px;
+}
+
+/* Section Header & Arrow Controls */
+.packages-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.packages-header h2 {
+  font-size: 1.5rem;
+  color: #1a5f6e;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.packages-header p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.slider-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1a5f6e;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.nav-btn:hover {
+  background-color: #1a5f6e;
+  color: #ffffff;
+  border-color: #1a5f6e;
+  box-shadow: 0 4px 10px rgba(26, 95, 110, 0.2);
+}
+
+/* Horizontal Scroll Container */
+.packages-carousel-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 4px 16px 4px;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.packages-carousel-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+/* Individual Package Card */
+.package-card {
+  flex: 0 0 calc((100% - 40px) / 3); /* Shows exactly 3 cards on desktop */
+  min-width: 300px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+}
+
+.package-card:hover {
+  transform: translateY(-4px);
+  border-color: #1a5f6e;
+  box-shadow: 0 10px 24px rgba(26, 95, 110, 0.12);
+}
+
+/* Top Section & Discount Tag */
+.discount-badge {
+  display: inline-block;
+  background-color: #dcfce7;
+  color: #15803d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.package-title {
+  font-size: 1.1rem;
+  color: #1e293b;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  line-height: 1.35;
+  min-height: 44px;
+}
+
+.package-subtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+}
+
+/* Parameters Included Box */
+.parameters-box {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.param-title {
+  font-size: 0.8rem;
+  color: #1a5f6e;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.param-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.param-list li {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* Card Bottom Section (Price + Add Button) */
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.current-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.old-price {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.add-btn {
+  background-color: #ffffff;
+  color: #1a5f6e;
+  border: 1.5px solid #1a5f6e;
+  border-radius: 10px;
+  padding: 6px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background-color: #1a5f6e;
+  color: #ffffff;
+}
+
+/* Responsive Handling */
+@media (max-width: 992px) {
+  .package-card {
+    flex: 0 0 calc((100% - 20px) / 2); /* 2 cards on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .package-card {
+    flex: 0 0 85%; /* 1 full card on mobile */
+  }
+}

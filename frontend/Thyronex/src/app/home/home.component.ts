@@ -26,43 +26,42 @@ export class HomeComponent {
   @Output() loginStateChange = new EventEmitter<{ name: string, email: string }>();
   @Output() closeLogin = new EventEmitter<void>();
 
-  // Use a string for flexibility in templates
   currentView: 'home' | 'tests' | 'dashboard' = 'home';
 
-  // This is the function the parent calls
   switchToDashboard() {
     this.currentView = 'dashboard';
     document.body.style.overflow = 'hidden';
   }
+
   handleBackToHome() {
     this.currentView = 'home';
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
+    document.body.style.overflow = 'auto';
+  }
+
+  onPhoneBooking(): void {
+    window.location.href = 'tel:+919876543210';
+  }
+
+  onQuickOrder(): void {
+    console.log('Quick Order clicked');
+  }
+
+  onWhatsAppBooking(): void {
+    const phone = '919876543210';
+    const message = encodeURIComponent('Hello, I would like to book a lab test.');
+    window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
   }
 
   handleLoginSuccess(data: { name: string, email: string }) {
+    this.isLoggedIn = true; // Update local state
     this.loginStateChange.emit(data);
     this.closeOverlay();
-    // Logic: stay on home page after login per your client requirements
+    // Stays on Home page after login as per requirement!
   }
+
   handleBookingEmail(email: string) {
-    console.log("Email id here also", email);
-    this.userEmail = email; // Update the local input property
-    // Also notify the App Component so the header/state stays in sync
+    this.userEmail = email;
     this.loginStateChange.emit({ name: this.userName, email: email });
-  }
-
-  scrollToLab() {
-    this.currentView = 'tests';
-    this.smoothScroll('lab-list');
-  }
-
-  private smoothScroll(id: string) {
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 150);
   }
 
   closeOverlay() {

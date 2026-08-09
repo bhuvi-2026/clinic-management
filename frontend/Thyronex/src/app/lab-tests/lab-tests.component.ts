@@ -1,28 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LabService, LabPackage } from '../lab.service';
 import { LabBookingModalComponent } from '../lab-booking-modal/lab-booking-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lab-tests',
   standalone: true,
-  // Ensure the modal component is imported here
   imports: [CommonModule, LabBookingModalComponent], 
   templateUrl: './lab-tests.component.html',
   styleUrls: ['./lab-tests.component.css']
 })
 export class LabTestsComponent implements OnInit {
   packages: LabPackage[] = [];
-  
-  // This property controls the visibility of the popup
   selectedPackage: LabPackage | null = null; 
-  @Output() loginRequired = new EventEmitter<void>();
+
   @Input() isLoggedIn: boolean = false;
-   // This is the function called by your (click)="bookNow(pkg)"
+  @Output() loginRequired = new EventEmitter<void>();
   @Output() categorySelected = new EventEmitter<string>();
+  @ViewChild('packagesContainer') packagesContainer!: ElementRef;
 
-
-  constructor(private labService: LabService) {}
+  constructor(private labService: LabService, private router: Router) {}
 
   ngOnInit(): void {
     this.labService.getPackages().subscribe({
@@ -35,11 +33,38 @@ export class LabTestsComponent implements OnInit {
     });
   }
 
+  // Handle Category Card Click
   onSelectCategory(category: string): void {
-    console.log('Selected Category:', category);
-    this.categorySelected.emit(category);
+    if (this.isLoggedIn) {
+      this.router.navigate(['/test-packages']);
+    } else {
+      this.loginRequired.emit();
+    }
   }
-  // This handles the (closeForm) event from the modal
+
+  // Handle Package Card "Book Test" / "Add" Click
+  onPackageClick(pkg?: any): void {
+    if (this.isLoggedIn) {
+      this.selectedPackage = pkg;
+      
+    } else {
+      // User is not logged in -> Trigger Login Modal
+      this.loginRequired.emit();
+    }
+  }
+
+  scrollLeft(): void {
+    if (this.packagesContainer) {
+      this.packagesContainer.nativeElement.scrollBy({ left: -340, behavior: 'smooth' });
+    }
+  }
+
+  scrollRight(): void {
+    if (this.packagesContainer) {
+      this.packagesContainer.nativeElement.scrollBy({ left: 340, behavior: 'smooth' });
+    }
+  }
+
   closeModal() {
     this.selectedPackage = null;
   }

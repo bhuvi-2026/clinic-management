@@ -2,17 +2,17 @@
   [isLoggedIn]="isLoggedIn" 
   [userName]="userName"
   (triggerLogin)="showLoginOverlay = true" 
-  (triggerLogout)="handleLogout()"
-  (triggerDashboard)="home.switchToDashboard()">
+  (triggerLogout)="handleLogout()">
 </app-header>
 
-<app-home #home
-  [isLoggedIn]="isLoggedIn"
-  [loginTrigger]="showLoginOverlay"
-  [userName]="userName"
-  [userEmail]="userEmail"
-  (loginStateChange)="onLoginSuccess($event)"
-  (closeLogin)="handleModalClose()">
-</app-home>
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
 
+@if (showLoginOverlay) {
+  <app-login 
+    (loginSuccess)="onLoginSuccess($event)" 
+    (closeLogin)="handleModalClose()">
+  </app-login>
+}
 <app-footer></app-footer>

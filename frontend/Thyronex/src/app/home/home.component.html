@@ -1,51 +1,137 @@
 <!-- Wrapper to control the view -->
 <div class="main-container">
-  
+
   @if (currentView === 'dashboard') {
   <div class="popup-overlay" (click)="currentView = 'home'">
     <div class="popup-content" (click)="$event.stopPropagation()">
       <button class="close-popup" (click)="currentView = 'home'">×</button>
-      
-      <app-user-dashboard 
-      [mobile]="loggedInUserMobile"
-        [name]="userName" 
-        [email]="userEmail"
+
+      <app-user-dashboard [mobile]="loggedInUserMobile" [name]="userName" [email]="userEmail"
         (backToHome)="currentView = 'home'">
       </app-user-dashboard>
     </div>
   </div>
-}
+  }
   @else {
-    <!-- Landing Page Content -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Trusted lab testing, <span class="highlight">booked online with ease</span></h1>
-        <p>Fast, reliable diagnostics from accredited labs with convenient home collection.</p>
-        <div class="hero-actions">
-          <button class="lab-btn" (click)="scrollToLab()">Book Your Test</button>
+  <!-- Landing Page Content -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Trusted lab testing <span class="highlight">at your door step </span></h1>
+      <p>Fast, reliable diagnostics from accredited labs with convenient home collection.</p>
+      <div class="quick-booking-container">
+        <div class="booking-action-grid">
+
+          <div class="booking-action-card phone-card" (click)="onPhoneBooking()">
+            <div class="action-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <defs>
+                  <linearGradient id="phoneGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#b892ff" />
+                    <stop offset="100%" stop-color="#804ee6" />
+                  </linearGradient>
+                </defs>
+                <rect x="14" y="6" width="36" height="52" rx="10" fill="url(#phoneGrad)" />
+                <rect x="18" y="12" width="28" height="36" rx="4" fill="#ffffff" opacity="0.9" />
+                <path
+                  d="M26 26c1.5 3 4.5 6 7.5 7.5l3-3a2 2 0 0 1 2.5-.5l5 2.5a2 2 0 0 1 1 2v5a2 2 0 0 1-2 2c-11 0-20-9-20-20a2 2 0 0 1 2-2h5a2 2 0 0 1 2 1l2.5 5a2 2 0 0 1-.5 2.5l-3 3z"
+                  fill="#804ee6" />
+                <circle cx="32" cy="53" r="2.5" fill="#ffffff" />
+              </svg>
+            </div>
+            <div class="action-text">
+              Book via <strong>Phone Call</strong>
+            </div>
+          </div>
+
+          <div class="booking-action-card order-card" (click)="onQuickOrder()">
+            <div class="action-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <defs>
+                  <linearGradient id="rxGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#e0a96d" />
+                    <stop offset="100%" stop-color="#a86e45" />
+                  </linearGradient>
+                  <linearGradient id="paperGrad" x1="16" y1="8" x2="48" y2="56" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="100%" stop-color="#f5eadd" />
+                  </linearGradient>
+                </defs>
+                <rect x="14" y="6" width="36" height="52" rx="6" fill="url(#paperGrad)" stroke="url(#rxGrad)"
+                  stroke-width="3" />
+                <path d="M22 16h6c2.5 0 4 1.5 4 3.5s-1.5 3.5-4 3.5h-6v-7zm0 7l8 10M27 28l-5 5" stroke="#a86e45"
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="42" cy="42" r="14" fill="url(#rxGrad)" />
+                <path d="M42 48V36M37 40l5-5 5 5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="action-text">
+              Upload  <strong>Prescription</strong>
+            </div>
+          </div>
+
+          <div class="booking-action-card whatsapp-card" (click)="onWhatsAppBooking()">
+            <div class="action-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <defs>
+                  <linearGradient id="waGrad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#25D366" />
+                    <stop offset="100%" stop-color="#128C7E" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M32 6C17.6 6 6 17.6 6 32c0 5 1.4 9.8 4 13.8L6 58l12.6-3.8C22.4 56.6 27 58 32 58c14.4 0 26-11.6 26-26S46.4 6 32 6z"
+                  fill="url(#waGrad)" />
+                <path
+                  d="M44 38c-.6 1.8-3 3.4-5 3.8-1.4.2-3.2.4-10.2-2.4-9-3.6-14.8-12.8-15.2-13.4-.4-.6-3.6-4.8-3.6-9.2 0-4.4 2.2-6.6 3-7.4.8-.8 1.8-1 2.4-1h1.4c.6 0 1.4 0 2 1.4.6 1.6 2.2 5.4 2.4 5.8.2.4.4.8 0 1.4-.4.8-.6 1.2-1.2 1.8-.6.6-1.2 1.4-.6 2.4 1.4 2.4 4 4.8 6.6 6.2 1 .6 1.8.4 2.4-.2.6-.6 2.4-2.8 3-3.8.6-.8 1.4-.8 2.2-.4.8.4 5.2 2.4 6.2 3 .8.4 1.4.8 1.6 1.2.2.4.2 2-.4 3.8z"
+                  fill="#ffffff" />
+              </svg>
+            </div>
+            <div class="action-text">
+              Book via <strong>WhatsApp</strong>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="hero-image-container">
-        <div class="image-wrapper main-image">
-          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800" alt="Medical lab and testing">
-        </div>
-        <div class="image-wrapper secondary-image">
-          <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=800" alt="Diagnostic testing">
-        </div>
-      </div>
-    </section>
-
-    <div id="target-section">
-      
-        <app-lab-tests id="lab-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
-        </app-lab-tests>
     </div>
+
+
+    <div class="hero-image-container">
+  <div class="image-wrapper main-image">
+    <img 
+      src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=800" 
+      alt="Friendly Blood Sample Collection"
+    />
+  </div>
+
+  <div class="image-wrapper middle-image">
+    <img 
+      src="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=800" 
+      alt="Thyronex Diagnostic Lab Testing"
+    />
+  </div>
+
+  <div class="image-wrapper secondary-image">
+    <img 
+      src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800" 
+      alt="Thyronex Patient Care"
+    />
+  </div>
+</div>
+  </section>
+
+  <div id="target-section">
+
+    <app-lab-tests id="lab-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
+    </app-lab-tests>
+  </div>
   }
 </div>
 
 <!-- Login Overlay stays global -->
 @if (showLoginOverlay) {
-  <app-login (loginSuccess)="handleLoginSuccess($event)" (closeLogin)="closeOverlay()">
-  </app-login>
+<app-login (loginSuccess)="handleLoginSuccess($event)" (closeLogin)="closeOverlay()">
+</app-login>
 }

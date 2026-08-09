@@ -1,75 +1,70 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './login/login.component'; // Ensure this is imported
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, HomeComponent, FooterComponent],
+  imports: [
+    CommonModule, 
+    RouterOutlet, 
+    HeaderComponent, 
+    FooterComponent, 
+    LoginComponent // ADD LoginComponent HERE
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // This allows the Parent to call functions inside the HomeComponent directly
-  @ViewChild('homeRef') homeComponent!: HomeComponent;
-
-  // Global authentication state
   isLoggedIn: boolean = false;
   userName: string = '';
   userEmail: string = '';
-
-  // Trigger for the login modal
   showLoginOverlay: boolean = false;
 
-  /**
-   * Called when the Login component emits a successful login.
-   * Updates state and ensures the user stays on the home view initially.
-   */
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    // Check if session exists on page reload/refresh
+    const savedSession = localStorage.getItem('user_session');
+    if (savedSession) {
+      const userData = JSON.parse(savedSession);
+      this.isLoggedIn = true;
+      this.userName = userData.name;
+      this.userEmail = userData.email;
+    } else {
+      // If not logged in on refresh -> Ensure redirect to Home page
+      this.isLoggedIn = false;
+      if (window.location.pathname.includes('test-packages')) {
+        this.router.navigate(['/']);
+      }
+    }
+  }
+
+  // Triggered when user completes login successfully in app-login modal
   onLoginSuccess(userData: { name: string; email: string }) {
     this.isLoggedIn = true;
-    this.userName = userData.name; // Stores the Full Name you added
+    this.userName = userData.name;
     this.userEmail = userData.email;
-    this.showLoginOverlay = false;
-    
-    // Ensure we are viewing the landing page after login
-    if (this.homeComponent) {
-      this.homeComponent.currentView = 'home';
-    }
+    this.showLoginOverlay = false; // Closes login modal
   }
 
-  /**
-   * Triggered by the "My Bookings" button in the Header.
-   * Tells the HomeComponent to swap the view to the Dashboard.
-   */
-  handleNavigateToDashboard() {
-    if (this.homeComponent) {
-      this.homeComponent.switchToDashboard();
-    }
-  }
-
-  /**
-   * Resets the login trigger state when the modal is closed.
-   * This fix ensures the login button works on the second click.
-   */
+  // Closes the login modal on close button click
   handleModalClose() {
     this.showLoginOverlay = false;
   }
 
-  /**
-   * Clears user data and resets the view to the home page.
-   */
+  // Handle logout
   handleLogout() {
     this.isLoggedIn = false;
     this.userName = '';
     this.userEmail = '';
-    
-    if (this.homeComponent) {
-      this.homeComponent.currentView = 'home';
-    }
-    
-    // Clear any stored session data if applicable
-    localStorage.removeItem('user_session');
+    this.router.navigate(['/']);
+  }
+
+  handleNavigateToDashboard() {
+    // Navigate or switch view to dashboard
   }
 }
