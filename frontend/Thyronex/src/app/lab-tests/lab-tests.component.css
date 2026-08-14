@@ -101,113 +101,235 @@
   background-color: #f8fbff;
 }
 
+/* Main Layout Container */
 .category-section {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 36px;
+  max-width: 1200px;
+  margin: 0 auto 35px;
+  padding: 0 16px;
+}
+
+/* Left Section */
+.category-left-container {
+  flex: 1;
+  max-width: 360px;
 }
 
 .category-header h2 {
-  font-size: 1.6rem;
+  font-size: 2.1rem;
   color: #1a5f6e;
-  font-weight: 700;
-  margin-bottom: 6px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 12px;
 }
 
 .category-header p {
   font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 20px;
+  color: #64748b;
+  line-height: 1.55;
+  margin-bottom: 0;
 }
 
-/* 4-Column Category Grid */
+/* Right Section & Masonry Grid */
+.category-right-container {
+  flex: 1.6;
+  width: 100%;
+}
+
 .category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  grid-auto-flow: column;
+  display: flex;
+  gap: 20px;
 }
 
-/* Category Card Styling matching your app theme */
-.category-card {
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 22px 20px;
+.category-mason-col-1,
+.category-mason-col-2 {
+  flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Base Category Card */
+.category-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 24px;
   cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 24px rgba(26, 95, 110, 0.06);
 }
 
 .category-card:hover {
-  border-color: #1a5f6e;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(26, 95, 110, 0.12);
-  background-color: #f7fcff;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(26, 95, 110, 0.12);
 }
 
-/* Alignment inside card */
 .category-content {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
+  height: 100%;
+  position: relative;
+  z-index: 2;
 }
 
+/* Card Height Variants */
+.primary-card {
+  min-height: 200px;
+}
+
+.secondary-card {
+  min-height: 125px;
+}
+
+/* Typography - Elegant Slate Dark Text for High Readability on Pastel */
 .category-text h3 {
-  font-size: 1.05rem;
-  color: #2d3748;
-  font-weight: 700;
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 800;
   margin: 0;
   line-height: 1.35;
-  text-align: left;
 }
 
 .category-text h3 span {
   display: block;
-  color: #1a5f6e;
-  font-weight: 800;
+  color: #475569;
+  font-weight: 600;
 }
 
-/* Soft colored background circles for modern medical look */
-.category-logo {
-  width: 58px;
-  height: 58px;
-  min-width: 58px;
+/* White Circle Chevron Button (Top-Right) */
+.chevron-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  background-color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease;
 }
 
-/* Scale the inline SVG to fit the circle */
+.category-card:hover .chevron-circle {
+  transform: scale(1.12);
+}
+
+/* Vector Wrapper (Bottom-Right) */
+.category-logo {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
 .category-logo svg {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
 }
 
 .category-card:hover .category-logo {
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
 
-/* Background Color Accents (matching Apollo reference style) */
+/* --- MEDICAL PASTEL GRADIENT THEMES --- */
+
+/* 1. Heart Health: Pastel Rose Coral */
+.heart-pastel {
+  background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
+  border-color: #ffd1d7;
+}
+
 .heart-bg {
-  background-color: #ffebee; /* Soft Red */
+  background: linear-gradient(135deg, #ff858d 0%, #e65a65 100%);
+}
+
+/* 2. Diabetic Care: Soft Mint Teal */
+.diabetic-pastel {
+  background: linear-gradient(135deg, #eefbfb 0%, #dcf3f4 100%);
+  border-color: #bce4e7;
 }
 
 .diabetic-bg {
-  background-color: #e3f2fd; /* Soft Blue */
+  background: linear-gradient(135deg, #2a7e90 0%, #1a5f6e 100%);
+}
+
+/* 3. Bone Profile: Soft Pastel Lavender */
+.bone-pastel {
+  background: linear-gradient(135deg, #f7f3fb 0%, #ebdff5 100%);
+  border-color: #dec8f0;
 }
 
 .bone-bg {
-  background-color: #fff8e1; /* Soft Yellow */
+  background: linear-gradient(135deg, #9667b3 0%, #7c5295 100%);
+}
+
+/* 4. Thyroid Profile: Soft Pastel Peach Amber */
+.thyroid-pastel {
+  background: linear-gradient(135deg, #fff8f0 0%, #feebd6 100%);
+  border-color: #fed7aa;
 }
 
 .thyroid-bg {
-  background-color: #f3e5f5; /* Soft Purple */
+  background: linear-gradient(135deg, #fb923c 0%, #d97706 100%);
 }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .category-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .category-left-container {
+    max-width: 100%;
+  }
+
+  .category-grid {
+    flex-direction: column;
+  }
+
+  .primary-card,
+  .secondary-card {
+    min-height: 125px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .category-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .category-left-container {
+    max-width: 100%;
+  }
+
+  .category-grid {
+    flex-direction: column;
+  }
+
+  .primary-card,
+  .secondary-card {
+    min-height: 125px;
+  }
+}
+
 
 .packages-section {
   width: 100%;

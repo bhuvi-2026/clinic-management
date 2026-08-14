@@ -20,14 +20,13 @@
         <div class="test-card">
           <div class="card-header">
             <h3>{{ pkg.name }}</h3>
-            <span class="arrow-icon">❯</span>
           </div>
 
           <div class="card-body">
-            <p class="test-info">
-              <span class="blue-text">{{ pkg.testCount }} Tests:</span> 
-              {{ pkg.description }}
-            </p>
+            <div class="test-count-row" (click)="openTestDetailsModal(pkg)">
+              <span class="blue-text">Include {{ pkg.testCount }} Tests</span>
+              <span class="arrow-icon" (click)="openTestDetailsModal(pkg); $event.stopPropagation()" title="View Test Details">❯</span>
+            </div>
 
             <div class="pricing-section">
               <div class="price-box">
@@ -52,6 +51,40 @@
           <p>No packages found in database.</p>
         </div>
       }
+    </div>
+  }
+
+  @if (viewingDetailsPackage) {
+    <div class="modal-backdrop" (click)="closeDetailsModal()">
+      <div class="details-modal-card" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+          <h3>{{ viewingDetailsPackage.name }}</h3>
+          <button class="close-btn" (click)="closeDetailsModal()">×</button>
+        </div>
+
+        <div class="modal-body">
+          <p class="modal-subtitle">
+            <strong>Includes {{ viewingDetailsPackage.testCount }} Tests/Parameters:</strong>
+          </p>
+          
+          <ul class="test-list-items">
+            @for (testItem of getTestItemsList(viewingDetailsPackage.description); track testItem) {
+              <li>
+                <span class="bullet-dot">•</span>
+                <span>{{ testItem }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <div class="modal-footer-action">
+          <button class="book-modal-btn" (click)="bookFromDetailsModal(viewingDetailsPackage)">
+            Book Now (₹{{ viewingDetailsPackage.price }})
+          </button>
+        </div>
+
+      </div>
     </div>
   }
 

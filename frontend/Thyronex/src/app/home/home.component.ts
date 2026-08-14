@@ -54,6 +54,9 @@ export class HomeComponent {
 
   handleLoginSuccess(data: { name: string, email: string }) {
     this.isLoggedIn = true; // Update local state
+
+    this.userName = data.name;
+  this.userEmail = data.email;
     this.loginStateChange.emit(data);
     this.closeOverlay();
     // Stays on Home page after login as per requirement!
