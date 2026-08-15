@@ -1,0 +1,9 @@
+D:\LabRepo\frontend\Thyronex\src\app\app.component.css
+D:\LabRepo\frontend\Thyronex\src\app\footer\footer.component.css
+D:\LabRepo\frontend\Thyronex\src\app\header\header.component.css
+D:\LabRepo\frontend\Thyronex\src\app\home\home.component.css
+D:\LabRepo\frontend\Thyronex\src\app\lab-booking-modal\lab-booking-modal.component.css
+D:\LabRepo\frontend\Thyronex\src\app\lab-tests\lab-tests.component.css
+D:\LabRepo\frontend\Thyronex\src\app\login\login.component.css
+D:\LabRepo\frontend\Thyronex\src\app\test-packages\test-packages.component.css
+D:\LabRepo\frontend\Thyronex\src\app\user-dashboard\user-dashboard.component.css

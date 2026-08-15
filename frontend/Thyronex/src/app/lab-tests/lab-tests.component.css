@@ -1,413 +1,216 @@
 .lab-container {
-  padding: 40px 5%;
-  background-color: #f8fbff;
+  padding: 80px 8%;
+  background-color: var(--white);
 }
 
-.lab-header h2 {
-  font-size: 1.8rem;
-  color: #222;
-  margin-bottom: 5px;
-}
-
-.lab-header p {
-  color: #666;
-  margin-bottom: 30px;
-}
-
-.test-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 25px;
-}
-
-.test-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e0e6ed;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.test-card:hover {
-  transform: translateY(-5px);
-}
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 20px;
-  background: #fff;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.card-header h3 {
-  font-size: 1.1rem;
-  margin: 0;
-  color: #333;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-.blue-text {
-  color: #0056b3;
-  font-weight: 600;
-}
-
-.pricing-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.current-price {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #000;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: #999;
-  font-size: 0.9rem;
-  margin-left: 8px;
-}
-
-.book-now-btn {
- background-color: #28a745;; /* The Coral/Red color from image_51b772.png */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.book-now-btn:hover {
-  background-color: #218838;
-}
-
-.card-footer {
-  font-size: 0.85rem;
-  color: #555;
-  border-top: 1px dotted #ccc;
-  padding-top: 10px;
-}
-
-
-.lab-container {
-  padding: 30px 5%;
-  background-color: #f8fbff;
-}
-
+/* --- Category Masonry Section Upgraded --- */
 .category-section {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  max-width: 1300px;
+  margin: 0 auto 100px;
+}
+
+.category-left-container {
+  flex: 1;
+  max-width: 400px;
+  position: sticky;
+  top: 120px;
 }
 
 .category-header h2 {
-  font-size: 1.6rem;
-  color: #1a5f6e;
-  font-weight: 700;
-  margin-bottom: 6px;
+  font-size: 2.8rem;
+  color: var(--secondary-color);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
 }
 
 .category-header p {
-  font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Masonry Grid with Clean Cards */
+.category-right-container {
+  flex: 1.8;
 }
 
 /* 4-Column Category Grid */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 
-/* Category Card Styling matching your app theme */
-.category-card {
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 22px 20px;
+.category-mason-col-1, .category-mason-col-2 {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.category-card {
+  position: relative;
+  border-radius: 24px;
+  padding: 32px;
   cursor: pointer;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.category-card:hover {
-  border-color: #1a5f6e;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(26, 95, 110, 0.12);
-  background-color: #f7fcff;
-}
-
-/* Alignment inside card */
-.category-content {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+}
+
+.primary-card { min-height: 240px; }
+.secondary-card { min-height: 180px; }
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .category-text h3 {
-  font-size: 1.05rem;
-  color: #2d3748;
-  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  font-weight: 800;
   margin: 0;
-  line-height: 1.35;
-  text-align: left;
+  line-height: 1.2;
 }
 
 .category-text h3 span {
   display: block;
-  color: #1a5f6e;
-  font-weight: 800;
+  font-size: 0.9rem;
+  color: #4b5563;
+  font-weight: 600;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* Soft colored background circles for modern medical look */
-.category-logo {
-  width: 58px;
-  height: 58px;
-  min-width: 58px;
-  border-radius: 50%;
+/* Icons and Decorative elements */
+.chevron-circle {
+  width: 40px;
+  height: 40px;
+  background: var(--white);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s ease;
-}
-
-/* Scale the inline SVG to fit the circle */
-.category-logo svg {
-  width: 38px;
-  height: 38px;
-}
-
-.category-card:hover .category-logo {
-  transform: scale(1.1);
-}
-
-/* Background Color Accents (matching Apollo reference style) */
-.heart-bg {
-  background-color: #ffebee; /* Soft Red */
-}
-
-.diabetic-bg {
-  background-color: #e3f2fd; /* Soft Blue */
-}
-
-.bone-bg {
-  background-color: #fff8e1; /* Soft Yellow */
-}
-
-.thyroid-bg {
-  background-color: #f3e5f5; /* Soft Purple */
-}
-
-.packages-section {
-  width: 100%;
-  margin-top: 36px;
-  margin-bottom: 24px;
-}
-
-/* Section Header & Arrow Controls */
-.packages-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
   margin-bottom: 20px;
 }
 
-.packages-header h2 {
-  font-size: 1.5rem;
-  color: #1a5f6e;
-  font-weight: 700;
-  margin: 0 0 4px 0;
-}
-
-.packages-header p {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
-}
-
-.slider-controls {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1.5px solid #cbd5e1;
-  background-color: #ffffff;
-  color: #1a5f6e;
-  font-size: 1.4rem;
+.category-logo {
+  align-self: flex-end;
+  width: 64px;
+  height: 64px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
+  backdrop-filter: blur(4px);
 }
 
-.nav-btn:hover {
-  background-color: #1a5f6e;
-  color: #ffffff;
-  border-color: #1a5f6e;
-  box-shadow: 0 4px 10px rgba(26, 95, 110, 0.2);
+/* Medical Color Palettes (Orange Health Inspired) */
+.heart-pastel { background-color: #fff1f2; border-color: #fecdd3; }
+.diabetic-pastel { background-color: #f0fdf4; border-color: #dcfce7; }
+.bone-pastel { background-color: #f5f3ff; border-color: #ddd6fe; }
+.thyroid-pastel { background-color: #fff7ed; border-color: #ffedd5; }
+
+/* --- Horizontal Test Packages Section --- */
+.packages-section {
+  margin-top: 60px;
 }
 
-/* Horizontal Scroll Container */
+.packages-header h2 {
+  font-size: 2rem;
+  color: var(--secondary-color);
+  font-weight: 800;
+}
+
 .packages-carousel-container {
   display: flex;
-  gap: 20px;
+  gap: 24px;
+  padding: 20px 4px 40px 4px;
   overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 8px 4px 16px 4px;
-  scrollbar-width: none; /* Hide scrollbar Firefox */
+  scrollbar-width: none;
 }
 
-.packages-carousel-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar Chrome/Safari */
-}
-
-/* Individual Package Card */
 .package-card {
-  flex: 0 0 calc((100% - 40px) / 3); /* Shows exactly 3 cards on desktop */
-  min-width: 300px;
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s ease-in-out;
-  box-sizing: border-box;
+  flex: 0 0 350px;
+  background: var(--white);
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 28px;
+  transition: all 0.3s;
 }
 
 .package-card:hover {
-  transform: translateY(-4px);
-  border-color: #1a5f6e;
-  box-shadow: 0 10px 24px rgba(26, 95, 110, 0.12);
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* Top Section & Discount Tag */
 .discount-badge {
+  background: var(--primary-color);
+  color: var(--white);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-bottom: 16px;
   display: inline-block;
-  background-color: #dcfce7;
-  color: #15803d;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 12px;
-  margin-bottom: 12px;
 }
 
 .package-title {
-  font-size: 1.1rem;
-  color: #1e293b;
-  font-weight: 700;
-  margin: 0 0 4px 0;
-  line-height: 1.35;
-  min-height: 44px;
+  font-size: 1.4rem;
+  color: var(--secondary-color);
+  font-weight: 800;
+  margin-bottom: 8px;
 }
 
-.package-subtitle {
-  font-size: 0.85rem;
-  color: #64748b;
-  margin: 0 0 16px 0;
-  font-weight: 500;
-}
-
-/* Parameters Included Box */
 .parameters-box {
-  background-color: #f8fafc;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 16px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 16px;
+  margin: 20px 0;
 }
 
 .param-title {
-  font-size: 0.8rem;
-  color: #1a5f6e;
+  font-size: 0.85rem;
+  color: var(--text-muted);
   font-weight: 700;
-  margin: 0 0 6px 0;
-}
-
-.param-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.param-list li {
-  font-size: 0.8rem;
-  color: #475569;
-  line-height: 1.5;
-}
-
-/* Card Bottom Section (Price + Add Button) */
-.card-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 12px;
-  border-top: 1px dashed #e2e8f0;
-}
-
-.price-section {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
 .current-price {
-  font-size: 1.25rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #0f172a;
-}
-
-.old-price {
-  font-size: 0.85rem;
-  color: #94a3b8;
-  text-decoration: line-through;
+  color: var(--secondary-color);
 }
 
 .add-btn {
-  background-color: #ffffff;
-  color: #1a5f6e;
-  border: 1.5px solid #1a5f6e;
-  border-radius: 10px;
-  padding: 6px 20px;
+  background: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
   font-weight: 700;
-  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
 .add-btn:hover {
-  background-color: #1a5f6e;
-  color: #ffffff;
+  background: var(--primary-color);
 }
 
-/* Responsive Handling */
-@media (max-width: 992px) {
-  .package-card {
-    flex: 0 0 calc((100% - 20px) / 2); /* 2 cards on tablets */
-  }
-}
-
-@media (max-width: 600px) {
-  .package-card {
-    flex: 0 0 85%; /* 1 full card on mobile */
-  }
+@media (max-width: 1024px) {
+  .category-section { flex-direction: column; }
+  .category-left-container { position: static; max-width: 100%; margin-bottom: 40px; }
+  .category-grid { grid-template-columns: 1fr; }
 }

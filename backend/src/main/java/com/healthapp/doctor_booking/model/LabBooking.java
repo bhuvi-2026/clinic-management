@@ -1,20 +1,45 @@
 package com.healthapp.doctor_booking.model;
 
-public class LabBookingRequest {
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "lab_bookings", indexes = {
+    @Index(name = "idx_patient_phone", columnList = "patientPhone")
+})
+public class LabBooking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String packageName;
+
+    @Column(nullable = false)
     private String schedule;
+
     private String email;
+
+    @Column(length = 500)
     private String address;
+
     private int patientCount;
+
     private boolean hardcopy;
+
+    @Column(nullable = false)
     private String patientPhone;
 
-    // Getters and Setters are REQUIRED for Spring to map the JSON
+    @Column(nullable = false)
+    private String status = "CONFIRMED"; // default status
+
+    public LabBooking() {}
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getPackageName() { return packageName; }
     public void setPackageName(String packageName) { this.packageName = packageName; }
-
-    // Support "package" key from frontend
-    public void setPackage(String packageName) { this.packageName = packageName; }
 
     public String getSchedule() { return schedule; }
     public void setSchedule(String schedule) { this.schedule = schedule; }
@@ -33,4 +58,7 @@ public class LabBookingRequest {
 
     public String getPatientPhone() { return patientPhone; }
     public void setPatientPhone(String patientPhone) { this.patientPhone = patientPhone; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

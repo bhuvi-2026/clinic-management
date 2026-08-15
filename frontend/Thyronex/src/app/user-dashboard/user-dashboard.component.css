@@ -1,69 +1,7 @@
-.dashboard-wrapper {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 30px;
-    padding: 40px 5%;
-    background: #f8fafc;
-    min-height: 80vh;
-}
-
-.profile-card {
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    height: fit-content;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    background: #007bff;
-    color: white;
-    border-radius: 50%;
-    margin: 0 auto 15px;
-    font-size: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.history-table th,
-.history-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eef2f6;
-}
-
-.status-tag {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.status-tag.upcoming {
-    background: #e3f2fd;
-    color: #1976d2;
-}
-
-.status-tag.completed {
-    background: #e8f5e9;
-    color: #2e7d32;
-}
 /* Container styling */
 .dashboard-wrapper {
   padding: 2.5rem;
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   border-radius: 16px;
   min-height: 400px;
 }
@@ -90,12 +28,12 @@
 .booking-table tbody tr {
   background-color: #ffffff;
   transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .booking-table tbody tr:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
 }
 
 .booking-table td {
@@ -105,26 +43,69 @@
 }
 
 /* Rounding the row corners */
-.booking-table td:first-child { border-radius: 12px 0 0 12px; }
-.booking-table td:last-child { border-radius: 0 12px 12px 0; }
+.booking-table td:first-child { 
+  border-radius: 12px 0 0 12px; 
+}
+.booking-table td:last-child { 
+  border-radius: 0 12px 12px 0; 
+}
 
 /* Status Badge Enhancements */
 .status-badge {
   padding: 6px 14px;
   border-radius: 9999px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.status-badge.upcoming {
+.status-badge.confirmed {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.status-badge.completed {
   background-color: #dcfce7;
-  color: #166534;
+  color: #15803d;
 }
 
+/* Flex alignments for icons */
+.package-name-cell, .schedule-cell, .collection-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-/* Ensure the table cell doesn't squeeze the button */
-td {
-  vertical-align: middle;
-  white-space: nowrap; 
+.package-icon, .schedule-icon, .collection-icon {
+  font-size: 1.2rem;
+}
+
+.wait-text {
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #64748b;
 }

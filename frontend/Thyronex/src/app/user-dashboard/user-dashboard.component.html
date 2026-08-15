@@ -4,28 +4,43 @@
       <table class="booking-table">
         <thead>
           <tr>
-            <th>Test</th>
+            <th>Test Package</th>
             <th>Booked Slot</th>
             <th>Status</th>
-            <th>Collection</th>
+            <th>Collection Mode</th>
           </tr>
         </thead>
         <tbody>
           @for (booking of bookings; track booking.id) {
             <tr>
-              <td>{{ booking.packageName || 'Lab Test' }}</td>
-              <td>{{ booking.schedule || booking.appointmentSlot || 'Pending' }}</td>
               <td>
-                <span class="status-badge" [class.upcoming]="booking.status === 'UPCOMING'">
-                  {{ booking.status || 'Confirmed' }}
+                <div class="package-name-cell">
+                  <span class="package-icon">🧪</span>
+                  <strong>{{ booking.packageName || 'Lab Test' }}</strong>
+                </div>
+              </td>
+              <td>
+                <div class="schedule-cell">
+                  <span class="schedule-icon">📅</span>
+                  <span>{{ booking.schedule || 'Pending Slot' }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="status-badge" 
+                      [class.confirmed]="booking.status === 'CONFIRMED' || booking.status === 'UPCOMING'"
+                      [class.completed]="booking.status === 'COMPLETED'">
+                  {{ booking.status || 'CONFIRMED' }}
                 </span>
               </td>
               <td>
-                @if (booking.address) {
-                  <span class="wait-text">Home collection</span>
-                } @else {
-                  <span class="wait-text">Processing...</span>
-                }
+                <div class="collection-cell">
+                  <span class="collection-icon">📍</span>
+                  @if (booking.address) {
+                    <span class="wait-text">Home collection</span>
+                  } @else {
+                    <span class="wait-text">Processing...</span>
+                  }
+                </div>
               </td>
             </tr>
           }
@@ -36,7 +51,7 @@
     <div class="empty-state">
       <div class="empty-icon">🧪</div>
       <h3>No lab bookings found</h3>
-      <p>Logged in as: <strong>{{ email }}</strong></p>
+      <p>Logged in as: <strong>{{ email || mobile }}</strong></p>
     </div>
   }
 </div>

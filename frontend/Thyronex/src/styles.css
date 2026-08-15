@@ -1,17 +1,49 @@
 :root {
-  --allo-primary: #1a5f6e;    /* Deep, trustworthy Teal */
-  --allo-bg-light: #f9fbfc;   /* Very soft blue-gray background */
-  --allo-text: #2d3748;       /* Soft dark gray (not pure black) */
-  --allo-accent: #ff7a59;     /* Soft coral for attention-grabbing buttons */
+  --primary-color: #f26522; /* High Energy Orange */
+  --secondary-color: #1e2240; /* Professional Navy */
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --bg-light: #fdf8f4;
   --white: #ffffff;
+  --border-color: #f1f5f9;
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 body {
     overflow-y: auto !important;
     height: auto !important;
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
 }
 
-/* Ensure the modal backdrop doesn't hang around */
-.modal-backdrop {
-    display: none !important;
+/* Global Button Styles */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(242, 101, 34, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
+
+.btn-primary:hover {
+  background-color: #d9531e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(242, 101, 34, 0.4);
+}
+
+/* Utility Classes */
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
+.text-muted { color: var(--text-muted); }

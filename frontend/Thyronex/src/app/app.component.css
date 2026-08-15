@@ -1,39 +1,25 @@
-
-/* --- Action Button --- */
-.btn-primary {
-  background-color: #1a5f6e;
-  color: white;
-  padding: 16px 32px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px 0 rgba(26, 95, 110, 0.39);
-}
-
-.btn-primary:hover {
-  background-color: #144a56;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26, 95, 110, 0.23);
-}
+/* --- Global Modern Styling with Orange Health Inspiration --- */
 
 .main-content {
-  min-height: 80vh;
-  padding-top: 80px; /* Adjust this height according to your header's height */
+  min-height: 85vh;
+  padding-top: 80px; /* Header spacing */
+  background-color: var(--white);
 }
 
 .back-link {
   background: none;
   border: none;
-  color: #0056b3;
+  color: var(--secondary-color);
   cursor: pointer;
-  font-weight: bold;
-  padding: 20px 0;
-  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
 }
 
 .back-link:hover {
-  text-decoration: underline;
+  color: var(--primary-color);
 }

@@ -1,18 +1,36 @@
 .main-footer {
-    background: #f9fbff;
-    padding: 40px 10%;
-    border-top: 1px solid #eef2f6;
-    text-align: center;
-    margin-top: 50px;
+  background: var(--secondary-color);
+  padding: 80px 10% 40px 10%;
+  color: var(--white);
+  margin-top: 100px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
 }
 
 .footer-content p {
-    color: #666;
-    margin-bottom: 10px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
 }
 
 .footer-links a {
-    color: #1a5f6e;
-    cursor: pointer;
-    margin: 0 5px;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
 }
