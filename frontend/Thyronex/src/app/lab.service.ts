@@ -12,16 +12,33 @@ export interface LabPackage {
   fastingRequired: boolean;
 }
 
+export interface HomeBasicPkg {
+  id?: number;
+  name: string;
+  testCount: number;
+  discountPercentage?: number;
+  parametersSummary: string;
+  price: number;
+  originalPrice?: number;
+  fastingRequired: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class LabService {
   private apiUrl = 'http://localhost:8080/api/lab-packages';
+  private homeBasicApiUrl = 'http://localhost:8080/api/home-basic-pkgs';
 
   constructor(private http: HttpClient) { }
 
   getPackages(): Observable<LabPackage[]> {
     return this.http.get<LabPackage[]>(this.apiUrl);
+  }
+
+  // Fetch Home Basic Packages from DB
+  getHomeBasicPackages(): Observable<HomeBasicPkg[]> {
+    return this.http.get<HomeBasicPkg[]>(this.homeBasicApiUrl);
   }
 
   getLabBookingHistory(mobile: string): Observable<any[]> {

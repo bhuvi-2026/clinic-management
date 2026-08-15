@@ -1,90 +1,99 @@
 <div class="lab-container">
 
-  <div class="category-section">
+  <div class="category-section inner-container">
+  
+  <div class="category-left-container">
     <div class="category-header">
       <h2>Find Tests & Packages by Health Concern</h2>
       <p>Select a category to explore diagnostic tests tailored for you</p>
     </div>
+  </div>
 
+  <div class="category-right-container">
     <div class="category-grid">
       
-      <div class="category-card" (click)="onSelectCategory('HEART_HEALTH')">
-        <div class="category-content">
-          <div class="category-text">
-            <h3>Heart Health <span>Package</span></h3>
+      <div class="category-mason-col-1">
+        <div class="category-card primary-card heart-pastel" (click)="onSelectCategory('HEART_HEALTH')">
+          <div class="category-content">
+            <div class="category-text">
+              <h3>Heart Health <span>Package</span></h3>
+            </div>
+            
+            <div class="chevron-circle">
+              <svg height="16" width="16" viewBox="0 0 32 32">
+                <path fill="#e65a65" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
+              </svg>
+            </div>
+
+            <div class="category-logo heart-bg">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M32 12C28-4 4-4 4 20c0 16 16 28 28 36 12-8 28-20 28-36 0-24-24-24-28-8z" fill="#ffffff"/>
+                <polyline points="18,24 26,24 30,14 34,34 38,24 46,24" stroke="#e65a65" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
           </div>
-          <div class="category-logo heart-bg">
-            <svg viewBox="0 0 64 64" fill="none">
-              <defs>
-                <linearGradient id="heartGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#ff6b6b"/>
-                  <stop offset="100%" stop-color="#ee5253"/>
-                </linearGradient>
-              </defs>
-              <path d="M32 12C28-4 4-4 4 20c0 16 16 28 28 36 12-8 28-20 28-36 0-24-24-24-28-8z" fill="url(#heartGrad)" filter="url(#dropShadow)"/>
-              <polyline points="18,24 26,24 30,14 34,34 38,24 46,24" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        </div>
+
+        <div class="category-card secondary-card diabetic-pastel" (click)="onSelectCategory('DIABETIC_CARE')">
+          <div class="category-content">
+            <div class="category-text">
+              <h3>Diabetic Care <span>Package</span></h3>
+            </div>
+
+            <div class="chevron-circle">
+              <svg height="16" width="16" viewBox="0 0 32 32">
+                <path fill="#1a5f6e" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
+              </svg>
+            </div>
+
+            <div class="category-logo diabetic-bg">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M32 4C20 16 8 28 8 40c0 14 10 20 24 20s24-6 24-20C56 28 44 16 32 4z" fill="#ffffff"/>
+                <rect x="26" y="32" width="12" height="18" rx="2" fill="#1a5f6e" opacity="0.85"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="category-card" (click)="onSelectCategory('DIABETIC_CARE')">
-        <div class="category-content">
-          <div class="category-text">
-            <h3>Diabetic Care <span>Package</span></h3>
-          </div>
-          <div class="category-logo diabetic-bg">
-            <svg viewBox="0 0 64 64" fill="none">
-              <defs>
-                <linearGradient id="bloodGrad" x1="32" y1="4" x2="32" y2="60" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#ff7f7f"/>
-                  <stop offset="100%" stop-color="#e60000"/>
-                </linearGradient>
-              </defs>
-              <path d="M32 4C20 16 8 28 8 40c0 14 10 20 24 20s24-6 24-20C56 28 44 16 32 4z" fill="url(#bloodGrad)"/>
-              <rect x="26" y="32" width="12" height="18" rx="2" fill="white" opacity="0.8"/>
-              <line x1="32" y1="36" x2="32" y2="46" stroke="#e60000" stroke-width="3" stroke-linecap="round"/>
-            </svg>
+      <div class="category-mason-col-2">
+        <div class="category-card secondary-card bone-pastel" (click)="onSelectCategory('BONE_PROFILE')">
+          <div class="category-content">
+            <div class="category-text">
+              <h3>Bone <span>Profile</span></h3>
+            </div>
+
+            <div class="chevron-circle">
+              <svg height="16" width="16" viewBox="0 0 32 32">
+                <path fill="#7c5295" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
+              </svg>
+            </div>
+
+            <div class="category-logo bone-bg">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M48 10a6 6 0 1 0-12 0 6 6 0 1 0-12 0 6 6 0 1 0-12 0C4 18 4 36 12 54a6 6 0 1 0 12 0 6 6 0 1 0 12 0 6 6 0 1 0 12 0c8-18 8-36 0-54z" fill="#ffffff"/>
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="category-card" (click)="onSelectCategory('BONE_PROFILE')">
-        <div class="category-content">
-          <div class="category-text">
-            <h3>Bone <span>Profile</span></h3>
-          </div>
-          <div class="category-logo bone-bg">
-            <svg viewBox="0 0 64 64" fill="none">
-              <defs>
-                <linearGradient id="boneGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#f6e0b3"/>
-                  <stop offset="100%" stop-color="#eac082"/>
-                </linearGradient>
-              </defs>
-              <path d="M48 10a6 6 0 1 0-12 0 6 6 0 1 0-12 0 6 6 0 1 0-12 0C4 18 4 36 12 54a6 6 0 1 0 12 0 6 6 0 1 0 12 0 6 6 0 1 0 12 0c8-18 8-36 0-54z" fill="url(#boneGrad)"/>
-              <circle cx="32" cy="32" r="6" fill="#1a5f6e" opacity="0.3"/>
-            </svg>
-          </div>
-        </div>
-      </div>
+        <div class="category-card primary-card thyroid-pastel" (click)="onSelectCategory('THYROID_PROFILE')">
+          <div class="category-content">
+            <div class="category-text">
+              <h3>Thyroid <span>Profile</span></h3>
+            </div>
 
-      <div class="category-card" (click)="onSelectCategory('THYROID_PROFILE')">
-        <div class="category-content">
-          <div class="category-text">
-            <h3>Thyroid <span>Profile</span></h3>
-          </div>
-          <div class="category-logo thyroid-bg">
-            <svg viewBox="0 0 64 64" fill="none">
-              <defs>
-                <linearGradient id="thyroidGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#c792ea"/>
-                  <stop offset="100%" stop-color="#9c27b0"/>
-                </linearGradient>
-              </defs>
-              <path d="M32 20c-4-8-16-12-24-4s0 20 8 28c4 4 12 8 16 8 4 0 12-4 16-8 8-8 16-20 8-28s-20 4-24 4z" fill="url(#thyroidGrad)"/>
-              <ellipse cx="32" cy="36" rx="6" ry="12" fill="white" opacity="0.4"/>
-            </svg>
+            <div class="chevron-circle">
+              <svg height="16" width="16" viewBox="0 0 32 32">
+                <path fill="#d97706" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
+              </svg>
+            </div>
+
+            <div class="category-logo thyroid-bg">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M32 20c-4-8-16-12-24-4s0 20 8 28c4 4 12 8 16 8 4 0 12-4 16-8 8-8 16-20 8-28s-20 4-24 4z" fill="#ffffff"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
@@ -92,158 +101,51 @@
     </div>
   </div>
 
-  <div class="packages-section">
-  
-  <div class="packages-header">
-    <div>
-      <h2>Popular Diagnostic Packages</h2>
-      <p>Comprehensive health checkups tailored for you and your family</p>
-    </div>
-
-    <div class="slider-controls">
-      <button class="nav-btn prev-btn" (click)="scrollLeft()" aria-label="Previous">
-        ‹
-      </button>
-      <button class="nav-btn next-btn" (click)="scrollRight()" aria-label="Next">
-        ›
-      </button>
-    </div>
-  </div>
-
-  <div class="packages-carousel-container" #packagesContainer>
-    
-    <div class="package-card">
-      <div class="card-top">
-        <span class="discount-badge">63% off</span>
-        <h3 class="package-title">Comprehensive Gold Full Body Checkup</h3>
-        <p class="package-subtitle">Includes 60 tests</p>
-        
-        <div class="parameters-box">
-          <p class="param-title">60 Parameters included</p>
-          <ul class="param-list">
-            <li>• Lipid Profile (8)</li>
-            <li>• Liver Function Test (11)</li>
-            <li>• Kidney Function Test (8)</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card-bottom">
-        <div class="price-section">
-          <span class="current-price">₹1099</span>
-          <span class="old-price">₹2999</span>
-        </div>
-        <button class="add-btn" (click)="onPackageClick()">Book Test</button>
-      </div>
-    </div>
-
-    <div class="package-card">
-      <div class="card-top">
-        <span class="discount-badge">55% off</span>
-        <h3 class="package-title">Diabetes Screening & Care Package</h3>
-        <p class="package-subtitle">Includes 28 tests</p>
-        
-        <div class="parameters-box">
-          <p class="param-title">28 Parameters included</p>
-          <ul class="param-list">
-            <li>• HbA1c & Fasting Blood Sugar</li>
-            <li>• Average Blood Glucose</li>
-            <li>• Urine Microalbumin</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card-bottom">
-        <div class="price-section">
-          <span class="current-price">₹499</span>
-          <span class="old-price">₹1099</span>
-        </div>
-        <button class="add-btn" (click)="onPackageClick()">Book Test</button>
-      </div>
-    </div>
-
-    <div class="package-card">
-      <div class="card-top">
-        <span class="discount-badge">60% off</span>
-        <h3 class="package-title">Thyroid Care & Hormonal Profile</h3>
-        <p class="package-subtitle">Includes 4 tests</p>
-        
-        <div class="parameters-box">
-          <p class="param-title">4 Parameters included</p>
-          <ul class="param-list">
-            <li>• Total T3 & Total T4</li>
-            <li>• Thyroid Stimulating Hormone (TSH)</li>
-            <li>• Free T4</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card-bottom">
-        <div class="price-section">
-          <span class="current-price">₹399</span>
-          <span class="old-price">₹999</span>
-        </div>
-        <button class="add-btn" (click)="onPackageClick()">Book Test</button>
-      </div>
-    </div>
-
-    <div class="package-card">
-      <div class="card-top">
-        <span class="discount-badge">50% off</span>
-        <h3 class="package-title">Bone Health & Vitamin D Profile</h3>
-        <p class="package-subtitle">Includes 12 tests</p>
-        
-        <div class="parameters-box">
-          <p class="param-title">12 Parameters included</p>
-          <ul class="param-list">
-            <li>• Vitamin D (25-OH)</li>
-            <li>• Vitamin B12 & Calcium</li>
-            <li>• Phosphorus & Alkaline Phosphatase</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card-bottom">
-        <div class="price-section">
-          <span class="current-price">₹699</span>
-          <span class="old-price">₹1399</span>
-        </div>
-        <button class="add-btn" (click)="onPackageClick()">Book Test</button>
-      </div>
-    </div>
-
-    <div class="package-card">
-      <div class="card-top">
-        <span class="discount-badge">58% off</span>
-        <h3 class="package-title">Advanced Cardiac Risk Checkup</h3>
-        <p class="package-subtitle">Includes 45 tests</p>
-        
-        <div class="parameters-box">
-          <p class="param-title">45 Parameters included</p>
-          <ul class="param-list">
-            <li>• High-Sensitivity CRP (hs-CRP)</li>
-            <li>• Complete Lipid Panel</li>
-            <li>• Homocysteine & HbA1c</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card-bottom">
-        <div class="price-section">
-          <span class="current-price">₹1299</span>
-          <span class="old-price">₹3099</span>
-        </div>
-        <button class="add-btn" (click)="onPackageClick()">Book Test</button>
-      </div>
-    </div>
-
-  </div>
 </div>
 
-@if (selectedPackage) {
-    <app-lab-booking-modal 
-      [package]="selectedPackage" 
-      (closeForm)="closeModal()">
-    </app-lab-booking-modal>
+  <div class="packages-section">
+
+    <div class="packages-header">
+      <div>
+        <h2>Popular Diagnostic Packages</h2>
+        <p>Comprehensive health checkups tailored for you and your family</p>
+      </div>
+
+      <div class="slider-controls">
+        <button class="nav-btn prev-btn" (click)="scrollLeft()" aria-label="Previous">‹</button>
+        <button class="nav-btn next-btn" (click)="scrollRight()" aria-label="Next">›</button>
+      </div>
+    </div>
+
+    <div class="packages-carousel-container" #packagesContainer>
+      @for (pkg of homePackages; track pkg.name) {
+      <div class="package-card" (click)="onPackageClick(pkg)">
+        <div class="card-top">
+          <h3 class="package-title">{{ pkg.name }}</h3>
+
+        </div>
+
+        <div class="card-bottom">
+          <div class="price-section">
+            <span class="current-price">₹{{ pkg.price }}</span>
+            @if (pkg.originalPrice) {
+            <span class="old-price">₹{{ pkg.originalPrice }}</span>
+            }
+          </div>
+        </div>
+      </div>
+      } @empty {
+      <div class="empty-state" style="text-align: center; padding: 30px; width: 100%;">
+        <p>Loading diagnostic packages...</p>
+      </div>
+      }
+    </div>
+
+  </div>
+
+  @if (selectedPackage) {
+  <app-lab-booking-modal [package]="selectedPackage" (closeForm)="closeModal()">
+  </app-lab-booking-modal>
   }
- 
+
+</div>

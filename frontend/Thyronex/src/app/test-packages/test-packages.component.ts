@@ -15,6 +15,7 @@ export class TestPackagesComponent implements OnInit {
 
   packages: LabPackage[] = [];
   selectedPackage: LabPackage | null = null;
+  viewingDetailsPackage: LabPackage | null = null; 
   isLoading: boolean = true;
 
   constructor(
@@ -40,6 +41,30 @@ export class TestPackagesComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  openTestDetailsModal(pkg: LabPackage): void {
+    console.log('Opening test details modal for:', pkg.name);
+    this.viewingDetailsPackage = pkg;
+  }
+
+  closeDetailsModal(): void {
+    this.viewingDetailsPackage = null;
+  }
+
+  getTestItemsList(description: string): string[] {
+    if (!description) return [];
+    
+    const delimiter = description.includes('\n') ? '\n' : ',';
+    return description
+      .split(delimiter)
+      .map(item => item.trim())
+      .filter(item => item.length > 0);
+  }
+
+  bookFromDetailsModal(pkg: LabPackage): void {
+    this.closeDetailsModal();
+    this.bookNow(pkg);
   }
 
   bookNow(pkg: LabPackage): void {

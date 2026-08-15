@@ -2,11 +2,12 @@
   [isLoggedIn]="isLoggedIn" 
   [userName]="userName"
   (triggerLogin)="showLoginOverlay = true" 
-  (triggerLogout)="handleLogout()">
+  (triggerLogout)="handleLogout()"
+  (triggerDashboard)="handleNavigateToDashboard()">
 </app-header>
 
 <main class="main-content">
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onRouteActivate($event)"></router-outlet>
 </main>
 
 @if (showLoginOverlay) {
@@ -15,4 +16,5 @@
     (closeLogin)="handleModalClose()">
   </app-login>
 }
+
 <app-footer></app-footer>
