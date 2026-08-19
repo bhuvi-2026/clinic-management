@@ -12,6 +12,6 @@ public class LabBookingApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LabBookingApplication.class, args);
-        log.info("Lab booking backend is running and ready for requests!");
+        log.info("Thyronex Care backend is running on PostgreSQL database: Thyronex_lab!");
     }
 }

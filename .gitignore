@@ -1,34 +1,54 @@
-# Java/Spring Boot
-/backend/target/
-/backend/data/
-*.class
-
-# Angular/Node
-/frontend/node_modules/
-/frontend/dist/
-.angular/
-
-# IDE and OS
-.idea/
-.vscode/
-.DS_Store
-
-
-# Node.js dependencies (will ignore node_modules whenever generated)
-node_modules/
-
-# WhatsApp Web Session & Auth Cache (Crucial! Prevents pushing your logged-in session to GitHub)
+# ==============================================================================
+# 1. WhatsApp Web Automation (Session & Browser Cache) - CRITICAL
+# ==============================================================================
 .wwebjs_auth/
 .wwebjs_cache/
+**/.wwebjs_auth/
+**/.wwebjs_cache/
 
-# Environment files containing passwords / keys
-.env
-.env.local
+# ==============================================================================
+# 2. Node / Angular Dependencies & Build Artifacts
+# ==============================================================================
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.angular/
+**/.angular/
+.npm/
 
-# Log files
+# ==============================================================================
+# 3. Java / Maven Compilation Files
+# ==============================================================================
+target/
+**/target/
+*.class
+*.jar
+*.war
+/backend/data/
+
+# ==============================================================================
+# 4. Logs & Secrets / Environment Keys
+# ==============================================================================
+logs/
+**/logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+*.env
 
-# OS specific temporary files
+# ==============================================================================
+# 5. IDE & OS Temporary Files
+# ==============================================================================
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 .DS_Store
 Thumbs.db

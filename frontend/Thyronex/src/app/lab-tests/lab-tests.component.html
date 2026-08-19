@@ -1,147 +1,317 @@
 <div class="lab-container">
 
-  <div class="category-section inner-container">
-  
-  <div class="category-left-container">
-    <div class="category-header">
-      <h2>Find Tests & Packages by Health Concern</h2>
-      <p>Select a category to explore diagnostic tests tailored for you</p>
-    </div>
-  </div>
-
-  <div class="category-right-container">
-    <div class="category-grid">
-      
-      <div class="category-mason-col-1">
-        <div class="category-card primary-card heart-pastel" (click)="onSelectCategory('HEART_HEALTH')">
-          <div class="category-content">
-            <div class="category-text">
-              <h3>Heart Health <span>Package</span></h3>
-            </div>
-            
-            <div class="chevron-circle">
-              <svg height="16" width="16" viewBox="0 0 32 32">
-                <path fill="#e65a65" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
-              </svg>
-            </div>
-
-            <div class="category-logo heart-bg">
-              <svg viewBox="0 0 64 64" fill="none">
-                <path d="M32 12C28-4 4-4 4 20c0 16 16 28 28 36 12-8 28-20 28-36 0-24-24-24-28-8z" fill="#ffffff"/>
-                <polyline points="18,24 26,24 30,14 34,34 38,24 46,24" stroke="#e65a65" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="category-card secondary-card diabetic-pastel" (click)="onSelectCategory('DIABETIC_CARE')">
-          <div class="category-content">
-            <div class="category-text">
-              <h3>Diabetic Care <span>Package</span></h3>
-            </div>
-
-            <div class="chevron-circle">
-              <svg height="16" width="16" viewBox="0 0 32 32">
-                <path fill="#1a5f6e" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
-              </svg>
-            </div>
-
-            <div class="category-logo diabetic-bg">
-              <svg viewBox="0 0 64 64" fill="none">
-                <path d="M32 4C20 16 8 28 8 40c0 14 10 20 24 20s24-6 24-20C56 28 44 16 32 4z" fill="#ffffff"/>
-                <rect x="26" y="32" width="12" height="18" rx="2" fill="#1a5f6e" opacity="0.85"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+  <section class="category-section">
+    
+    <div class="category-left-container">
+      <div class="category-header">
+        <h2>Find Tests & Packages by Health Concern</h2>
+        <p>Select a category to explore diagnostic tests tailored for you</p>
       </div>
 
-      <div class="category-mason-col-2">
-        <div class="category-card secondary-card bone-pastel" (click)="onSelectCategory('BONE_PROFILE')">
-          <div class="category-content">
-            <div class="category-text">
-              <h3>Bone <span>Profile</span></h3>
+      <div class="promo-slider-wrapper" (mouseenter)="stopAutoSlide()" (mouseleave)="startAutoSlide()">
+        <div class="promo-slide-track">
+          @for (slide of slides; track slide.id; let i = $index) {
+            <div class="promo-slide-card" [class.active-slide]="currentSlideIndex === i">
+              <img 
+                [src]="slide.imageUrl" 
+                [alt]="slide.title" 
+                class="promo-slide-img" 
+                loading="eager" />
+              <div class="promo-slide-overlay">
+                <div class="promo-badge">{{ slide.badge }}</div>
+                <h4 class="promo-title">{{ slide.title }}</h4>
+                <p class="promo-desc">{{ slide.desc }}</p>
+              </div>
             </div>
-
-            <div class="chevron-circle">
-              <svg height="16" width="16" viewBox="0 0 32 32">
-                <path fill="#7c5295" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
-              </svg>
-            </div>
-
-            <div class="category-logo bone-bg">
-              <svg viewBox="0 0 64 64" fill="none">
-                <path d="M48 10a6 6 0 1 0-12 0 6 6 0 1 0-12 0 6 6 0 1 0-12 0C4 18 4 36 12 54a6 6 0 1 0 12 0 6 6 0 1 0 12 0 6 6 0 1 0 12 0c8-18 8-36 0-54z" fill="#ffffff"/>
-              </svg>
-            </div>
-          </div>
+          }
         </div>
 
-        <div class="category-card primary-card thyroid-pastel" (click)="onSelectCategory('THYROID_PROFILE')">
-          <div class="category-content">
-            <div class="category-text">
-              <h3>Thyroid <span>Profile</span></h3>
-            </div>
-
-            <div class="chevron-circle">
-              <svg height="16" width="16" viewBox="0 0 32 32">
-                <path fill="#d97706" d="M12 6l10 10-10 10-2.4-2.4 7.6-7.6-7.6-7.6z"/>
-              </svg>
-            </div>
-
-            <div class="category-logo thyroid-bg">
-              <svg viewBox="0 0 64 64" fill="none">
-                <path d="M32 20c-4-8-16-12-24-4s0 20 8 28c4 4 12 8 16 8 4 0 12-4 16-8 8-8 16-20 8-28s-20 4-24 4z" fill="#ffffff"/>
-              </svg>
-            </div>
-          </div>
+        <div class="slider-dots">
+          @for (slide of slides; track slide.id; let i = $index) {
+            <span 
+              class="dot" 
+              [class.active]="currentSlideIndex === i" 
+              (click)="goToSlide(i)">
+            </span>
+          }
         </div>
       </div>
-
     </div>
-  </div>
 
-</div>
+    <div class="category-right-container">
+      <div class="category-grid">
 
-  <div class="packages-section">
+        <div class="category-mason-col">
+          <div class="category-card primary-card heart-pastel" (click)="onSelectCategory('HEART_HEALTH')">
+            <div class="category-top-row">
+              <h3 class="category-title">Heart Health <span>Package</span></h3>
+              <div class="chevron-circle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e65a65" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="category-illustration">
+              <div class="icon-circle heart-bg">
+                <svg viewBox="0 0 64 64" fill="none">
+                  <path d="M32 12C28-4 4-4 4 20c0 16 16 28 28 36 12-8 28-20 28-36 0-24-24-24-28-8z" fill="#ffffff" />
+                  <polyline points="18,24 26,24 30,14 34,34 38,24 46,24" stroke="#e65a65" stroke-width="3.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+          </div>
 
+          <div class="category-card secondary-card diabetic-pastel" (click)="onSelectCategory('DIABETIC_CARE')">
+            <div class="category-top-row">
+              <h3 class="category-title">Diabetic Care <span>Package</span></h3>
+              <div class="chevron-circle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a5f6e" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="category-illustration">
+              <div class="icon-circle diabetic-bg">
+                <svg viewBox="0 0 64 64" fill="none">
+                  <path d="M32 4C20 16 8 28 8 40c0 14 10 20 24 20s24-6 24-20C56 28 44 16 32 4z" fill="#ffffff" />
+                  <rect x="26" y="32" width="12" height="18" rx="2" fill="#1a5f6e" opacity="0.85" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="category-mason-col">
+          <div class="category-card secondary-card bone-pastel" (click)="onSelectCategory('BONE_PROFILE')">
+            <div class="category-top-row">
+              <h3 class="category-title">Bone <span>Profile</span></h3>
+              <div class="chevron-circle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c5295" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="category-illustration">
+              <div class="icon-circle bone-bg">
+                <svg viewBox="0 0 64 64" fill="none">
+                  <path
+                    d="M48 10a6 6 0 1 0-12 0 6 6 0 1 0-12 0 6 6 0 1 0-12 0C4 18 4 36 12 54a6 6 0 1 0 12 0 6 6 0 1 0 12 0 6 6 0 1 0 12 0c8-18 8-36 0-54z"
+                    fill="#ffffff" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="category-card primary-card thyroid-pastel" (click)="onSelectCategory('THYROID_PROFILE')">
+            <div class="category-top-row">
+              <h3 class="category-title">Thyroid <span>Profile</span></h3>
+              <div class="chevron-circle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="category-illustration">
+              <div class="icon-circle thyroid-bg">
+                <svg viewBox="0 0 64 64" fill="none">
+                  <path d="M32 20c-4-8-16-12-24-4s0 20 8 28c4 4 12 8 16 8 4 0 12-4 16-8 8-8 16-20 8-28s-20 4-24 4z"
+                    fill="#ffffff" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="packages-section mb-5">
     <div class="packages-header">
-      <div>
+      <div class="packages-header-text">
         <h2>Popular Diagnostic Packages</h2>
         <p>Comprehensive health checkups tailored for you and your family</p>
       </div>
-
-      <div class="slider-controls">
-        <button class="nav-btn prev-btn" (click)="scrollLeft()" aria-label="Previous">‹</button>
-        <button class="nav-btn next-btn" (click)="scrollRight()" aria-label="Next">›</button>
+      <div class="header-nav-controls">
+        <button class="nav-arrow-btn" (click)="scrollLeft()" aria-label="Previous Package">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="nav-arrow-btn" (click)="scrollRight()" aria-label="Next Package">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
 
     <div class="packages-carousel-container" #packagesContainer>
       @for (pkg of homePackages; track pkg.name) {
-      <div class="package-card" (click)="onPackageClick(pkg)">
-        <div class="card-top">
+      <div class="package-card shadow-sm">
+        <div class="card-top-content">
           <h3 class="package-title">{{ pkg.name }}</h3>
 
+          <div class="test-count-row" (click)="openTestDetailsModal(pkg)">
+            <span class="test-count-text">Include {{ pkg.testCount }} Tests</span>
+            <span class="arrow-icon">❯</span>
+          </div>
         </div>
 
-        <div class="card-bottom">
+        <div class="card-bottom-content">
           <div class="price-section">
-            <span class="current-price">₹{{ pkg.price }}</span>
+            <span class="current-price">₹ {{ pkg.price }}</span>
             @if (pkg.originalPrice) {
-            <span class="old-price">₹{{ pkg.originalPrice }}</span>
+            <span class="old-price">₹ {{ pkg.originalPrice }}</span>
             }
           </div>
+          <button class="book-now-btn" (click)="onPackageClick(pkg)">Book Now</button>
         </div>
       </div>
       } @empty {
-      <div class="empty-state" style="text-align: center; padding: 30px; width: 100%;">
+      <div class="empty-state">
         <p>Loading diagnostic packages...</p>
       </div>
       }
     </div>
+  </section>
 
+  <section class="vital-organs-section mt-5 pt-3">
+    <div class="vital-organs-container">
+      
+      <div class="vital-organs-left">
+        <h2 class="vital-heading">Checkups For<br><span class="highlight-text">Vital Organs</span></h2>
+        <p class="vital-subheading">Comprehensive organ-specific profiles for preventive care and early diagnosis</p>
+      </div>
+
+      <div class="vital-organs-right">
+        <div class="vital-grid-container">
+
+          <div class="vital-card card-heart" role="button" (click)="onSelectCategory('HEART_HEALTH')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M32 14C27-4 6-4 6 20c0 16 16 28 26 34 10-6 26-18 26-34 0-24-21-24-26-6z" fill="#f43f5e"/>
+                <polyline points="18,26 25,26 29,16 33,36 37,26 46,26" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Heart</span>
+          </div>
+
+          <div class="vital-card card-liver" role="button" (click)="onSelectCategory('LIVER_CARE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M12 22C12 14 24 12 36 12C50 12 54 20 54 32C54 44 42 50 30 50C16 50 12 38 12 22Z" fill="#f97316"/>
+                <path d="M16 26C24 26 34 38 46 36" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Liver</span>
+          </div>
+
+          <div class="vital-card card-kidney" role="button" (click)="onSelectCategory('KIDNEY_CARE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M22 14C14 18 10 26 12 36C14 46 22 50 28 48C34 46 34 38 30 32C26 26 28 18 22 14Z" fill="#f59e0b"/>
+                <path d="M42 14C50 18 54 26 52 36C50 46 42 50 36 48C30 46 30 38 34 32C38 26 36 18 42 14Z" fill="#d97706"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Kidney</span>
+          </div>
+
+          <div class="vital-card card-lungs" role="button" (click)="onSelectCategory('LUNGS_CARE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M30 12V40M34 12V40" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/>
+                <path d="M30 22C20 18 12 24 12 36C12 46 20 50 28 48C30 40 30 26 30 22Z" fill="#38bdf8"/>
+                <path d="M34 22C44 18 52 24 52 36C52 46 44 50 36 48C34 40 34 26 34 22Z" fill="#0284c7"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Lungs</span>
+          </div>
+
+          <div class="vital-card card-thyroid" role="button" (click)="onSelectCategory('THYROID_PROFILE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M32 24C28 16 16 14 12 22C8 30 18 44 24 46C28 48 30 40 32 36C34 40 36 48 40 46C46 44 56 30 52 22C48 14 36 16 32 24Z" fill="#14b8a6"/>
+                <circle cx="32" cy="28" r="3" fill="#ffffff"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Thyroid</span>
+          </div>
+
+          <div class="vital-card card-bone" role="button" (click)="onSelectCategory('BONE_PROFILE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M46 14a5 5 0 0 0-10 0 5 5 0 0 0-10 0 5 5 0 0 0-10 0C10 22 10 38 16 50a5 5 0 0 0 10 0 5 5 0 0 0 10 0 5 5 0 0 0 10 0c6-12 6-28 0-36z" fill="#8b5cf6"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Bone</span>
+          </div>
+
+          <div class="vital-card card-stomach" role="button" (click)="onSelectCategory('GASTRO_CARE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M28 12V20C28 22 20 26 18 34C16 44 26 52 38 50C48 48 50 36 46 28C42 20 34 20 34 12H28Z" fill="#eab308"/>
+                <path d="M24 34C28 38 36 38 40 34" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Stomach</span>
+          </div>
+
+          <div class="vital-card card-brain" role="button" (click)="onSelectCategory('BRAIN_CARE')">
+            <div class="vital-card-circle">
+              <svg viewBox="0 0 64 64" fill="none" class="vital-svg">
+                <path d="M30 14C22 14 16 20 16 28C16 32 18 36 16 42C14 48 20 52 28 50C30 48 30 36 30 14Z" fill="#6366f1"/>
+                <path d="M34 14C42 14 48 20 48 28C48 32 46 36 48 42C50 48 44 52 36 50C34 48 34 36 34 14Z" fill="#4f46e5"/>
+                <path d="M22 26C26 28 26 34 22 36M42 26C38 28 38 34 42 36" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="vital-card-title">Brain</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  @if (viewingDetailsPackage) {
+  <div class="modal-backdrop" (click)="closeDetailsModal()">
+    <div class="details-modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ viewingDetailsPackage.name }}</h3>
+        <button class="close-btn" (click)="closeDetailsModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-subtitle">
+          <strong>Includes {{ viewingDetailsPackage.testCount }} Tests/Parameters:</strong>
+        </p>
+
+        <ul class="test-list-items">
+          @for (testItem of getTestItemsList(viewingDetailsPackage.parametersSummary); track testItem) {
+          <li>
+            <span class="bullet-dot">•</span>
+            <span>{{ testItem }}</span>
+          </li>
+          }
+        </ul>
+      </div>
+
+      <div class="modal-footer-action">
+        <button class="book-modal-btn" (click)="bookFromDetailsModal(viewingDetailsPackage)">
+          Book Now (₹{{ viewingDetailsPackage.price }})
+        </button>
+      </div>
+    </div>
   </div>
+  }
 
   @if (selectedPackage) {
   <app-lab-booking-modal [package]="selectedPackage" (closeForm)="closeModal()">

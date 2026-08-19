@@ -1,130 +1,86 @@
 .dashboard-wrapper {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 30px;
-    padding: 40px 5%;
-    background: #f8fafc;
-    min-height: 80vh;
+  width: 100%;
 }
 
-.profile-card {
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    height: fit-content;
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: clamp(10px, 1.8vw, 16px);
+  border: 1px solid var(--border-color);
+  -webkit-overflow-scrolling: touch;
 }
 
-.avatar {
-    width: 80px;
-    height: 80px;
-    background: #007bff;
-    color: white;
-    border-radius: 50%;
-    margin: 0 auto 15px;
-    font-size: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.history-table th,
-.history-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eef2f6;
-}
-
-.status-tag {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.status-tag.upcoming {
-    background: #e3f2fd;
-    color: #1976d2;
-}
-
-.status-tag.completed {
-    background: #e8f5e9;
-    color: #2e7d32;
-}
-/* Container styling */
-.dashboard-wrapper {
-  padding: 2.5rem;
-  background-color: #f1f5f9;
-  border-radius: 16px;
-  min-height: 400px;
-}
-
-/* Modern Table Layout */
 .booking-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px; /* Spacing between rows */
-  margin-top: 1rem;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 480px; /* Ensures clean layout with horizontal scroll on small devices */
 }
 
-.booking-table thead th {
-  background-color: transparent;
-  color: #64748b;
-  font-weight: 600;
+.booking-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: clamp(0.75rem, 1vw, 0.85rem);
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  padding: 0 1rem;
-}
-
-/* Row Styling */
-.booking-table tbody tr {
-  background-color: #ffffff;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.booking-table tbody tr:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  letter-spacing: 0.5px;
+  padding: clamp(10px, 1.5vw, 14px) clamp(12px, 2vw, 18px);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .booking-table td {
-  padding: 1.25rem 1rem;
+  padding: clamp(12px, 1.8vw, 16px) clamp(12px, 2vw, 18px);
+  border-bottom: 1px solid #f1f5f9;
   color: #1e293b;
-  vertical-align: middle;
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
 }
 
-/* Rounding the row corners */
-.booking-table td:first-child { border-radius: 12px 0 0 12px; }
-.booking-table td:last-child { border-radius: 0 12px 12px 0; }
+.booking-table tr:hover td {
+  background-color: #f8fafc;
+}
 
-/* Status Badge Enhancements */
 .status-badge {
-  padding: 6px 14px;
-  border-radius: 9999px;
-  font-size: 0.8rem;
-  font-weight: 700;
   display: inline-block;
+  padding: 4px 10px;
+  border-radius: 50rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #15803d;
 }
 
 .status-badge.upcoming {
-  background-color: #dcfce7;
-  color: #166534;
+  background: #fef3c7;
+  color: #b45309;
 }
 
+.wait-text {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
 
-/* Ensure the table cell doesn't squeeze the button */
-td {
-  vertical-align: middle;
-  white-space: nowrap; 
+.empty-state {
+  text-align: center;
+  padding: clamp(24px, 5vw, 48px) 16px;
+}
+
+.empty-icon {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  margin-bottom: 10px;
+}
+
+.empty-state h3 {
+  color: var(--primary-teal);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.text-primary-teal {
+  color: #1a5f6e !important;
 }

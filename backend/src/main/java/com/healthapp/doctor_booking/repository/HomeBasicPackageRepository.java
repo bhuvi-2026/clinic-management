@@ -1,9 +1,9 @@
 package com.healthapp.doctor_booking.repository;
 
-import com.healthapp.doctor_booking.model.LabPackage;
+import com.healthapp.doctor_booking.model.HomeBasicPackage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LabPackageRepository extends JpaRepository<LabPackage, Long> {
+public interface HomeBasicPackageRepository extends JpaRepository<HomeBasicPackage, Long> {
 }

@@ -1,129 +1,276 @@
-<div class="modal-overlay" (click)="closeForm.emit()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
+<div class="modal fade show d-block popup-overlay" tabindex="-1" (click)="closeForm.emit()">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 rounded-4 shadow-lg p-4 position-relative">
 
-        <!-- STEP 2: TEST DETAILS -->
-        @if (currentStep === 2 && !isConfirmed) {
-        <div class="step-header">
-            <h3>Test Details</h3>
-            <span class="step-text">Step: 2 / 3</span>
+      @if (currentStep === 1 && !isConfirmed) {
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+          <h4 class="fw-bold text-teal m-0">Test Details</h4>
+          <span class="badge bg-light text-secondary border">Step 1 / 2</span>
         </div>
 
-        <div class="form-body">
-            <!-- PINCODE CHECK SECTION -->
-            <label>Pincode (Serviceable in Bengaluru only)</label>
-            <div class="pincode-container">
-                <input type="text" [(ngModel)]="pincode" placeholder="Enter Pincode" maxlength="6" class="gray-input">
-                <button class="check-btn" (click)="checkPincode()">Check</button>
-            </div>
-            @if (pincodeStatus === 'success') {
-            <small class="text-success">✔ Service available in your area</small>
-            } @else if (pincodeStatus === 'error') {
-            <small class="text-danger">✖ Service currently unavailable in this location</small>
-            }
-
-            <label>Test/Package</label>
-            <input type="text" [value]="package.name | uppercase" readonly class="gray-input">
-
-            <label>Appointment Date & Time</label>
-            <div class="selector-box" (click)="showTimePicker = true">
-                {{ selectedSlot ? selectedSlot : 'Select Appointment Date & Time' }}
-            </div>
-
-            <label>Number of Patients</label>
-            <div class="counter-row">
-                <button (click)="updatePatients(-1)">−</button>
-                <span class="count">{{ patientCount }}</span>
-                <button (click)="updatePatients(1)">+</button>
-            </div>
-
-            <div class="checkbox-container">
-                <input type="checkbox" [(ngModel)]="hardcopy">
-                <span>Report Hardcopy Needed (Price: Rs. 75)</span>
-            </div>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Pincode (Bengaluru & Hassan only)</label>
+          <div class="input-group mb-1">
+            <input 
+              type="text" 
+              [(ngModel)]="pincode" 
+              placeholder="e.g. 560001 or 573201" 
+              maxlength="6" 
+              class="form-control rounded-start-3"
+              (input)="onPincodeInput()"
+              (keypress)="blockNonNumbers($event)">
+            <button class="btn btn-teal px-3" [disabled]="isCheckingPincode" (click)="checkPincode()">
+              {{ isCheckingPincode ? 'Checking...' : 'Check' }}
+            </button>
+          </div>
+          @if (pincodeStatus === 'success') {
+            <small class="text-success fw-semibold">✔ Service available in {{ serviceLocation }}</small>
+          } @else if (pincodeStatus === 'error') {
+            <small class="text-danger fw-semibold">✖ {{ pincodeErrorMessage }}</small>
+          }
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-outline" (click)="closeForm.emit()">Back</button>
-            <button class="btn-fill" [disabled]="!selectedSlot || pincodeStatus !== 'success'"
-                (click)="currentStep = 3">Proceed</button>
-        </div>
-        }
-
-        <!-- STEP 3: CONTACT DETAILS -->
-        @if (currentStep === 3 && !isConfirmed) {
-        <div class="step-header">
-            <h3>Contact Details</h3>
-            <span class="step-text">Step: 3 / 3</span>
-        </div>
-        <p class="sub-message">Here's your hassle-free test booking</p>
-
-        <div class="form-body">
-            <label>Contact Number</label>
-            <input type="tel" placeholder="Enter Contact Number" [(ngModel)]="patientPhone" maxlength="10">
-
-            <label>Email</label>
-            <input type="email" placeholder="Enter Email" [(ngModel)]="email">
-
-            <label>Address</label>
-            <textarea placeholder="Min-10 chars, Max-125 chars" [(ngModel)]="address"></textarea>
-
-            <div class="report-box">
-                <span class="icon">📄</span>
-                Report expected in <strong>11 hours</strong> post sample collection
-            </div>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Test / Package</label>
+          <input type="text" [value]="package.name | uppercase" readonly class="form-control bg-light">
         </div>
 
-        <div class="modal-footer">
-            <button class="btn-outline" (click)="currentStep = 2">Back</button>
-            <button class="btn-fill" (click)="confirmBooking()">Confirm & Book</button>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Appointment Date & Time</label>
+          <div 
+            class="p-2 border rounded-3 bg-light text-dark fw-semibold small text-center date-picker-box" 
+            role="button" 
+            (click)="openCalendarModal()">
+            {{ selectedSlot ? selectedSlot : '📅 Click to select Date & Time from Calendar' }}
+          </div>
         </div>
-        }
-        <!-- STEP 4: THANK YOU SCREEN -->
-        @if (currentStep === 4 || isConfirmed) {
-        <div class="success-view" style="text-align: center; padding: 20px;">
-            <div class="check-icon" style="font-size: 50px; color: #4bb543; margin-bottom: 20px;">✔</div>
-            <h2 style="color: #1a5f6e;">Booking Confirmed!</h2>
-            <p>Thank you for choosing our home collection service.</p>
-            <p>Your <strong>{{ package.name | uppercase }}</strong> is scheduled for:</p>
-            <p class="final-date" style="background: #f4f8fb; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <strong>{{ selectedSlot }}</strong>
-            </p>
-            <p style="font-size: 0.9rem; color: #7a9ab5;">A phlebotomist will arrive at your address for sample
-                collection.</p>
-            <button class="btn-fill" style="width: 100%; margin-top: 20px;" (click)="closeForm.emit()">Back to
-                Dashboard</button>
-        </div>
-        }
 
-        <!-- TIME PICKER (Dynamic Dates) -->
-        @if (showTimePicker) {
-        <div class="picker-overlay">
-            <div class="picker-header">
-                <label>Appointment Date & Time</label>
-                <div class="selector-box" (click)="showTimePicker = true">
-                    <!-- This will now show "Mon May 4, 09:00 - 09:30" -->
-                    {{ selectedSlot ? selectedSlot : 'Select Appointment Date & Time' }}
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Number of Patients</label>
+          <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-secondary rounded-circle ctrl-btn" (click)="updatePatients(-1)" [disabled]="patientCount <= 1">−</button>
+            <span class="fs-5 fw-bold text-teal">{{ patientCount }}</span>
+            <button class="btn btn-outline-secondary rounded-circle ctrl-btn" (click)="updatePatients(1)" [disabled]="patientCount >= 6">+</button>
+          </div>
+        </div>
+
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="hardcopy" id="hardcopyCheck">
+          <label class="form-check-label small text-secondary" for="hardcopyCheck">
+            Report Hardcopy Needed (+₹75)
+          </label>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary flex-grow-1 rounded-3" (click)="closeForm.emit()">Cancel</button>
+          <button 
+            class="btn btn-teal flex-grow-1 rounded-3 fw-bold" 
+            [disabled]="!selectedSlot || pincodeStatus !== 'success'" 
+            (click)="currentStep = 2">
+            Proceed to Patient Details
+          </button>
+        </div>
+      }
+
+      @if (currentStep === 2 && !isConfirmed) {
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+          <h4 class="fw-bold text-teal m-0">Patient & Contact Details</h4>
+          <span class="badge bg-light text-secondary border">Step 2 / 2</span>
+        </div>
+
+        <div class="patient-details-box mb-3" style="max-height: 260px; overflow-y: auto;">
+          @for (p of patients; track $index) {
+            <div class="card p-3 mb-2 rounded-3 border bg-light">
+              <span class="fw-bold small text-teal mb-2">
+                👤 Patient {{ $index + 1 }} {{ $index === 0 ? '(Primary)' : '' }}
+              </span>
+
+              <div class="row g-2">
+                <div class="col-12">
+                  <input 
+                    type="text" 
+                    placeholder="Full Name" 
+                    [(ngModel)]="p.name" 
+                    (keypress)="blockNumbers($event)"
+                    class="form-control form-control-sm rounded-2">
                 </div>
-            </div>
 
-            <div class="day-selector">
-                @for (day of availableDays; track day.fullDate) {
-                <button class="day-btn" [class.active]="selectedDateLabel === day.fullDate"
-                    (click)="selectedDateLabel = day.fullDate">
-                    {{ day.label }}<br><small>{{ day.month }} {{ day.dayNum }}</small>
-                </button>
-                }
-            </div>
+                <div class="col-6">
+                  <input 
+                    type="number" 
+                    placeholder="Age (Years)" 
+                    [(ngModel)]="p.age" 
+                    min="1" 
+                    max="120"
+                    (keypress)="blockNonNumbers($event)"
+                    class="form-control form-control-sm rounded-2">
+                </div>
 
-            <div class="time-grid">
-                @for (slot of slots; track slot) {
-                <button class="slot-btn" [class.selected]="tempSlot === slot" (click)="tempSlot = slot">
-                    {{ slot }}
-                </button>
-                }
+                <div class="col-6">
+                  <select class="form-select form-select-sm rounded-2" [(ngModel)]="p.gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            <button class="final-select-btn" [disabled]="!tempSlot" (click)="selectTime()">Select & Proceed</button>
+          }
         </div>
-        }
+
+        <div class="mb-2">
+          <label class="form-label small fw-semibold text-dark m-0">Contact Number</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-secondary small fw-semibold py-1">+91</span>
+            <input 
+              type="tel" 
+              placeholder="10-digit Mobile Number" 
+              [(ngModel)]="patientPhone" 
+              maxlength="10" 
+              (keypress)="blockNonNumbers($event)"
+              class="form-control form-control-sm rounded-end-2">
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label small fw-semibold text-dark m-0">
+            Email Address <span class="text-muted fw-normal">(Optional for softcopy)</span>
+          </label>
+          <input 
+            type="email" 
+            placeholder="e.g. name&#64;example.com" 
+            [(ngModel)]="email" 
+            (input)="validateEmail()"
+            [class.is-invalid]="emailError"
+            class="form-control form-control-sm rounded-2">
+          @if (emailError) {
+            <div class="invalid-feedback small">
+              Please enter a valid email format (e.g., yourname&#64;gmail.com)
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark m-0">Sample Collection Address</label>
+          <textarea 
+            placeholder="House/Flat No, Street, Landmark, Pincode" 
+            [(ngModel)]="address" 
+            class="form-control form-control-sm rounded-2" 
+            rows="2">
+          </textarea>
+        </div>
+
+        <div class="alert alert-success py-1 small mb-3">
+          📄 Report expected in <strong>11 hours</strong> post sample collection
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary flex-grow-1 rounded-3" (click)="currentStep = 1">Back</button>
+          <button 
+            class="btn btn-teal flex-grow-1 rounded-3 fw-bold" 
+            [disabled]="isSubmitting || !areAllPatientsValid() || patientPhone.length !== 10 || address.trim().length < 5 || emailError" 
+            (click)="confirmBooking()">
+            {{ isSubmitting ? 'Booking...' : 'Confirm & Book' }}
+          </button>
+        </div>
+      }
+
+      @if (currentStep === 3 || isConfirmed) {
+        <div class="text-center py-4">
+          <div class="display-3 text-success mb-2">✔</div>
+          <h3 class="fw-bold text-teal">Booking Confirmed!</h3>
+          <p class="text-secondary small mb-2">Your appointment for <strong>{{ package.name | uppercase }}</strong> ({{ patientCount }} {{ patientCount > 1 ? 'Patients' : 'Patient' }}) is scheduled:</p>
+          <div class="p-3 bg-light rounded-3 fw-bold text-teal mb-3">{{ selectedSlot }}</div>
+          <button class="btn btn-teal w-100 rounded-3 py-2 fw-bold" (click)="closeForm.emit()">Back to Home</button>
+        </div>
+      }
+
+      @if (showTimePicker) {
+        <div class="calendar-modal-overlay position-absolute top-0 start-0 w-100 h-100 bg-white rounded-4 p-3 d-flex flex-column justify-content-between z-3">
+          
+          <div class="calendar-scroll-content overflow-auto pe-1">
+            
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="fw-bold text-teal m-0">Select Date & Time</h5>
+              <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle" (click)="changeMonth(-1)" [disabled]="isCurrentMonthSelected()">‹</button>
+                <span class="fw-bold small text-dark">{{ getMonthName() }} {{ currentYear }}</span>
+                <button class="btn btn-sm btn-outline-secondary rounded-circle" (click)="changeMonth(1)">›</button>
+              </div>
+            </div>
+
+            <div class="calendar-grid-header text-center small fw-bold text-muted mb-1">
+              <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+            </div>
+
+            <div class="calendar-grid mb-3">
+              @for (day of calendarDays; track $index) {
+                @if (day.date) {
+                  <button 
+                    class="calendar-day-btn" 
+                    [class.disabled-day]="day.isPast"
+                    [class.selected-day]="isSelectedDate(day.date)"
+                    [class.today-day]="day.isToday"
+                    [disabled]="day.isPast"
+                    (click)="onSelectDate(day.date)">
+                    {{ day.dayNumber }}
+                  </button>
+                } @else {
+                  <div class="empty-day-cell"></div>
+                }
+              }
+            </div>
+
+            <div class="selected-date-banner p-2 rounded-3 bg-light text-center small mb-3">
+              📅 Selected Date: <strong class="text-teal">{{ formatSelectedDate() }}</strong>
+            </div>
+
+            <h6 class="fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
+              <span>🌅 Morning Slots (AM)</span>
+            </h6>
+            <div class="row row-cols-2 g-2 mb-3">
+              @for (slot of morningSlots; track slot) {
+                <div class="col">
+                  <button 
+                    class="btn btn-sm w-100 rounded-3 slot-btn"
+                    [class.btn-teal]="tempSlot === slot"
+                    [class.btn-outline-secondary]="tempSlot !== slot"
+                    (click)="tempSlot = slot">
+                    {{ slot }}
+                  </button>
+                </div>
+              }
+            </div>
+
+            <h6 class="fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
+              <span>🌇 Afternoon / Evening Slots (PM)</span>
+            </h6>
+            <div class="row row-cols-2 g-2 mb-3">
+              @for (slot of eveningSlots; track slot) {
+                <div class="col">
+                  <button 
+                    class="btn btn-sm w-100 rounded-3 slot-btn"
+                    [class.btn-teal]="tempSlot === slot"
+                    [class.btn-outline-secondary]="tempSlot !== slot"
+                    (click)="tempSlot = slot">
+                    {{ slot }}
+                  </button>
+                </div>
+              }
+            </div>
+
+          </div>
+
+          <div class="d-flex gap-2 pt-2 border-top mt-1 bg-white">
+            <button class="btn btn-outline-secondary flex-grow-1 rounded-3 py-2" (click)="showTimePicker = false">Cancel</button>
+            <button class="btn btn-teal flex-grow-1 rounded-3 py-2 fw-bold" [disabled]="!tempSlot" (click)="confirmDateTimeSelection()">
+              Done
+            </button>
+          </div>
+
+        </div>
+      }
+
     </div>
+  </div>
 </div>

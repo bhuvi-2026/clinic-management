@@ -10,21 +10,23 @@
       <span class="tagline">Where Accuracy Meets Care</span>
     </div>
   </div>
-
+@if (!isAdminRoute) {
   <div class="nav-actions">
     @if (!isLoggedIn) {
       <button class="login-trigger-btn" (click)="triggerLogin.emit()">Login</button>
     } @else {
       <div class="user-session-group">
-        <!-- 1. Welcome User First -->
         <span class="welcome-label">Welcome, <strong>{{ userName }}</strong></span>
-        
-        <!-- 2. My Bookings Next -->
+
         <button class="nav-link-btn" (click)="triggerDashboard.emit()">My Bookings</button>
-        
-        <!-- 3. Logout Last -->
+
         <button class="logout-outline-btn" (click)="triggerLogout.emit()">Logout</button>
       </div>
     }
   </div>
+ } @else {
+      <div class="admin-badge-box">
+        <span class="badge btn-teal py-2 px-3 rounded-pill small">Admin Portal</span>
+      </div>
+    }
 </nav>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LabService, LabPackage } from '../lab.service';
+import { HttpClient } from '@angular/common/http';
 import { LabBookingModalComponent } from '../lab-booking-modal/lab-booking-modal.component';
 
 @Component({
@@ -9,41 +9,41 @@ import { LabBookingModalComponent } from '../lab-booking-modal/lab-booking-modal
   standalone: true,
   imports: [CommonModule, LabBookingModalComponent],
   templateUrl: './test-packages.component.html',
-  styleUrls: ['./test-packages.component.css']
+  styleUrl: './test-packages.component.css'
 })
 export class TestPackagesComponent implements OnInit {
 
-  packages: LabPackage[] = [];
-  selectedPackage: LabPackage | null = null;
-  viewingDetailsPackage: LabPackage | null = null; 
+  packages: any[] = [];
+  selectedPackage: any = null;
+  viewingDetailsPackage: any = null;
   isLoading: boolean = true;
 
+  private API_URL = 'http://localhost:8080/api/lab-packages';
+
   constructor(
-    private labService: LabService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    this.fetchPackagesFromApi();
+    this.fetchLabPackages();
   }
 
-  fetchPackagesFromApi(): void {
+  fetchLabPackages(): void {
     this.isLoading = true;
-    this.labService.getPackages().subscribe({
-      next: (data: LabPackage[]) => {
-        console.log('Fetched packages from DB:', data);
+    this.http.get<any[]>(this.API_URL).subscribe({
+      next: (data) => {
         this.packages = data;
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching lab packages:', err);
-        this.packages = [];
+        console.error('Failed to load lab packages:', err);
         this.isLoading = false;
       }
     });
   }
 
-  openTestDetailsModal(pkg: LabPackage): void {
+  openTestDetailsModal(pkg: any): void {
     console.log('Opening test details modal for:', pkg.name);
     this.viewingDetailsPackage = pkg;
   }
@@ -62,12 +62,12 @@ export class TestPackagesComponent implements OnInit {
       .filter(item => item.length > 0);
   }
 
-  bookFromDetailsModal(pkg: LabPackage): void {
+  bookFromDetailsModal(pkg: any): void {
     this.closeDetailsModal();
     this.bookNow(pkg);
   }
 
-  bookNow(pkg: LabPackage): void {
+  bookNow(pkg: any): void {
     this.selectedPackage = pkg;
   }
 

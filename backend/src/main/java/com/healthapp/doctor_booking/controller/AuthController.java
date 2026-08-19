@@ -23,12 +23,14 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("message", "Mobile number is required"));
         }
 
-        String otp = userService.generateAndSaveOtp(mobile);
-        
-        // Print to console so you can see the OTP without a real SMS gateway
-        System.out.println(">>> [SMS GATEWAY] Sending OTP " + otp + " to " + mobile);
-        
-        return ResponseEntity.ok(Map.of("message", "OTP sent successfully"));
+        try {
+            userService.generateAndSaveOtp(mobile);
+            return ResponseEntity.ok(Map.of("message", "OTP sent successfully"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "An unexpected error occurred"));
+        }
     }
 
     @PostMapping("/verify-otp")
@@ -36,20 +38,37 @@ public class AuthController {
         String mobile = request.get("mobileNumber");
         String otp = request.get("otp");
         
-        boolean isValid = userService.verifyOtp(mobile, otp);
-        
-        if (!isValid) {
-            // FIXED: Returns 401 Unauthorized status code along with the failure payload
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
-                "success", false, 
-                "message", "Invalid OTP"
+        if (mobile == null || mobile.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Mobile number is required"));
+        }
+        if (otp == null || otp.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "OTP is required"));
+        }
+
+        try {
+            boolean isValid = userService.verifyOtp(mobile, otp);
+            
+            if (!isValid) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+                    "success", false, 
+                    "message", "Invalid OTP"
+                ));
+            }
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true, 
+                "message", "Verified"
+            ));
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "success", false,
+                "message", e.getMessage()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                "success", false,
+                "message", "An unexpected error occurred"
             ));
         }
-        
-        // FIXED: Returns 200 OK for successful verification
-        return ResponseEntity.ok(Map.of(
-            "success", true, 
-            "message", "Verified"
-        ));
     }
 }

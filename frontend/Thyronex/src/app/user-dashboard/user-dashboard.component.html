@@ -1,30 +1,53 @@
-<div class="dashboard-wrapper">
+<div class="w-100">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-teal m-0">My Diagnostic Bookings</h4>
+    <span class="badge bg-light text-secondary border px-3 py-2">
+      Contact: +91 {{ mobile || 'User' }}
+    </span>
+  </div>
+
   @if (bookings && bookings.length > 0) {
-    <div class="table-container">
-      <table class="booking-table">
-        <thead>
+    <div class="table-responsive rounded-3 border">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
           <tr>
-            <th>Test</th>
-            <th>Booked Slot</th>
-            <th>Status</th>
-            <th>Collection</th>
+            <th class="py-3 px-3 text-secondary text-uppercase small">Booking ID</th>
+            <th class="py-3 px-3 text-secondary text-uppercase small">Test Package</th>
+            <th class="py-3 px-3 text-secondary text-uppercase small">Patients</th>
+            <th class="py-3 px-3 text-secondary text-uppercase small">Slot</th>
+            <th class="py-3 px-3 text-secondary text-uppercase small">Status</th>
+            <th class="py-3 px-3 text-secondary text-uppercase small text-center">Diagnostic Reports</th>
           </tr>
         </thead>
         <tbody>
           @for (booking of bookings; track booking.id) {
             <tr>
-              <td>{{ booking.packageName || 'Lab Test' }}</td>
-              <td>{{ booking.schedule || booking.appointmentSlot || 'Pending' }}</td>
-              <td>
-                <span class="status-badge" [class.upcoming]="booking.status === 'UPCOMING'">
-                  {{ booking.status || 'Confirmed' }}
+              <td class="px-3 fw-bold text-teal">#{{ booking.id }}</td>
+              <td class="fw-semibold px-3 text-dark">{{ booking.packageName || 'Lab Test' }}</td>
+              <td class="px-3 small text-secondary">{{ booking.patientName || 'Valued Patient' }}</td>
+              <td class="px-3 text-secondary small">{{ booking.schedule || 'Scheduled' }}</td>
+              <td class="px-3">
+                <span class="badge rounded-pill px-3 py-1" 
+                      [class.bg-success-subtle]="booking.status === 'COMPLETED'"
+                      [class.text-success]="booking.status === 'COMPLETED'"
+                      [class.bg-warning-subtle]="booking.status === 'CONFIRMED'"
+                      [class.text-warning]="booking.status === 'CONFIRMED'">
+                  {{ booking.status === 'COMPLETED' ? 'COMPLETED' : 'IN PROCESS' }}
                 </span>
               </td>
-              <td>
-                @if (booking.address) {
-                  <span class="wait-text">Home collection</span>
+              <td class="px-3 text-center">
+                @if (booking.status === 'COMPLETED') {
+                  <div class="d-flex flex-column gap-1 align-items-center">
+                    @for (rep of getPatientReports(booking); track $index) {
+                      <button class="btn btn-sm btn-teal rounded-pill px-3 shadow-sm text-nowrap" (click)="downloadSpecificReport(rep, rep.patientName)">
+                        📥 Download {{ rep.patientName }}'s Report
+                      </button>
+                    }
+                  </div>
                 } @else {
-                  <span class="wait-text">Processing...</span>
+                  <span class="badge bg-light text-muted border px-2 py-1 small">
+                    ⏳ Report processing
+                  </span>
                 }
               </td>
             </tr>
@@ -33,10 +56,9 @@
       </table>
     </div>
   } @else {
-    <div class="empty-state">
-      <div class="empty-icon">🧪</div>
-      <h3>No lab bookings found</h3>
-      <p>Logged in as: <strong>{{ email }}</strong></p>
+    <div class="text-center py-5">
+      <div class="fs-1 mb-2">🧪</div>
+      <h4 class="fw-bold text-teal">No lab bookings found</h4>
     </div>
   }
 </div>

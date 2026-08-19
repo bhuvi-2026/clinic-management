@@ -1,283 +1,133 @@
-/* The Dark Background that covers the whole screen */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    /* Semi-transparent black */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+.text-teal { color: var(--primary-teal, #1a5f6e); }
+.popup-overlay {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1090;
+}
+.btn-teal {
+  background-color: var(--primary-teal, #1a5f6e);
+  color: #ffffff;
+}
+.btn-teal:hover {
+  background-color: var(--primary-teal-dark, #134753);
+  color: #ffffff;
+}
+.ctrl-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1.2rem;
+}
+.text-teal { color: #1a5f6e !important; }
+
+.btn-teal {
+  background-color: #1a5f6e;
+  color: white;
+  border: none;
+}
+.btn-teal:hover {
+  background-color: #134753;
+  color: white;
 }
 
-/* The White Modal Box */
-.modal-content {
-    background: #f4f8fb;
-    /* The light blue-ish white from your image */
-    width: 90%;
-    min-height: 480px;
-    overflow: hidden;
-    max-width: 450px;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    position: relative;
+.date-picker-box {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.date-picker-box:hover {
+  background-color: #e0f2fe !important;
+  border-color: #1a5f6e !important;
 }
 
-.step-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    color: #4a6a8a;
+.ctrl-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
-.form-body label {
-    display: flex;
-    font-size: 0.9rem;
-    color: #7a9ab5;
-    margin-bottom: 8px;
-    margin-top: 15px;
-    font-weight: 600;
-
+/* ========================================================================= */
+/* CALENDAR GRID STYLES */
+/* ========================================================================= */
+.calendar-modal-overlay {
+  animation: fadeIn 0.2s ease-in-out;
 }
 
-.form-body input {
-    padding: 10px;
-    width: 95%;
-}
-.form-body textarea {
-    padding: 10px;
-    width: 95%;
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.gray-input,
-.selector-box {
-    width: 95%;
-    padding: 12px;
-    border: 1px solid #d1dee8;
-    border-radius: 8px;
-    background: white;
-    font-size: 1rem;
+.calendar-grid-header,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
 }
 
-.selector-box {
-    cursor: pointer;
-    color: #a0aec0;
+.calendar-day-btn {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-/* Counter Row styling */
-.counter-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: white;
-    border: 1px solid #d1dee8;
-    width: fit-content;
-    border-radius: 8px;
-    padding: 4px;
+.calendar-day-btn:hover:not(.disabled-day) {
+  background-color: #e0f2fe;
+  border-color: #1a5f6e;
 }
 
-.counter-row button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    padding: 0 12px;
-    cursor: pointer;
-    color: #4a6a8a;
+.calendar-day-btn.today-day {
+  border: 2px solid #1a5f6e;
 }
 
-/* Footer Buttons */
-.modal-footer {
-    display: flex;
-    gap: 12px;
-    margin-top: 30px;
+.calendar-day-btn.selected-day {
+  background-color: #1a5f6e !important;
+  color: #ffffff !important;
+  border-color: #1a5f6e !important;
 }
 
-.btn-outline {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #d1dee8;
-    background: white;
-    color: #f45d4e;
-    /* The reddish color from your image */
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
+.calendar-day-btn.disabled-day {
+  background-color: #f8fafc;
+  color: #cbd5e1;
+  cursor: not-allowed;
+  border-color: #f1f5f9;
 }
 
-.btn-fill {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: #e2e8f0;
-    /* Gray when disabled */
-    color: #718096;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-fill:not(:disabled) {
-    background: #218838;
-    /* Becomes blue when a time is selected */
-    color: white;
-}
-.btn-fill:hover {
-    background: #28a745;
-}
-
-/* The Time Picker Popup */
-.picker-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 92%;
-    height: 90%;
-    background: #f4f8fb;
-    /* Or #f4f8fb to match your theme */
-    z-index: 10;
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.picker-card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-}
-
-.picker-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 75px;
-}
-
-.picker-header h3 {
-    color: #1a5f6e;
-    /* Using your Teal highlight color */
-    font-size: 1.4rem;
-    margin-bottom: 20px;
-}
-
-.day-selector {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-
-.day-btn {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #d1dee8;
-    background: white;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: 500;
-    transition: 0.2s;
-}
-
-.day-btn.active {
-    background: #28a745;
-    color: white;
-    border: none;
-}
-
-/* Grid for the time slots */
-.time-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* 3 columns as per your image */
-    gap: 12px;
-    margin-bottom: 20px;
-    overflow-y: auto;
-    /* Scroll if list is long */
+.empty-day-cell {
+  width: 100%;
+  aspect-ratio: 1;
 }
 
 .slot-btn {
-    padding: 15px 5px;
-    border: 1px solid #d1dee8;
-    background: white;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
+  font-size: 0.8rem;
+  padding: 8px 4px;
 }
 
-.slot-btn.selected {
-    border: 2px solid #11ed86;
-    background: #eef6ff;
+.patient-details-box::-webkit-scrollbar,
+.calendar-scroll-content::-webkit-scrollbar {
+  width: 6px;
+}
+.patient-details-box::-webkit-scrollbar-thumb,
+.calendar-scroll-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
-.slot-btn.selected {
-    border: 2px solid #11ed86;
-    background: #f0f7ff;
-}
-
-.final-select-btn {
-    /* margin-top: auto; */
-    /* Pushes to bottom */
-    width: 100%;
-    padding: 16px;
-    background: #d1dee8;
-    /* Gray by default */
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-/* When a slot is selected, make the button the Coral/Red color */
-.final-select-btn:not(:disabled) {
-  background: #218838;
-}
-
-.report-box {
-    margin-top: 30px;
-}
-
-.pincode-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 5px;
-}
-
-.check-btn {
-    background: #1a5f6e;
-    color: white;
-    border: none;
-    padding: 0 15px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.check-btn:hover {
-    background: #144a56;
-}
-
-.text-success {
-    color: #28a745;
-    font-size: 0.8rem;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.text-danger {
-    color: #dc3545;
-    font-size: 0.8rem;
-    display: block;
-    margin-bottom: 10px;
+.popup-overlay {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
 }

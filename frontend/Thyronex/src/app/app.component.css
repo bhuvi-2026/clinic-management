@@ -21,7 +21,7 @@
 
 .main-content {
   min-height: 80vh;
-  padding-top: 80px; /* Adjust this height according to your header's height */
+  /* padding-top: 80px; Adjust this height according to your header's height */
 }
 
 .back-link {

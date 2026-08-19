@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LabTestsComponent } from "../lab-tests/lab-tests.component";
 import { LoginComponent } from "../login/login.component";
@@ -11,7 +11,7 @@ import { UserDashboardComponent } from "../user-dashboard/user-dashboard.compone
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   @Input() isLoggedIn = false;
   @Input() userName = '';
   @Input() userEmail = '';
@@ -27,6 +27,52 @@ export class HomeComponent {
   @Output() closeLogin = new EventEmitter<void>();
 
   currentView: 'home' | 'tests' | 'dashboard' = 'home';
+
+  // =========================================================================
+  // 🕒 4-HOUR SESSION AUTO-RESTORE ON LOAD / REFRESH
+  // =========================================================================
+  ngOnInit(): void {
+    this.restoreSessionIfValid();
+  }
+
+  restoreSessionIfValid(): void {
+    const sessionStr = localStorage.getItem('user_session');
+    if (sessionStr) {
+      try {
+        const session = JSON.parse(sessionStr);
+        const currentTime = new Date().getTime();
+        const fourHoursInMillis = 4 * 60 * 60 * 1000; // 4 Hours
+
+        if (session.loginTime && (currentTime - session.loginTime < fourHoursInMillis)) {
+          this.isLoggedIn = true;
+          this.userName = session.name || 'User';
+          this.userEmail = session.email || '';
+          this.loggedInUserMobile = session.mobile || '';
+
+          // Sync parent component (e.g. AppComponent / Navbar)
+          this.loginStateChange.emit({
+            name: this.userName,
+            email: this.userEmail
+          });
+        } else {
+          // Session expired beyond 4 hours -> Clean up
+          this.clearSession();
+        }
+      } catch (e) {
+        this.clearSession();
+      }
+    }
+  }
+
+  clearSession(): void {
+    this.isLoggedIn = false;
+    this.userName = '';
+    this.userEmail = '';
+    this.loggedInUserMobile = '';
+    localStorage.removeItem('user_session');
+    localStorage.removeItem('userMobile');
+    localStorage.removeItem('userName');
+  }
 
   switchToDashboard() {
     this.currentView = 'dashboard';
@@ -53,14 +99,14 @@ export class HomeComponent {
   }
 
   handleLoginSuccess(data: { name: string, email: string }) {
-    this.isLoggedIn = true; // Update local state
-
+    this.isLoggedIn = true;
     this.userName = data.name;
-  this.userEmail = data.email;
+    this.userEmail = data.email;
+    this.loggedInUserMobile = localStorage.getItem('userMobile') || '';
     this.loginStateChange.emit(data);
     this.closeOverlay();
-    // Stays on Home page after login as per requirement!
   }
+  
 
   handleBookingEmail(email: string) {
     this.userEmail = email;

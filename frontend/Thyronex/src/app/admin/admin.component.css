@@ -1,0 +1,105 @@
+.admin-wrapper {
+  background-color: #f8fafc;
+  min-height: 90vh;
+}
+
+.text-teal { color: #1a5f6e !important; }
+
+.btn-teal {
+  background-color: #1a5f6e;
+  color: white;
+  border: none;
+}
+.btn-teal:hover {
+  background-color: #134753;
+  color: white;
+}
+
+.bg-teal-subtle {
+  background-color: #e0f2fe !important;
+}
+
+/* Metric Cards */
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+.stat-pending {
+  border-left: 5px solid #f59e0b !important;
+}
+.stat-completed {
+  border-left: 5px solid #10b981 !important;
+}
+.stat-total {
+  border-left: 5px solid #1a5f6e !important;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+/* Tab Pills */
+.custom-pills .nav-link {
+  color: #64748b;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+}
+.custom-pills .nav-link.active {
+  background-color: #1a5f6e !important;
+  color: #ffffff !important;
+  border-color: #1a5f6e !important;
+}
+
+.patient-upload-row {
+  border-left: 4px solid #1a5f6e !important;
+}
+
+.upload-dropzone {
+  cursor: pointer;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+.upload-dropzone:hover {
+  background-color: #f1f5f9;
+  border-color: #1a5f6e !important;
+}
+
+.border-teal {
+  border-color: #1a5f6e !important;
+  background-color: #f0fdf4 !important;
+}
+
+.success-icon-wrapper {
+  width: 68px;
+  height: 68px;
+  background-color: #dcfce7;
+  border: 2px solid #86efac;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.popup-overlay {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1070;
+}

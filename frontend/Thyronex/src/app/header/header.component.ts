@@ -12,6 +12,7 @@
 
     @Input() isLoggedIn = false;
     @Input() userName: string = '';
+    @Input() isAdminRoute = false;
     @Output() triggerLogin = new EventEmitter<void>();
     @Output() triggerDashboard = new EventEmitter<void>();
     @Output() triggerLogout = new EventEmitter<void>();

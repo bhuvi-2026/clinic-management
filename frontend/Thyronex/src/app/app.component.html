@@ -1,6 +1,7 @@
 <app-header 
   [isLoggedIn]="isLoggedIn" 
   [userName]="userName"
+  [isAdminRoute]="isAdminRoute"
   (triggerLogin)="showLoginOverlay = true" 
   (triggerLogout)="handleLogout()"
   (triggerDashboard)="handleNavigateToDashboard()">
@@ -10,7 +11,7 @@
   <router-outlet (activate)="onRouteActivate($event)"></router-outlet>
 </main>
 
-@if (showLoginOverlay) {
+@if (showLoginOverlay && !isAdminRoute) {
   <app-login 
     (loginSuccess)="onLoginSuccess($event)" 
     (closeLogin)="handleModalClose()">

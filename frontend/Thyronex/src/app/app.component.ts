@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
@@ -20,77 +21,72 @@ import { HomeComponent } from './home/home.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  // Reference to active HomeComponent instance inside router-outlet
   activeHomeRef: HomeComponent | null = null;
-
   isLoggedIn: boolean = false;
   userName: string = '';
   userEmail: string = '';
+  loggedInUserMobile: string = '';
   showLoginOverlay: boolean = false;
-
-  // 🕒 4 Hours in milliseconds (4 hours * 60 mins * 60 secs * 1000 ms = 14,400,000 ms)
-  private SESSION_DURATION_MS = 4 * 60 * 60 * 1000;
+  isAdminRoute: boolean = false;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.checkSessionValidity();
+    // ⭐ Restore 4-Hour Session on Initial Load / Page Refresh
+    this.restoreSession();
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.isAdminRoute = event.urlAfterRedirects.includes('/admin');
+      });
   }
 
-  /**
-   * 🕒 Checks if a user session exists in localStorage and is under 4 hours old.
-   * If valid, restores login state. If >= 4 hours old or missing, logs user out.
-   */
-  private checkSessionValidity(): void {
-    const savedSession = localStorage.getItem('user_session');
-
-    if (savedSession) {
+  // =========================================================================
+  // 🕒 RESTORE 4-HOUR SESSION CHECK
+  // =========================================================================
+  restoreSession(): void {
+    const sessionStr = localStorage.getItem('user_session');
+    if (sessionStr) {
       try {
-        const userData = JSON.parse(savedSession);
+        const session = JSON.parse(sessionStr);
         const currentTime = new Date().getTime();
-        const loginTime = userData.loginTime || 0;
+        const fourHoursInMillis = 4 * 60 * 60 * 1000; // 4 Hours
 
-        // Verify if session is younger than 4 hours
-        if (currentTime - loginTime < this.SESSION_DURATION_MS) {
+        if (session.loginTime && (currentTime - session.loginTime < fourHoursInMillis)) {
           this.isLoggedIn = true;
-          this.userName = userData.name || 'User';
-          this.userEmail = userData.email || '';
-          return;
+          this.userName = session.name || 'User';
+          this.userEmail = session.email || '';
+          this.loggedInUserMobile = session.mobile || localStorage.getItem('userMobile') || '';
+        } else {
+          // Session expired after 4 hours
+          this.handleLogout();
         }
       } catch (e) {
-        console.error('Error parsing stored session:', e);
+        this.handleLogout();
       }
     }
-
-    // Session is invalid or expired (> 4 hours) -> Force logout
-    this.handleLogout();
   }
 
-  /**
-   * 🔄 Runs whenever a component loads inside <router-outlet>
-   */
   onRouteActivate(componentRef: any): void {
     if (componentRef) {
-      // Store reference if current loaded route is HomeComponent
       if (componentRef instanceof HomeComponent) {
         this.activeHomeRef = componentRef;
       } else {
         this.activeHomeRef = null;
       }
 
-      // Sync login credentials to child route component
       componentRef.isLoggedIn = this.isLoggedIn;
       componentRef.userName = this.userName;
       componentRef.userEmail = this.userEmail;
+      componentRef.loggedInUserMobile = this.loggedInUserMobile;
 
-      // Catch login success emitted from child components
       if (componentRef.loginStateChange) {
         componentRef.loginStateChange.subscribe((data: { name: string; email: string }) => {
           this.onLoginSuccess(data);
         });
       }
 
-      // Catch modal close requests
       if (componentRef.closeLogin) {
         componentRef.closeLogin.subscribe(() => {
           this.showLoginOverlay = false;
@@ -99,28 +95,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  /**
-   * 💾 Called upon successful login. Stores session timestamp for 4-hour validity.
-   */
   onLoginSuccess(userData: { name: string; email: string }) {
     this.isLoggedIn = true;
     this.userName = userData.name || 'User';
     this.userEmail = userData.email || '';
+    this.loggedInUserMobile = localStorage.getItem('userMobile') || '';
     this.showLoginOverlay = false;
 
-    // Save session with current timestamp
-    const sessionPayload = {
-      name: this.userName,
-      email: this.userEmail,
-      loginTime: new Date().getTime() // Saves exact login timestamp
-    };
-    localStorage.setItem('user_session', JSON.stringify(sessionPayload));
-
-    // Update active HomeComponent state
     if (this.activeHomeRef) {
       this.activeHomeRef.isLoggedIn = true;
       this.activeHomeRef.userName = this.userName;
       this.activeHomeRef.userEmail = this.userEmail;
+      this.activeHomeRef.loggedInUserMobile = this.loggedInUserMobile;
     }
   }
 
@@ -128,18 +114,21 @@ export class AppComponent implements OnInit {
     this.showLoginOverlay = false;
   }
 
-  /**
-   * 🔒 Clears local storage and resets user login session
-   */
   handleLogout(): void {
     this.isLoggedIn = false;
     this.userName = '';
     this.userEmail = '';
+    this.loggedInUserMobile = '';
     localStorage.removeItem('user_session');
-    sessionStorage.removeItem('user_session');
+    localStorage.removeItem('userMobile');
+    localStorage.removeItem('userName');
 
     if (this.activeHomeRef) {
       this.activeHomeRef.currentView = 'home';
+      this.activeHomeRef.isLoggedIn = false;
+      this.activeHomeRef.userName = '';
+      this.activeHomeRef.userEmail = '';
+      this.activeHomeRef.loggedInUserMobile = '';
     }
 
     if (window.location.pathname.includes('test-packages')) {
@@ -147,9 +136,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  /**
-   * 🎯 Handles "My Bookings" click from Header
-   */
   handleNavigateToDashboard(): void {
     if (this.activeHomeRef) {
       this.activeHomeRef.switchToDashboard();
