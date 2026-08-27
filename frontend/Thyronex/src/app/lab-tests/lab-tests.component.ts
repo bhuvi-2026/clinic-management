@@ -1,15 +1,20 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LabService, HomeBasicPkg } from '../lab.service';
 import { LabBookingModalComponent } from '../lab-booking-modal/lab-booking-modal.component';
 
 export interface PromoSlide {
   id: string;
   badge: string;
-  title: string;
-  desc: string;
   imageUrl: string;
+}
+
+export interface ProfileGroup {
+  title: string;
+  isOpen: boolean;
+  subParameters: string[];
 }
 
 @Component({
@@ -22,42 +27,39 @@ export interface PromoSlide {
 export class LabTestsComponent implements OnInit, OnDestroy {
   @ViewChild('packagesContainer') packagesContainer!: ElementRef<HTMLDivElement>;
 
-  homePackages: HomeBasicPkg[] = [];
-  selectedPackage: any = null;
-  viewingDetailsPackage: any = null;
   @Input() isLoggedIn: boolean = false;
   @Output() loginRequired = new EventEmitter<void>();
 
-  // Auto Slider State (Transitions every 5 seconds)
+  homePackages: HomeBasicPkg[] = [];
+  selectedPackage: any = null;
+  viewingDetailsPackage: any = null;
+  parsedProfiles: ProfileGroup[] = [];
+
   currentSlideIndex: number = 0;
   private slideInterval: any;
 
-  // 3 Realistic Medical Photography Slides
   slides: PromoSlide[] = [
     {
       id: 'HOME_COLLECTION',
-      badge: '⚡ 60-Mins Sample Pickup',
-      title: 'Doorstep Blood Collection',
-      desc: 'Trained & vaccinated medical phlebotomists arriving directly at your home with sterile vacutainers',
-      imageUrl: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=900&q=80'
+      badge: 'Doorstep Blood Collection',
+      imageUrl: 'image-card2.png'
     },
     {
       id: 'BLOOD_TUBES',
-      badge: '🧪 100% Sterile & Cold-Chain',
-      title: 'Barcoded Pathology Vials',
-      desc: 'Color-coded vacuum collection tubes preserved in strict temperature-controlled logistics',
-      imageUrl: 'https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=900&q=80'
+      badge: 'Ease at your doorstep',
+      imageUrl: 'image-card1.jpeg'
     },
     {
       id: 'LAB_TESTING',
-      badge: '🔬 NABL & CAP Accredited',
-      title: 'Precision Clinical Diagnostics',
-      desc: 'Fully automated biochemistry analyzers delivering certified test reports within 11 hours',
-      imageUrl: 'https://images.unsplash.com/photo-1579165466741-7f35e4755660?auto=format&fit=crop&w=900&q=80'
+      badge: 'Accurate report in 12 hours',
+      imageUrl: 'image-card.jpeg'
     }
   ];
 
-  constructor(private labService: LabService) {}
+  constructor(
+    private labService: LabService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadHomePackages();
@@ -72,7 +74,7 @@ export class LabTestsComponent implements OnInit, OnDestroy {
     this.stopAutoSlide();
     this.slideInterval = setInterval(() => {
       this.nextSlide();
-    }, 5000); // 5 Seconds Auto-Slide
+    }, 5000);
   }
 
   stopAutoSlide(): void {
@@ -92,7 +94,7 @@ export class LabTestsComponent implements OnInit, OnDestroy {
 
   goToSlide(index: number): void {
     this.currentSlideIndex = index;
-    this.startAutoSlide(); // Reset 5s countdown on manual click
+    this.startAutoSlide();
   }
 
   loadHomePackages(): void {
@@ -115,11 +117,71 @@ export class LabTestsComponent implements OnInit, OnDestroy {
   }
 
   openTestDetailsModal(pkg: any): void {
+    if (!this.isLoggedIn) {
+      this.loginRequired.emit();
+      return;
+    }
     this.viewingDetailsPackage = pkg;
+    this.parsedProfiles = this.parseParametersSummary(pkg.parametersSummary);
   }
 
   closeDetailsModal(): void {
     this.viewingDetailsPackage = null;
+    this.parsedProfiles = [];
+  }
+
+  toggleProfile(profile: ProfileGroup): void {
+    if (profile.subParameters.length > 0) {
+      profile.isOpen = !profile.isOpen;
+    }
+  }
+
+  parseParametersSummary(summary: string): ProfileGroup[] {
+    if (!summary) return [];
+
+    const lines = summary.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
+    const groups: ProfileGroup[] = [];
+
+    for (const line of lines) {
+      if (line.toLowerCase().startsWith('sample type:')) continue;
+
+      const colonIndex = line.indexOf(':');
+      if (colonIndex > -1) {
+        let titlePart = line.substring(0, colonIndex).trim();
+        let paramsPart = line.substring(colonIndex + 1).trim();
+
+        // Strip the trailing line parenthesis if it closed the profile group
+        if (paramsPart.endsWith(')')) {
+          paramsPart = paramsPart.substring(0, paramsPart.length - 1).trim();
+        }
+
+        // Balance opening parenthesis in the title (e.g., "(3 parameters" -> "(3 parameters)")
+        const openParenCount = (titlePart.match(/\(/g) || []).length;
+        const closeParenCount = (titlePart.match(/\)/g) || []).length;
+        if (openParenCount > closeParenCount) {
+          titlePart += ')';
+        }
+
+        const paramsList = paramsPart
+          .split(',')
+          .map((p) => p.trim())
+          .filter((p) => p.length > 0);
+
+        groups.push({
+          title: titlePart,
+          isOpen: false,
+          subParameters: paramsList
+        });
+      } else {
+        groups.push({
+          title: line,
+          isOpen: false,
+          subParameters: []
+        });
+      }
+    }
+
+    return groups;
   }
 
   bookFromDetailsModal(pkg: any): void {
@@ -128,6 +190,10 @@ export class LabTestsComponent implements OnInit, OnDestroy {
   }
 
   onPackageClick(pkg: any): void {
+    if (!this.isLoggedIn) {
+      this.loginRequired.emit();
+      return;
+    }
     this.selectedPackage = pkg;
   }
 
@@ -135,12 +201,14 @@ export class LabTestsComponent implements OnInit, OnDestroy {
     this.selectedPackage = null;
   }
 
-  getTestItemsList(summary: string): string[] {
-    if (!summary) return [];
-    return summary.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
-  }
-
   onSelectCategory(categoryType: string): void {
-    console.log('Category selected:', categoryType);
+    if (!this.isLoggedIn) {
+      this.loginRequired.emit();
+      return;
+    }
+
+    this.router.navigate(['/test-packages'], {
+      queryParams: { category: categoryType }
+    });
   }
 }

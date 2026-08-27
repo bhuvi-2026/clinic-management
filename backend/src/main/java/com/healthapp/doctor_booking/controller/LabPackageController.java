@@ -12,17 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/lab-packages")
-@CrossOrigin(
-    origins = "*", 
-    allowedHeaders = "*", 
-    methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS }
-)
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE, RequestMethod.OPTIONS })
 public class LabPackageController {
 
     @Autowired
@@ -40,6 +38,15 @@ public class LabPackageController {
     @Value("${lab.owner.email:bhuvis459@gmail.com}")
     private String defaultOwnerEmail;
 
+    @Value("${lab.contact.phone}")
+    private String contactPhone;
+
+    @Value("${lab.contact.name}")
+    private String contactName;
+
+    @Value("${lab.contact.timings}")
+    private String contactTimings;
+
     // =========================================================================
     // 1. GET ALL PACKAGES (Calls labService.getAllPackages())
     // =========================================================================
@@ -52,7 +59,7 @@ public class LabPackageController {
     // =========================================================================
     // 2. CONFIRM BOOKING (Calls labService.bookTest(request))
     // =========================================================================
-    @PostMapping(value = {"/confirm-booking", "/bookings"})
+    @PostMapping(value = { "/confirm-booking", "/bookings" })
     public ResponseEntity<?> confirmBooking(
             @RequestBody LabBookingRequest request,
             @RequestHeader(value = "Clinic-Owner-Email", required = false) String ownerEmailHeader) {
@@ -67,8 +74,8 @@ public class LabPackageController {
             // 1. Save booking via your LabService
             LabBooking savedBooking = labService.bookTest(request);
 
-            final String resolvedOwnerEmail = (ownerEmailHeader != null && !ownerEmailHeader.trim().isEmpty()) 
-                    ? ownerEmailHeader 
+            final String resolvedOwnerEmail = (ownerEmailHeader != null && !ownerEmailHeader.trim().isEmpty())
+                    ? ownerEmailHeader
                     : defaultOwnerEmail;
 
             // 2. Dispatch Email & WhatsApp asynchronously in background
@@ -98,7 +105,7 @@ public class LabPackageController {
     // =========================================================================
     // 3. BOOKING HISTORY (Calls labService.getBookingsByMobile(mobile))
     // =========================================================================
-    @GetMapping(value = {"/history", "/bookings/history"})
+    @GetMapping(value = { "/history", "/bookings/history" })
     public ResponseEntity<?> getBookingHistory(@RequestParam("mobile") String mobile) {
         if (mobile == null || mobile.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Mobile parameter is required"));
@@ -111,7 +118,8 @@ public class LabPackageController {
     // 4. ADMIN: GET ALL BOOKINGS (Calls labService.getAllBookings())
     // =========================================================================
     @GetMapping("/admin/all-bookings")
-    public ResponseEntity<?> getAllBookingsForAdmin(@RequestHeader(value = "X-Admin-Key", required = false) String key) {
+    public ResponseEntity<?> getAllBookingsForAdmin(
+            @RequestHeader(value = "X-Admin-Key", required = false) String key) {
         if (key == null || !key.equals(adminSecretKey)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Unauthorized access"));
         }
@@ -120,7 +128,8 @@ public class LabPackageController {
     }
 
     // =========================================================================
-    // 5. ADMIN: SUBMIT REPORT & COMPLETE (Calls labService.completeBooking(id, json))
+    // 5. ADMIN: SUBMIT REPORT & COMPLETE (Calls labService.completeBooking(id,
+    // json))
     // =========================================================================
     @PostMapping("/bookings/{id}/submit-report")
     public ResponseEntity<?> submitReport(
@@ -161,6 +170,20 @@ public class LabPackageController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Failed to submit report: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<Map<String, String>> getContactInfo() {
+        try {
+            Map<String, String> info = new HashMap<>();
+            info.put("phone", contactPhone);
+            info.put("inCharge", contactName);
+            info.put("timings", contactTimings);
+            return ResponseEntity.ok(info);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Failed to retrieve contact info: " + e.getMessage()));
         }
     }
 }

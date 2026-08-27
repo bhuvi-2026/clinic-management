@@ -75,81 +75,141 @@ DELETE FROM home_basic_packages;
 
 INSERT INTO home_basic_packages (name, test_count, discount_percentage, parameters_summary, price, original_price, fasting_required)
 VALUES 
+-- Slide 1: Basic Health Check Up
 (
-  'Comprehensive Gold Full Body Checkup', 
+  'Basic health checkup', 
+  62, 
   60, 
-  63, 
-  'Complete Hemogram (CBC - 24 parameters: Hemoglobin, RBC, WBC, Platelets, MCV, MCH, MCHC, Neutrophils, Lymphocytes)
-Lipid Profile (8 parameters: Total Cholesterol, HDL, LDL, VLDL, Triglycerides, TC/HDL Ratio)
-Liver Function Test (11 parameters: SGOT/AST, SGPT/ALT, Bilirubin Total/Direct/Indirect, Total Protein, Albumin, Globulin, Alkaline Phosphatase)
-Kidney Function Test (8 parameters: Serum Creatinine, Blood Urea Nitrogen, Uric Acid, Calcium, Electrolytes)
-Thyroid Screening (TSH - Ultrasensitive)
-Diabetes Profile (Fasting Blood Glucose & HbA1c Glycated Hemoglobin)
-Urine Routine & Microscopic Examination (18 parameters)
-Sample Type: Blood & Urine | Fasting Required: 10-12 Hours | Report Turnaround: Same Day',
-  1099.0, 
+  'Lipid Advanced (10 parameters: Total Cholesterol, HDL Cholesterol - Direct, LDL Cholesterol - Direct, LDL / HDL Ratio, NON-HDL Cholesterol, TC/ HDL Cholesterol Ratio, Triglycerides, VLDL Cholesterol, HDL / LDL Ratio, TRIG / HDL Ratio)
+Liver Extended (12 parameters: Alkaline Phosphatase, Bilirubin - Direct, Bilirubin - Total, Bilirubin - Indirect, Gamma Glutamyl Transferase, Protein - Total, Serum Albumin, Serum Globulin, SGOT [AST], SGPT [ALT], Serum Albumin / Globulin Ratio, SGOT / SGPT Ratio)
+Kidney Advanced (7 parameters: BUN/Creatinine Ratio, Blood Urea Nitrogen [BUN], Calcium, Serum Creatinine, Uric Acid, Urea [Calculated], Urea / SR. Creatinine Ratio)
+Thyroid Advanced (3 parameters: Total Triiodothyronine [T3], Total Thyroxine [T4], Ultrasensitive TSH [UTSH])
+Diabetes Profile (2 parameters: Average Blood Glucose [ABG], HbA1c)
+Complete Hemogram (CBC - 28 parameters)
+Sample Type: Blood Sample | Fasting Required: 10-12 Hours of Fasting is Essential | Report Turnaround: Same Day', 
+  999.0, 
+  2500.0, 
+  true
+),
+
+-- Slide 2: Senior Citizen Male
+(
+  'Senior Citizens Male', 
+  127, 
+  45, 
+  'Thyroid Profile (3 parameters: Total Thyroxine [T4], Total Triiodothyronine [T3], Ultrasensitive TSH [UTSH])
+Lipid Profile (10 parameters: Total Cholesterol, HDL Cholesterol - Direct, LDL Cholesterol - Direct, LDL / HDL Ratio, NON-HDL Cholesterol, TC/ HDL Cholesterol Ratio, Triglycerides, VLDL Cholesterol, HDL / LDL Ratio, TRIG / HDL Ratio)
+Liver Profile (12 parameters: Alkaline Phosphatase, Bilirubin - Direct, Bilirubin - Total, Bilirubin - Indirect, Gamma Glutamyl Transferase, Protein - Total, Serum Albumin, Serum Globulin, SGOT [AST], SGPT [ALT], Serum Albumin / Globulin Ratio, SGOT / SGPT Ratio)
+Kidney Profile (7 parameters: BUN / Creatinine Ratio, Blood Urea Nitrogen [BUN], Calcium, Serum Creatinine, Uric Acid, Urea [Calculated], Urea / SR. Creatinine Ratio)
+Iron Deficiency Profile (5 parameters: Total Iron Binding Capacity [TIBC], % Transferrin Saturation, Iron, Unsat. Iron-binding Capacity [UIBC], Ferritin)
+Serum Electrolytes (2 parameters: Sodium, Chloride)
+Diabetes Profile (3 parameters: Fasting Blood Sugar [Glucose], HbA1c, Average Blood Glucose [ABG])
+Complete Hemogram (CBC - 28 parameters)
+Vitamin Profile (2 parameters: 25-OH Vitamin D [Total], Vitamin B12)
+Cardiac Risk Markers (5 parameters: Lipoprotein - A, Apolipoprotein - A1, Apolipoprotein - B, Apo B/Apo A1 Ratio, High Sensitivity C-reactive Protein [hs-CRP])
+Pancreas Profile (2 parameters: Serum Amylase, Serum Lipase)
+Cancer Markers (2 parameters: Carcino Embryonic Antigen [CEA], Prostate Specific Antigen [PSA])
+Elements 22 [Toxic & Nutrients] (22 parameters: Aluminium, Arsenic, Barium, Cadmium, Caesium, Mercury, Lead, Tin, Bismuth, Beryllium, Antimony, Strontium, Thallium, Uranium, Cobalt, Chromium, Molybdenum, Silver, Vanadium, Selenium, Nickel, Manganese)
+Complete Urine Analysis (24 parameters: Specific Gravity, Urinary Bilirubin, Urine Blood, Urobilinogen, Urinary Glucose, Urine Ketone, Urinary Leucocytes, Nitrite, pH, Urinary Protein, Appearance, Colour, Microalbumin, Volume, Bile Salt, Bile Pigment, Epithelial Cells, Casts, Crystals, Bacteria, Red Blood Cells, Yeast, Parasite, Mucus)
+Sample Type: Blood & Urine | Fasting Required: 10-12 Hours Essential | Report Turnaround: Same Day', 
+  2749.0, 
+  5000.0, 
+  true
+),
+
+-- Slide 3: Senior Citizen Female
+(
+  'Senior Citizens Female', 
+  127, 
+  45, 
+  'Thyroid Profile (3 parameters: Total Thyroxine [T4], Total Triiodothyronine [T3], Ultrasensitive TSH [UTSH])
+Lipid Profile (10 parameters: Total Cholesterol, HDL Cholesterol - Direct, LDL Cholesterol - Direct, LDL / HDL Ratio, NON-HDL Cholesterol, TC/ HDL Cholesterol Ratio, Triglycerides, VLDL Cholesterol, HDL / LDL Ratio, TRIG / HDL Ratio)
+Liver Profile (12 parameters: Alkaline Phosphatase, Bilirubin - Direct, Bilirubin - Total, Bilirubin - Indirect, Gamma Glutamyl Transferase, Protein - Total, Serum Albumin, Serum Globulin, SGOT [AST], SGPT [ALT], Serum Albumin / Globulin Ratio, SGOT / SGPT Ratio)
+Kidney Profile (7 parameters: BUN / Creatinine Ratio, Blood Urea Nitrogen [BUN], Calcium, Serum Creatinine, Uric Acid, Urea [Calculated], Urea / SR. Creatinine Ratio)
+Iron Deficiency Profile (5 parameters: Total Iron Binding Capacity [TIBC], % Transferrin Saturation, Iron, Unsat. Iron-binding Capacity [UIBC], Ferritin)
+Serum Electrolytes (2 parameters: Sodium, Chloride)
+Diabetes Profile (3 parameters: Fasting Blood Sugar [Glucose], HbA1c, Average Blood Glucose [ABG])
+Complete Hemogram (CBC - 28 parameters)
+Vitamin Profile (2 parameters: 25-OH Vitamin D [Total], Vitamin B12)
+Cardiac Risk Markers (5 parameters: Lipoprotein - A, Apolipoprotein - A1, Apolipoprotein - B, Apo B/Apo A1 Ratio, High Sensitivity C-reactive Protein [hs-CRP])
+Pancreas Profile (2 parameters: Serum Amylase, Serum Lipase)
+Cancer Markers (2 parameters: Ca-125, Carcino Embryonic Antigen [CEA])
+Elements 22 [Toxic & Nutrients] (22 parameters: Aluminium, Arsenic, Barium, Cadmium, Caesium, Mercury, Lead, Tin, Bismuth, Beryllium, Antimony, Strontium, Thallium, Uranium, Cobalt, Chromium, Molybdenum, Silver, Vanadium, Selenium, Nickel, Manganese)
+Complete Urine Analysis (24 parameters: Specific Gravity, Urinary Bilirubin, Urine Blood, Urobilinogen, Urinary Glucose, Urine Ketone, Urinary Leucocytes, Nitrite, pH, Urinary Protein, Appearance, Colour, Microalbumin, Volume, Bile Salt, Bile Pigment, Epithelial Cells, Casts, Crystals, Bacteria, Red Blood Cells, Yeast, Parasite, Mucus)
+Sample Type: Blood & Urine | Fasting Required: 10-12 Hours Essential | Report Turnaround: Same Day', 
+  2749.0, 
+  5000.0, 
+  true
+),
+
+-- Slide 4: Aarogyam Full Body Checkup with Vitamins (Comprehensive)
+(
+  'Aarogyam full body checkup with Vitamins', 
+  95, 
+  50, 
+  'Thyroid Advanced (3 parameters: TSH - Ultrasensitive, Total Thyroxine [T4], Total Triiodothyronine [T3])
+Lipid Advanced+ (10 parameters: Total Cholesterol, Triglycerides, HDL Cholesterol - Direct, HDL / LDL Ratio, LDL Cholesterol - Direct, LDL / HDL Ratio, Non-HDL Cholesterol, TC / HDL Cholesterol Ratio, Trig / HDL Ratio, VLDL Cholesterol)
+Liver Extended (12 parameters: Bilirubin - Total, SGOT / SGPT Ratio, Aspartate Aminotransferase [SGOT], Alanine Transaminase [SGPT], Alkaline Phosphatase, Bilirubin - Direct, Bilirubin [Indirect], Serum Albumin/Globulin Ratio, Protein - Total, Albumin - Serum, Serum Globulin, Gamma Glutamyl Transferase [GGT])
+Kidney Advanced (7 parameters: BUN / Sr. Creatinine Ratio, Blood Urea Nitrogen [BUN], Creatinine - Serum, Urea / Sr. Creatinine Ratio, Urea [Calculated], Calcium, Uric Acid)
+Iron Deficiency Profile (4 parameters: Iron, % Transferrin Saturation, Total Iron Binding Capacity [TIBC], Unsat. Iron-Binding Capacity [UIBC])
+Diabetes Profile (2 parameters: HbA1c, Average Blood Glucose [ABG])
+Vitamins Profile (2 parameters: 25-OH Vitamin D [Total], Vitamin B-12)
+Electrolytes (2 parameters: Sodium, Chloride)
+Complete Hemogram (CBC - 28 parameters)
+Cardiac Risk Marker (1 parameter: High Sensitivity C-Reactive Protein [hs-CRP])
+Complete Urine Analysis (24 parameters: Specific Gravity, Appearance, Bacteria, Urinary Bilirubin, Urine Blood, Urobilinogen, Bile Pigment, Bile Salt, Casts, Colour, Crystals, Epithelial Cells, Urinary Glucose, Urine Ketone, Leucocyte Esterase, Urinary Leucocytes [Pus Cells], Mucus, Nitrite, Parasite, pH, Urinary Protein, Red Blood Cells, Volume, Yeast)
+Sample Type: Blood & Urine | Fasting Required: 10-12 Hours Essential | Report Turnaround: Same Day', 
+  1499.0, 
   2999.0, 
   true
 ),
+
+-- Slide 5: Women Master Check with Basic Cancer Screening
 (
-  'Diabetes Screening & Care Package', 
+  'Women master checkup with basic Cancer Screening', 
+  124, 
   28, 
-  55, 
-  'HbA1c (Glycated Hemoglobin - 3 Months Average Blood Sugar)
-Fasting Blood Glucose (FBG)
-Average Blood Glucose (Estimated from HbA1c)
-Postprandial Blood Sugar (PPBS / Optional monitoring)
-Urine Microalbumin & Creatinine Ratio (Early diabetic kidney screening)
-Lipid Risk Assessment (Serum Triglycerides & Total Cholesterol)
-Kidney Marker (Serum Creatinine & eGFR estimation)
-Urine Glucose & Ketone Bodies
-Sample Type: Blood & Urine | Fasting Required: 8-10 Hours | Report Turnaround: 6 Hours', 
-  499.0, 
-  1099.0, 
+  'Thyroid Profile (3 parameters: Ultrasensitive TSH [UTSH], Total Thyroxine [T4], Total Triiodothyronine [T3])
+Lipid Profile (10 parameters: Total Cholesterol, HDL Cholesterol - Direct, LDL Cholesterol - Direct, LDL / HDL Ratio, NON-HDL Cholesterol, TC / HDL Cholesterol Ratio, Triglycerides, VLDL Cholesterol, HDL / LDL Ratio, TRIG / HDL Ratio)
+Liver Profile (12 parameters: Alkaline Phosphatase, Bilirubin - Direct, Bilirubin - Total, Bilirubin - Indirect, Gamma Glutamyl Transferase, Protein - Total, Serum Albumin, Serum Globulin, SGOT [AST], SGPT [ALT], Serum Albumin / Globulin Ratio, SGOT / SGPT Ratio)
+Kidney Profile (7 parameters: BUN / Creatinine Ratio, Blood Urea Nitrogen [BUN], Calcium, Serum Creatinine, Uric Acid, Urea [Calculated], Urea / SR. Creatinine Ratio)
+Iron Deficiency Profile (4 parameters: Total Iron Binding Capacity [TIBC], % Transferrin Saturation, Iron, Unsat. Iron-binding Capacity)
+Serum Electrolytes (2 parameters: Sodium, Chloride)
+Diabetes Profile (2 parameters: HbA1c, Average Blood Glucose [ABG])
+Complete Hemogram (CBC - 28 parameters)
+Vitamin Profile (2 parameters: Vitamin D Total, Vitamin B12)
+Elements 22 [Toxic & Nutrients] (22 parameters: Aluminium, Arsenic, Barium, Cadmium, Caesium, Mercury, Lead, Tin, Bismuth, Beryllium, Antimony, Strontium, Thallium, Uranium, Cobalt, Chromium, Molybdenum, Silver, Vanadium, Selenium, Nickel, Manganese)
+Pancreas Profile (2 parameters: Serum Amylase, Serum Lipase)
+Cardiac Risk Markers (5 parameters: Lipoprotein - A, Apolipoprotein - A1, Apolipoprotein - B, Apo B/Apo A1 Ratio, High Sensitivity C-Reactive Protein [hs-CRP])
+Cancer Marker (1 parameter: Carcino Embryonic Antigen [CEA])
+Complete Urine Analysis (24 parameters: Specific Gravity, Urinary Bilirubin, Urine Blood, Urobilinogen, Urinary Glucose, Urine Ketone, Urinary Leucocytes, Nitrite, pH, Urinary Protein, Appearance, Colour, Leukocyte Esterase, Volume, Bile Salt, Bile Pigment, Epithelial Cells, Casts, Crystals, Bacteria, Red Blood Cells, Yeast, Parasite, Mucus)
+Sample Type: Blood & Urine | Fasting Required: 10-12 Hours | Report Turnaround: Same Day', 
+  2599.0, 
+  3599.0, 
   true
 ),
+
+-- Slide 6: Men Master Checkup with Cancer with Hormone Panel
 (
-  'Thyroid Care & Hormonal Profile', 
-  4, 
-  60, 
-  'Total Triiodothyronine (T3)
-Total Thyroxine (T4)
-Ultrasensitive Thyroid Stimulating Hormone (TSH - 3rd Generation)
-Free Thyroxine (FT4 - Active unbound thyroid hormone)
-Assesses Hyperthyroidism, Hypothyroidism, and Unexplained Weight/Energy Changes
-Sample Type: Blood Sample | Fasting Required: Not Mandatory (Morning Sample Preferred) | Report Turnaround: Same Day', 
-  399.0, 
-  999.0, 
-  false
-),
-(
-  'Bone Health & Vitamin D Profile', 
-  12, 
-  50, 
-  'Vitamin D Total (25-Hydroxy Vitamin D / D2 & D3)
-Vitamin B12 (Cyanocobalamin - Nerve & Energy health)
-Serum Calcium (Total & Ionized estimation)
-Serum Phosphorus / Inorganic Phosphate
-Alkaline Phosphatase (ALP - Bone & Liver specific enzyme)
-Serum Uric Acid (Joint pain and Gout assessment)
-Complete Hemoglobin Check
-Sample Type: Blood Sample | Fasting Required: Not Required | Report Turnaround: Same Day', 
-  699.0, 1399.0, 
-  false
-),
-(
-  'Advanced Cardiac Risk Checkup', 
-  45, 
-  58, 
-  'High-Sensitivity C-Reactive Protein (hs-CRP - Vascular inflammation marker)
-Complete Lipid Panel (Total Cholesterol, Direct LDL, HDL, Triglycerides, Non-HDL, VLDL)
-Cardiac Risk Ratio (TC/HDL & LDL/HDL Ratios)
-Homocysteine (Heart & vascular clot risk marker)
-Apolipoprotein A1 & Apolipoprotein B (Advanced plaque assessment)
-HbA1c & Fasting Glucose (Diabetic-cardiac nexus check)
-Electrolytes Panel (Sodium, Potassium, Chloride)
-Sample Type: Blood Sample | Fasting Required: 12 Hours Strictly | Report Turnaround: Same Day', 
-  1299.0, 
-  3099.0, 
+  'Men master checkup with Cancer with Hormone Panel', 
+  116, 
+  39, 
+  'Thyroid Advanced (3 parameters: Total Thyroxine [T4], Total Triiodothyronine [T3], Ultrasensitive TSH [UTSH])
+Lipid Advanced (10 parameters: Total Cholesterol, HDL Cholesterol - Direct, LDL Cholesterol - Direct, LDL/HDL Ratio, Non-HDL Cholesterol, TC/HDL Cholesterol Ratio, Triglycerides, VLDL Cholesterol, HDL/LDL Ratio, TRIG/HDL Ratio)
+Liver Extended (12 parameters: Alkaline Phosphatase, Bilirubin - Direct, Bilirubin - Total, Bilirubin - Indirect, Gamma Glutamyl Transferase, Protein - Total, Serum Albumin, Serum Globulin, SGOT [AST], SGPT [ALT], Serum Albumin/Globulin Ratio, SGOT/SGPT Ratio)
+Kidney Advanced (7 parameters: BUN/Serum Creatinine Ratio, Blood Urea Nitrogen, Calcium, Serum Creatinine, Uric Acid, Urea [Calculated], Urea / SR. Creatinine Ratio)
+Iron Deficiency Profile (4 parameters: Total Iron Binding Capacity [TIBC], % Transferrin Saturation, Iron, Unsat. Iron-binding Capacity [UIBC])
+Cardiac Risk Markers (4 parameters: Lipoprotein - A, Apolipoprotein - A1, Apolipoprotein - B, Apo B/Apo A1 Ratio)
+Diabetes Profile (2 parameters: HbA1c, Average Blood Glucose [ABG])
+Vitamins Profile (2 parameters: 25-OH Vitamin D [Total], Vitamin B12)
+Pancreas Profile (2 parameters: Amylase, Lipase)
+Serum Electrolytes (2 parameters: Sodium, Chloride)
+Elements 22 [Toxic & Nutrients] (22 parameters: Aluminium, Arsenic, Barium, Cadmium, Caesium, Mercury, Lead, Tin, Bismuth, Beryllium, Antimony, Strontium, Thallium, Uranium, Cobalt, Chromium, Molybdenum, Silver, Vanadium, Selenium, Nickel, Manganese)
+Hormone & Cancer Panel (4 parameters: Folate, Prostate Specific Antigen [PSA], Testosterone, High Sensitivity C-Reactive Protein [hs-CRP])
+Complete Hemogram (CBC - 28 parameters)
+Complete Urine Analysis (14 parameters: Appearance, Colour, Leucocyte Esterase, Volume, Urinary Bilirubin, Urine Blood, Urobilinogen, Urinary Glucose, Urine Ketone, Urinary Leucocytes [Pus Cells], Nitrite, pH, Urinary Protein, Specific Gravity)
+Sample Type: Blood & Urine | Fasting Required: 10-12 Hours | Report Turnaround: Same Day', 
+  2599.0, 
+  4230.0, 
   true
 );

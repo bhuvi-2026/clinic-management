@@ -1,103 +1,143 @@
-<div class="home-page-container py-3 py-md-4">
+<div class="home-page-container py-3 py-md-4 mt-4">
   @if (currentView === 'dashboard') {
-    <div class="modal fade show d-block popup-overlay" tabindex="-1" (click)="currentView = 'home'">
-      <div class="modal-dialog modal-dialog-centered modal-lg" (click)="$event.stopPropagation()">
-        <div class="modal-content border-0 rounded-4 shadow-lg p-3 p-md-4 position-relative">
-          <button type="button" class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close" (click)="currentView = 'home'"></button>
-          <app-user-dashboard 
-            [mobile]="loggedInUserMobile" 
-            [name]="userName" 
-            [email]="userEmail"
-            (backToHome)="currentView = 'home'">
-          </app-user-dashboard>
-        </div>
+  <div class="modal fade show d-block popup-overlay" tabindex="-1" (click)="currentView = 'home'">
+    <div class="modal-dialog modal-dialog-centered modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 rounded-4 shadow-lg p-3 p-md-4 position-relative">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close"
+          (click)="currentView = 'home'"></button>
+        <app-user-dashboard [mobile]="loggedInUserMobile" [name]="userName" [email]="userEmail"
+          (backToHome)="currentView = 'home'">
+        </app-user-dashboard>
       </div>
     </div>
+  </div>
   } @else {
-    <section class="hero-section">
-      <div class="hero-row">
-        
-        <div class="hero-left-col">
-          <h1 class="hero-main-title">
-            Trusted lab testing <br><span class="text-teal">at your doorstep</span>
-          </h1>
-          <p class="hero-subtitle">
-            Fast, reliable diagnostics from accredited labs with convenient home sample collection.
-          </p>
-        </div>
+  <section class="hero-section">
+    <div class="hero-row">
 
-        <div class="hero-right-col">
-          <div class="quick-actions-grid">
-            
-            <div class="action-card shadow-sm" role="button" (click)="onPhoneBooking()">
-              <div class="icon-box text-purple">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-              </div>
-              <div class="card-text-wrapper">
-                <span class="card-label">Book via</span>
-                <strong class="card-highlight">Phone Call</strong>
-              </div>
-            </div>
-
-            <div class="action-card shadow-sm" role="button" (click)="onQuickOrder()">
-              <div class="icon-box text-amber">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="12" y1="18" x2="12" y2="12"></line>
-                  <line x1="9" y1="15" x2="15" y2="15"></line>
-                </svg>
-              </div>
-              <div class="card-text-wrapper">
-                <span class="card-label">Upload</span>
-                <strong class="card-highlight">Prescription</strong>
-              </div>
-            </div>
-
-            <div class="action-card shadow-sm" role="button" (click)="onWhatsAppBooking()">
-  <div class="icon-box">
-    <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
-      <defs>
-        <linearGradient id="waGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#25D366" />
-          <stop offset="100%" stop-color="#128C7E" />
-        </linearGradient>
-      </defs>
-      
-      <path
-        d="M32 6C17.64 6 6 17.64 6 32c0 4.86 1.34 9.4 3.66 13.3L6 58l13.1-3.44C22.86 56.5 27.26 58 32 58c14.36 0 26-11.64 26-26S46.36 6 32 6z"
-        fill="url(#waGrad)"
-      />
-      
-      <path
-        d="M45.5 37.8c-.7 1.8-3.3 3.4-5.3 3.8-1.5.3-3.4.4-10.4-2.5-9.1-3.8-14.8-13.1-15.2-13.7-.4-.6-3.6-4.8-3.6-9.2s2.3-6.6 3.1-7.5c.8-.9 1.8-1.1 2.4-1.1.6 0 1.2 0 1.8.03.6.03 1.4-.22 2.2 1.6.8 1.9 2.7 6.6 2.9 7.1.2.5.4 1.1 0 1.8-.3.7-.6 1.1-1.2 1.8-.6.7-1.1 1.2-.6 2.2 1.2 2.1 3.5 4.8 6.5 6.4 1.1.6 2 .5 2.7-.2.7-.7 2.4-2.8 3.1-3.8.7-.9 1.4-.8 2.3-.4.9.4 5.7 2.7 6.7 3.2.9.5 1.5.8 1.7 1.2.3.4.3 2.1-.4 3.9z"
-        transform="translate(1.5, 1.5)"
-        fill="#ffffff"
-      />
-    </svg>
-  </div>
-  <div class="card-text-wrapper">
-    <span class="card-label">Book via</span>
-    <strong class="card-highlight">WhatsApp</strong>
-  </div>
-</div>
-
-          </div>
-        </div>
-
+      <div class="hero-left-col">
+        <h1 class="hero-main-title">
+          Trusted lab testing <br><span class="text-teal">at your doorstep</span>
+        </h1>
+        <p class="hero-subtitle">
+          Reliable lab testing with convenient home sample collection.
+        </p>
       </div>
-    </section>
 
-    <div id="target-section" class="mt-4 mt-lg-5">
-      <app-lab-tests id="lab-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
-      </app-lab-tests>
+      <div class="hero-right-col">
+        <div class="quick-actions-grid">
+
+          <div class="action-card card-c shadow-sm" role="button" (click)="onPhoneBooking()">
+            <div class="icon-box text-purple">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                </path>
+              </svg>
+            </div>
+            <div class="card-text-wrapper">
+              <span class="card-label">Book via</span>
+              <strong class="card-highlight">Phone Call</strong>
+            </div>
+          </div>
+
+          <div class="action-card card-p shadow-sm" role="button" (click)="uploadPrescription()">
+            <div class="icon-box text-amber">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <div class="card-text-wrapper">
+              <span class="card-label">Upload</span>
+              <strong class="card-highlight">Prescription</strong>
+            </div>
+          </div>
+
+          <div class="action-card card-w shadow-sm" role="button" (click)="onWhatsAppBooking()">
+            <div class="icon-box">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none">
+                <defs>
+                  <linearGradient id="waGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#25D366" />
+                    <stop offset="100%" stop-color="#128C7E" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Speech Bubble Background -->
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12c0 1.82.49 3.53 1.34 5L2 22l5.2-1.31C8.6 21.49 10.25 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"
+                  fill="url(#waGrad)" />
+
+                <!-- Centered Phone Receiver Icon -->
+                <path
+                  d="M16.6 14.1c-.25-.13-1.48-.73-1.71-.81-.23-.09-.4-.13-.57.13-.17.25-.66.81-.81.98-.15.17-.3.19-.55.06-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.44-.06-.13-.57-1.37-.78-1.88-.2-.49-.41-.43-.57-.44l-.48-.01c-.17 0-.44.06-.67.32-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.53.61.2 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.11-.23-.17-.48-.29z"
+                  fill="#ffffff" />
+              </svg>
+            </div>
+            <div class="card-text-wrapper">
+              <span class="card-label">Book via</span>
+              <strong class="card-highlight">WhatsApp</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
+  </section>
+
+  <div id="target-section" class="mt-4 mt-lg-5">
+    <app-lab-tests id="lab-list" [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
+    </app-lab-tests>
+
+    <app-explore-health-concerns [isLoggedIn]="isLoggedIn" (loginRequired)="showLoginOverlay = true">
+  </app-explore-health-concerns>
+  <app-trust-accreditations></app-trust-accreditations>
+  </div>
   }
 </div>
 
+@if (showPhoneModal) {
+  <div class="modal fade show d-block popup-overlay" tabindex="-1" (click)="closePhoneModal()">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 440px;" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 rounded-4 shadow-lg p-4 text-center position-relative contact-modal-card">
+        
+        <!-- Close Button -->
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" (click)="closePhoneModal()"></button>
+
+        <!-- Phone Icon Header -->
+        <div class="phone-icon-bubble mx-auto mb-3">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1a5f6e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </div>
+
+        <h4 class="fw-bold text-dark mb-1">Contact Diagnostics Team</h4>
+        <p class="text-muted small mb-4">Call our laboratory helpdesk directly to schedule your home sample collection</p>
+
+        <!-- Lab Owner Contact Box -->
+        <div class="contact-detail-box p-3 rounded-3 mb-3 border">
+          <div class="text-muted small fw-semibold text-uppercase mb-1">Thyronex Care Support</div>
+          <div class="fs-4 fw-bold text-teal mb-1">{{ labPhone }}</div>
+        </div>
+
+        <!-- Timings & Availability info -->
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-4 text-muted small">
+          <span class="status-indicator-dot"></span>
+          <span>Sample Collection Available: <strong>{{ labTimings }}</strong></span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}
+
 @if (showLoginOverlay) {
-  <app-login (loginSuccess)="handleLoginSuccess($event)" (closeLogin)="closeOverlay()">
-  </app-login>
+<app-login (loginSuccess)="handleLoginSuccess($event)" (closeLogin)="closeOverlay()">
+</app-login>
 }

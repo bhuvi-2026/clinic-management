@@ -53,14 +53,6 @@
             <button class="btn btn-outline-secondary rounded-circle ctrl-btn" (click)="updatePatients(1)" [disabled]="patientCount >= 6">+</button>
           </div>
         </div>
-
-        <div class="form-check mb-4">
-          <input class="form-check-input" type="checkbox" [(ngModel)]="hardcopy" id="hardcopyCheck">
-          <label class="form-check-label small text-secondary" for="hardcopyCheck">
-            Report Hardcopy Needed (+₹75)
-          </label>
-        </div>
-
         <div class="d-flex gap-2">
           <button class="btn btn-outline-secondary flex-grow-1 rounded-3" (click)="closeForm.emit()">Cancel</button>
           <button 
@@ -193,9 +185,9 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <h5 class="fw-bold text-teal m-0">Select Date & Time</h5>
               <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-sm btn-outline-secondary rounded-circle" (click)="changeMonth(-1)" [disabled]="isCurrentMonthSelected()">‹</button>
+                <button class="btn btn-sm btn-outline-dark rounded-circle custom-circle" (click)="changeMonth(-1)" [disabled]="isCurrentMonthSelected()">‹</button>
                 <span class="fw-bold small text-dark">{{ getMonthName() }} {{ currentYear }}</span>
-                <button class="btn btn-sm btn-outline-secondary rounded-circle" (click)="changeMonth(1)">›</button>
+                <button class="btn btn-sm btn-outline-dark rounded-circle custom-circle" (click)="changeMonth(1)">›</button>
               </div>
             </div>
 
@@ -243,7 +235,7 @@
             </div>
 
             <h6 class="fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
-              <span>🌇 Afternoon / Evening Slots (PM)</span>
+              <span>🌇Evening Slots (PM)</span>
             </h6>
             <div class="row row-cols-2 g-2 mb-3">
               @for (slot of eveningSlots; track slot) {

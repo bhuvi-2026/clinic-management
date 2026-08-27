@@ -52,4 +52,7 @@ export class LabService {
 
     return this.http.post(`${this.apiUrl}/confirm-booking`, bookingData, { headers });
   }
+  getContactInfo(): Observable<{ phone: string; inCharge: string; timings: string }> {
+    return this.http.get<{ phone: string; inCharge: string; timings: string }>(`${this.apiUrl}/contact-info`);
+  }
 }

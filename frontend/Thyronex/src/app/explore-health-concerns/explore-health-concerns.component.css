@@ -1,0 +1,244 @@
+.concerns-main-wrapper {
+  width: 100%;
+  margin-top: 28px;
+}
+
+.main-heading {
+  font-size: clamp(1.85rem, 2.4vw, 2.5rem);
+  font-weight: 800;
+  color: #1a5f6e;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.section-title-box {
+  margin-bottom: 20px;
+}
+
+/* ========================================================================= */
+/* 1. TOP BROWSE CATEGORY (CIRCULAR CARDS) */
+/* ========================================================================= */
+.browse-category-section {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.category-circle-grid {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(14px, 2.4vw, 32px);
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scrollbar-width: none;
+}
+
+.category-circle-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.category-circle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  flex: 0 0 140px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.category-circle-card:hover {
+  transform: translateY(-4px);
+}
+
+.category-circle-card:hover .circle-avatar-box {
+  box-shadow: 0 10px 24px rgba(26, 95, 110, 0.2);
+  border-color: #1a5f6e;
+}
+
+.circle-avatar-box {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e0f2fe 0%, #ccfbf1 100%);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.circle-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.circle-fallback-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+
+.avatar-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.category-circle-label {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.25;
+}
+
+/* ========================================================================= */
+/* 2. HEALTH CONCERNS HORIZONTAL CAROUSEL */
+/* ========================================================================= */
+.concerns-section {
+  width: 100%;
+}
+
+.concerns-header {
+  margin-bottom: 18px;
+}
+
+.concerns-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.concerns-scroll-container {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 4px 16px 4px;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  box-sizing: border-box;
+}
+
+.concerns-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.concern-card {
+  flex: 0 0 calc((100% - (6 * 14px)) / 7);
+  min-width: 150px;
+  max-width: 190px;
+  aspect-ratio: 1 / 1.55;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #f1f5f9;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.concern-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(26, 95, 110, 0.16);
+}
+
+.concern-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.floating-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(40, 44, 52, 0.75);
+  backdrop-filter: blur(4px);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.floating-nav-btn:hover {
+  background: rgba(26, 95, 110, 0.95);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.nav-next {
+  right: -8px;
+}
+
+.nav-prev {
+  left: -8px;
+}
+
+/* ========================================================================= */
+/* RESPONSIVENESS */
+/* ========================================================================= */
+@media (max-width: 1024px) {
+  .concern-card {
+    flex: 0 0 145px;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-heading {
+    font-size: 1.35rem;
+  }
+
+  .circle-avatar-box {
+    width: 80px;
+    height: 80px;
+  }
+
+  .category-circle-card {
+    flex: 0 0 100px;
+  }
+
+  .category-circle-label {
+    font-size: 0.82rem;
+  }
+
+  .concern-card {
+    flex: 0 0 125px;
+    border-radius: 12px;
+  }
+
+  .floating-nav-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-next {
+    right: 0px;
+  }
+
+  .nav-prev {
+    left: 0px;
+  }
+}

@@ -41,7 +41,10 @@
   background-color: #e0f2fe !important;
   border-color: #1a5f6e !important;
 }
-
+.custom-circle {
+  width: 32px;
+  height: 32px;
+}
 .ctrl-btn {
   width: 36px;
   height: 36px;

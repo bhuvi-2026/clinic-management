@@ -1,4 +1,5 @@
 <nav class="navbar">
+  <!-- Left Container: Logo & Brand Text -->
   <div class="logo-container" aria-label="Thyronex Care Diagnostics">
     <img
       class="logo-image"
@@ -7,26 +8,91 @@
     />
     <div class="brand-text-block">
       <span class="logo-text">Thyronex Care</span>
-      <span class="tagline">Where Accuracy Meets Care</span>
+      <div class="tagline-wrapper">
+        <span class="tagline-line"></span>
+        <span class="tagline">Where Accuracy Meets Care</span>
+        <span class="tagline-line"></span>
+      </div>
     </div>
   </div>
-@if (!isAdminRoute) {
-  <div class="nav-actions">
-    @if (!isLoggedIn) {
-      <button class="login-trigger-btn" (click)="triggerLogin.emit()">Login</button>
-    } @else {
-      <div class="user-session-group">
-        <span class="welcome-label">Welcome, <strong>{{ userName }}</strong></span>
 
-        <button class="nav-link-btn" (click)="triggerDashboard.emit()">My Bookings</button>
+  @if (!isAdminRoute) {
+    <!-- Desktop Actions (Hidden on Mobile) -->
+    <div class="nav-actions desktop-actions">
+      @if (!isLoggedIn) {
+        <button class="login-trigger-btn" (click)="triggerLogin.emit()">Login</button>
+      } @else {
+        <div class="user-session-group">
+          <span class="welcome-label">Welcome, <strong>{{ userName }}</strong></span>
+          <button class="nav-link-btn" (click)="triggerDashboard.emit()">My Bookings</button>
+          <button class="logout-outline-btn" (click)="triggerLogout.emit()">Logout</button>
+        </div>
+      }
+    </div>
 
-        <button class="logout-outline-btn" (click)="triggerLogout.emit()">Logout</button>
-      </div>
-    }
-  </div>
- } @else {
-      <div class="admin-badge-box">
-        <span class="badge btn-teal py-2 px-3 rounded-pill small">Admin Portal</span>
-      </div>
-    }
+    <!-- Right Side Hamburger Button (Visible only on Mobile) -->
+    <button 
+      class="hamburger-btn" 
+      (click)="toggleMobileMenu()" 
+      aria-label="Toggle navigation menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  } @else {
+    <div class="admin-badge-box">
+      <span class="badge btn-teal py-2 px-3 rounded-pill small">Admin Portal</span>
+    </div>
+  }
 </nav>
+
+<!-- Mobile Slide-out Menu Overlay & Drawer (Slides from Right) -->
+@if (isMobileMenuOpen && !isAdminRoute) {
+  <div class="mobile-drawer-backdrop" (click)="closeMobileMenu()">
+    <div class="mobile-drawer-card" (click)="$event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="drawer-brand">
+          <img src="/android-chrome-192x192.png" class="drawer-logo" alt="Thyronex Care" />
+          <span class="drawer-title">Thyronex Care</span>
+        </div>
+        <button class="drawer-close-btn" (click)="closeMobileMenu()">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        @if (isLoggedIn) {
+          <!-- User Profile Info -->
+          <div class="mobile-user-profile">
+            <div class="user-avatar-circle">
+              👤
+            </div>
+            <div class="user-meta">
+              <span class="user-greeting">Welcome,</span>
+              <strong class="user-name-text">{{ userName || 'Valued Patient' }}</strong>
+            </div>
+          </div>
+
+          <!-- Menu Links -->
+          <div class="mobile-nav-list">
+            <button class="mobile-menu-item" (click)="onDashboardClick()">
+              <span class="item-text">My Bookings</span>
+            </button>
+
+            <button class="mobile-menu-item logout-item" (click)="onLogoutClick()">
+              <span class="item-text">Logout</span>
+            </button>
+          </div>
+        } @else {
+          <!-- Guest State in Menu -->
+          <div class="mobile-guest-box text-center">
+            <p class="small text-muted mb-3">Sign in to track sample status & download certified reports.</p>
+            <button class="btn btn-teal w-100 py-2 rounded-pill fw-bold" (click)="onLoginClick()">
+              Login / Sign Up
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

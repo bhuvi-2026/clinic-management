@@ -27,45 +27,49 @@ public class UserService {
 
     public String generateAndSaveOtp(String mobileNumber) {
         User user = userRepository.findByMobileNumber(mobileNumber)
-                                  .orElse(new User());
-        user.setMobileNumber(mobileNumber);
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setMobileNumber(mobileNumber);
+                    return newUser;
+                });
 
         LocalDateTime now = LocalDateTime.now();
 
+        // 60-second rate-limit cooldown check
         if (user.getLastOtpRequestedAt() != null && 
             user.getLastOtpRequestedAt().plusSeconds(60).isAfter(now)) {
-            long secondsLeft = java.time.Duration.between(user.getLastOtpRequestedAt(), now).getSeconds();
-            throw new IllegalStateException("Please wait " + (60 - secondsLeft) + " seconds before requesting a new OTP.");
+            long secondsLeft = 60 - java.time.Duration.between(user.getLastOtpRequestedAt(), now).getSeconds();
+            throw new IllegalStateException("Please wait " + Math.max(secondsLeft, 1) + " seconds before requesting a new OTP.");
         }
 
         String otp = String.format("%06d", secureRandom.nextInt(1000000));
-        
+
         user.setCurrentOtp(otp);
         user.setOtpExpiry(now.plusMinutes(5));
         user.setLastOtpRequestedAt(now);
         user.setOtpAttemptCount(0);
-        
+
         userRepository.save(user);
 
-        // PRODUCTION CELLULAR SMS GATEWAY (Fast2SMS / Twilio)
+        // Optional Production Cellular SMS Gateway
         if (smsGatewayEnabled) {
             try {
                 String smsUrl = "https://www.fast2sms.com/dev/bulkV2?authorization=" + smsApiKey 
-                                + "&variables_values=" + otp + "&route=otp&numbers=" + mobileNumber;
-                
+                        + "&variables_values=" + otp + "&route=otp&numbers=" + mobileNumber;
+
                 this.webClient.get()
                         .uri(smsUrl)
                         .retrieve()
                         .toBodilessEntity()
                         .subscribe(
-                            res -> System.out.println("[SMS GATEWAY] OTP successfully delivered via Cellular SMS to: " + mobileNumber),
-                            err -> System.err.println("[SMS GATEWAY ERROR] Failed to send SMS: " + err.getMessage())
+                            res -> System.out.println("[SMS GATEWAY] OTP delivered to: " + mobileNumber),
+                            err -> System.err.println("[SMS GATEWAY ERROR] " + err.getMessage())
                         );
             } catch (Exception e) {
-                System.err.println("SMS Gateway exception: " + e.getMessage());
+                System.err.println("[SMS WARNING] External SMS service skipped: " + e.getMessage());
             }
         } else {
-            // LOCAL TESTING: Terminal log simulation
+            // Local Terminal Simulation
             System.out.println("=================================================");
             System.out.println(">>> [LOCAL OTP SIMULATOR] Mobile: " + mobileNumber + " | OTP: " + otp);
             System.out.println("=================================================");
@@ -76,7 +80,7 @@ public class UserService {
 
     public boolean verifyOtp(String mobileNumber, String typedOtp) {
         User user = userRepository.findByMobileNumber(mobileNumber)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found for mobile: " + mobileNumber));
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -99,7 +103,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         } else {
-            user.setOtpAttemptCount(user.getOtpAttemptCount() + 1);
+            user.setOtpAttemptCount((user.getOtpAttemptCount() != null ? user.getOtpAttemptCount() : 0) + 1);
             userRepository.save(user);
             return false;
         }

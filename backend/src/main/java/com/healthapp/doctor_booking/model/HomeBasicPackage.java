@@ -23,7 +23,7 @@ public class HomeBasicPackage {
 
     private int discountPercentage;
 
-    @Column(length = 2000)
+    @Column(name = "parameters_summary", columnDefinition = "TEXT")
     private String parametersSummary;
 
     @Column(nullable = false)

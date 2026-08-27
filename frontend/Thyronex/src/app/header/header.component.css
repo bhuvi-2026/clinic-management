@@ -1,77 +1,37 @@
+/* Base Desktop Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 30px;
-  background: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  height: 164px;
+  background: linear-gradient(205deg, #489988 8.49%, #1a5f6e 91.51%);
+  height: 100px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: relative;
+  box-sizing: border-box;
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  
-  /* Add your custom Tab CSS properties here */
-  .navbar {
-    height: 90px;
-  }
-  .logo-text {
-    font-size: 24px !important;
-  }
-  .tagline {
-    font-size: 12px !important;
-  }
-  .logo-image {
-    width: 44px !important;
-    height: 44px !important;
-  }
-  .welcome-label {
-    font-size: 12px !important;
-  }
-  .nav-link-btn {
-    font-size: 12px !important;
-  }
-  .logout-outline-btn {
-    font-size: 12px !important;
-  }
-
-}
-
-@media (max-width: 767px) {
-  
- .navbar {
-    height: 150px;
-  }
-  .logo-text {
-    font-size: 24px !important;
-  }
-  .tagline {
-    font-size: 12px !important;
-  }
-  .logo-image {
-    width: 54px !important;
-    height: 54px !important;
-  }
-  .welcome-label {
-    font-size: 12px !important;
-  }
-  .nav-link-btn {
-    font-size: 12px !important;
-  }
-  .logout-outline-btn {
-    font-size: 12px !important;
-  }
-
+/* Hamburger button is hidden by default on desktop */
+.hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 8px;
+  line-height: 1;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .logo-image {
-  width: 84px;
-  height: 84px;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
   display: block;
 }
@@ -79,19 +39,46 @@
 .brand-text-block {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Centers the text block relative to the logo */
 }
 
 .logo-text {
-  font-size: 42px;
+  font-size: 30px;
   font-weight: 800;
-  color: #1a5f6e;
+  color: #ffffff;
+  line-height: 1.15;
+  text-align: center;
+  letter-spacing: -0.2px;
+}
+
+/* Tagline with Left and Right Red Accent Lines */
+.tagline-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  /* margin-top: 3px; */
+}
+
+.tagline-line {
+  display: inline-block;
+  height: 2px;
+  width: 18px;
+  background: #ffffff;
+  border-radius: 2px;
+  margin-top: 3px;
 }
 
 .tagline {
-  font-size: 18px;
-  color: #666;
+  font-size: 12px;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  font-weight: 500;
 }
 
+/* Desktop Actions */
 .nav-actions {
   display: flex;
   align-items: center;
@@ -99,68 +86,301 @@
 }
 
 .login-trigger-btn {
-  background-color: #1a5f6e;
-  color: white;
+  background-color: #ffffff;
+  color: #1a5f6e;
   border: none;
   padding: 8px 24px;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 50rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
-  font-size: 16px;
+  transition: all 0.2s ease;
+  font-size: 15px;
 }
 
 .login-trigger-btn:hover {
-  background-color: #144a56;
+  background-color: #f0fdf4;
   transform: translateY(-2px);
 }
 
 .user-session-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .welcome-label {
-  font-size: 25px;
-  color: #333;
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .welcome-label strong {
-  color: #1a5f6e;
+  color: #ffffff;
+  font-weight: 800;
 }
 
 .nav-link-btn {
-  background: #f4f8fb;
-  border: 1px solid #d1dee8;
-  color: #1a5f6e;
-  padding: 6px 14px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+  padding: 7px 16px;
+  border-radius: 50rem;
   font-weight: 700;
   cursor: pointer;
-  font-size: 22px;
-  transition: all 0.3s ease;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.nav-link-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .logout-outline-btn {
   background: transparent;
-  border: 1px solid #e74c3c;
-  color: #e74c3c;
-  padding: 6px 14px;
-  border-radius: 6px;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  color: #ffffff;
+  padding: 7px 16px;
+  border-radius: 50rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 22px;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
 .logout-outline-btn:hover {
-  background: #e74c3c;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+  color: #ffffff;
 }
 
 .btn-teal {
   background-color: #1a5f6e;
-    color: white;
-    border: none
+  color: white;
+  border: none;
+}
+
+/* ========================================================================= */
+/* TABLET VIEW (768px - 1024px) */
+/* ========================================================================= */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+    height: 84px;
+    padding: 0.8rem 20px;
+  }
+  .logo-text { font-size: 24px; }
+  .tagline { font-size: 9px; }
+  .tagline-line { width: 18px; margin-top: 0px; }
+  .logo-image { width: 44px; height: 44px; }
+  .welcome-label { font-size: 14px; }
+  .nav-link-btn, .logout-outline-btn { font-size: 13px; padding: 6px 12px; }
+}
+
+/* ========================================================================= */
+/* MOBILE VIEW (< 768px): Logo Left, Hamburger Right, Compact Tagline */
+/* ========================================================================= */
+@media (max-width: 767px) {
+  .navbar {
+    height: 64px !important;
+    padding: 0 16px !important;
+  }
+
+  .hamburger-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-container {
+    gap: 8px !important;
+  }
+
+  .logo-image {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .logo-text {
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+  }
+
+  .tagline-wrapper {
+    gap: 3px !important;
+    margin-top: 1px !important;
+  }
+
+  .tagline-line {
+    width: 12px !important;
+    height: 0.5px !important;
+    margin-top: 0px !important;
+  }
+
+  .tagline {
+    font-size: 7px !important;
+  }
+
+  .desktop-actions {
+    display: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* MOBILE SLIDE-OUT DRAWER / MENU (FROM RIGHT SIDE) */
+/* ========================================================================= */
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1100;
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.mobile-drawer-card {
+  width: 80%;
+  max-width: 300px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(205deg, #489988 8.49%, #1a5f6e 91.51%);
+  color: #ffffff;
+}
+
+.drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawer-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.drawer-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+}
+
+.drawer-body {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Mobile Profile Card */
+.mobile-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+.user-avatar-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-greeting {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.user-name-text {
+  font-size: 15px;
+  color: #1a5f6e;
+}
+
+/* Mobile Nav Menu Items */
+.mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.mobile-menu-item:hover {
+  background-color: #f0fdf4;
+  border-color: #1a5f6e;
+  color: #1a5f6e;
+}
+
+.logout-item {
+  margin-top: 10px;
+}
+
+.logout-item:hover {
+  background-color: #fee2e2 !important;
+}
+
+.item-icon {
+  font-size: 1.15rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }

@@ -1,0 +1,172 @@
+.tnc-page-wrapper {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+  color: #334155;
+  font-family: inherit;
+}
+
+.tnc-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Breadcrumbs (1mg style) */
+.tnc-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+
+.tnc-breadcrumb a {
+  color: #0284c7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tnc-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: #94a3b8;
+}
+
+.active-crumb {
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Document Container Card */
+.tnc-content-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  padding: clamp(24px, 4vw, 44px);
+}
+
+.tnc-header {
+  margin-bottom: 24px;
+}
+
+.tnc-title {
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.tnc-last-updated {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.tnc-last-updated span {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tnc-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 16px 0 24px;
+}
+
+.tnc-intro {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.tnc-intro-sub {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+/* Sections */
+.tnc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tnc-section h2 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 10px;
+}
+
+.tnc-section p {
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0 0 10px;
+}
+
+.tnc-section ul {
+  margin: 8px 0 14px 20px;
+  padding: 0;
+}
+
+.tnc-section li {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+/* Medical Disclaimer Highlight Box */
+.highlight-box {
+  background-color: #fff1f2;
+  border-left: 4px solid #f43f5e;
+  padding: 16px 20px;
+  border-radius: 8px;
+}
+
+.highlight-box h2 {
+  color: #9f1239;
+}
+
+.medical-alert {
+  margin: 10px 0;
+  color: #be123c;
+  font-size: 0.95rem;
+}
+
+/* Contact Details Card */
+.contact-card {
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.contact-card h2 {
+  color: #115e59;
+}
+
+.contact-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 0.92rem;
+}
+
+/* Footer acknowledgment */
+.tnc-card-footer {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #64748b;
+  font-style: italic;
+}
