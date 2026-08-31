@@ -1,59 +1,86 @@
-<div class="lab-container">
+<div class="packages-page-container">
   
-  <div class="page-top-bar">
-    <button class="back-btn" (click)="goBack()">← Back to Home</button>
-  </div>
-
-  <div class="lab-header">
-    <h2>Packages For You!</h2>
-    <p>Compare packages and choose your best fit</p>
-  </div>
-
-  @if (isLoading) {
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Loading available packages...</p>
+  <div class="lab-container">
+    <!-- Breadcrumb & Top Bar -->
+    <div class="page-top-bar">
+      <button class="back-link-btn" (click)="goBack()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to Home
+      </button>
     </div>
-  } @else {
-    <div class="test-grid">
-      @for (pkg of packages; track pkg.name) {
-        <div class="test-card">
-          <div class="card-header">
-            <h3>{{ pkg.name }}</h3>
-          </div>
 
-          <div class="card-body">
-            <div class="test-count-row" (click)="openTestDetailsModal(pkg)">
-              <span class="blue-text">Include {{ pkg.testCount }} Tests</span>
-              <span class="arrow-icon" (click)="openTestDetailsModal(pkg); $event.stopPropagation()" title="View Test Details">❯</span>
+    <!-- Category Title -->
+    <div class="packages-header">
+      <h2>{{ categoryTitle }}</h2>
+      <p>Compare packages and choose your best fit</p>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading available diagnostic packages...</p>
+      </div>
+    } @else {
+      <!-- 4-Column Glowing Card Grid -->
+      <div class="packages-grid">
+        @for (pkg of packages; track pkg.name; let i = $index) {
+          <div class="med-package-card shadow-sm">
+            
+            <!-- Top Thumbnail Image -->
+            <div class="thumbnail-wrapper">
+              <img [src]="getPackageImage(pkg, i)" [alt]="pkg.name" class="thumbnail-img" loading="lazy" />
             </div>
 
-            <div class="pricing-section">
-              <div class="price-box">
-                <span class="current-price">₹ {{ pkg.price }}</span>
+            <!-- Card Content Body -->
+            <div class="card-content-area">
+              <h3 class="package-name" (click)="openTestDetailsModal(pkg)" [title]="pkg.name">
+                {{ pkg.name }}
+              </h3>
+
+              <div class="turnaround-time">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Fasting required for 10-12 hours</span>
+              </div>
+
+              <!-- Price Row -->
+              <div class="price-row">
+                <span class="current-price">₹{{ pkg.price }}</span>
                 @if (pkg.originalPrice) {
-                  <span class="old-price">₹ {{ pkg.originalPrice }}</span>
+                  <span class="old-price">₹{{ pkg.originalPrice }}</span>
+                  <span class="savings-text">{{ getDiscountPercent(pkg) }}% off</span>
                 }
               </div>
-              <button class="book-now-btn" (click)="bookNow(pkg)">Book Now</button>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons-row">
+                <button class="details-link-btn" (click)="openTestDetailsModal(pkg)">
+                  View Details
+                </button>
+                <button class="book-cta-btn" (click)="bookNow(pkg)">
+                  Book
+                </button>
+              </div>
             </div>
 
-            <div class="card-footer">
-              <span class="fasting-label">
-                <i class="icon-clock"></i> Fasting Required: 
-                <strong>{{ pkg.fastingRequired ? 'Yes' : 'No' }}</strong>
-              </span>
-            </div>
           </div>
-        </div>
-      } @empty {
-        <div class="empty-state">
-          <p>No packages found in database.</p>
-        </div>
-      }
-    </div>
-  }
+        } @empty {
+          <div class="empty-state">
+            <div class="empty-icon">🩺</div>
+            <h3>No packages available</h3>
+            <p>No tests or packages currently match this category tag.</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
 
+  <!-- ⭐ ACCORDION DETAILS MODAL -->
   @if (viewingDetailsPackage) {
     <div class="modal-backdrop" (click)="closeDetailsModal()">
       <div class="details-modal-card" (click)="$event.stopPropagation()">
@@ -67,15 +94,44 @@
           <p class="modal-subtitle">
             <strong>Includes {{ viewingDetailsPackage.testCount }} Tests/Parameters:</strong>
           </p>
-          
-          <ul class="test-list-items">
-            @for (testItem of getTestItemsList(viewingDetailsPackage.description); track testItem) {
-              <li>
-                <span class="bullet-dot">•</span>
-                <span>{{ testItem }}</span>
-              </li>
+
+          <!-- ACCORDION PROFILE GROUPS -->
+          <div class="accordion-container">
+            @for (group of parsedProfiles; track group.title) {
+              <div class="accordion-item" [class.expanded]="group.isOpen">
+                
+                <div class="accordion-header" (click)="toggleProfile(group)">
+                  <div class="header-left">
+                    <span class="bullet-dot">•</span>
+                    <span class="profile-title">{{ group.title }}</span>
+                  </div>
+
+                  @if (group.subParameters.length > 0) {
+                    <div class="accordion-chevron" [class.rotated]="group.isOpen">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                  }
+                </div>
+
+                @if (group.isOpen && group.subParameters.length > 0) {
+                  <div class="accordion-content">
+                    <div class="sub-param-inline-list">
+                      @for (item of group.subParameters; track item; let last = $last) {
+                        <span class="param-item-text">{{ item }}</span>
+                        @if (!last) {
+                          <span class="param-pipe-separator">|</span>
+                        }
+                      }
+                    </div>
+                  </div>
+                }
+
+              </div>
             }
-          </ul>
+          </div>
         </div>
 
         <div class="modal-footer-action">
@@ -88,6 +144,7 @@
     </div>
   }
 
+  <!-- Booking Modal -->
   @if (selectedPackage) {
     <app-lab-booking-modal 
       [package]="selectedPackage" 

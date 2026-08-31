@@ -55,7 +55,7 @@ app.post('/api/whatsapp/send-booking', async (req, res) => {
   const ownerJid = formatPhone(resolvedOwnerPhone);
 
   const messageText = 
-`🏥 *Thyronex Care Diagnostics* - Booking Confirmed!
+`🏥 *Thyronex Health Care* - Booking Confirmed!
 -----------------------------------
 🧪 *Booking ID:* #${bookingId}
 🧪 *Package:* ${packageName}
@@ -96,7 +96,7 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
   const patientJid = formatPhone(patientPhone);
 
   const messageText = 
-`🏥 *Thyronex Care Diagnostics* - Test Report Ready!
+`🏥 *Thyronex Health Care* - Test Report Ready!
 -----------------------------------
 🧪 *Booking ID:* #${bookingId}
 🧪 *Package:* ${packageName}

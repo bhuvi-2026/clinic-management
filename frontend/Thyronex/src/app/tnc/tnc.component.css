@@ -11,7 +11,7 @@
   margin: 0 auto;
 }
 
-/* Breadcrumbs (1mg style) */
+/* Breadcrumbs */
 .tnc-breadcrumb {
   display: flex;
   align-items: center;
@@ -21,9 +21,9 @@
 }
 
 .tnc-breadcrumb a {
-  color: #0284c7;
+  color: #1a5f6e;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .tnc-breadcrumb a:hover {
@@ -39,10 +39,43 @@
   font-weight: 500;
 }
 
-/* Document Container Card */
+/* Top Tab Switcher */
+.tab-switch-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.tab-btn {
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  color: #475569;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 50rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.tab-btn.active-tab {
+  background: #1a5f6e;
+  color: #ffffff;
+  border-color: #1a5f6e;
+  box-shadow: 0 4px 12px rgba(26, 95, 110, 0.25);
+}
+
+/* Main Content Card */
 .tnc-content-card {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   padding: clamp(24px, 4vw, 44px);
@@ -60,14 +93,15 @@
 }
 
 .tnc-last-updated {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: #64748b;
   margin-bottom: 16px;
 }
 
+.tnc-last-updated strong,
 .tnc-last-updated span {
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: 700;
+  color: #1a5f6e;
 }
 
 .tnc-divider {
@@ -104,7 +138,7 @@
 }
 
 .tnc-section p {
-  font-size: 0.94rem;
+  font-size: 0.95rem;
   line-height: 1.65;
   color: #475569;
   margin: 0 0 10px;
@@ -120,6 +154,53 @@
   line-height: 1.6;
   color: #475569;
   margin-bottom: 6px;
+}
+
+/* About Us Grid */
+.about-card {
+  background: #f8fafc;
+  border-left: 4px solid #1a5f6e;
+  padding: 18px 20px;
+  border-radius: 8px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.about-grid-item {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.about-grid-item h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1a5f6e;
+  margin: 0 0 6px;
+}
+
+.about-grid-item p {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #64748b;
+  margin: 0;
+}
+
+.location-box {
+  background: #f0fdf9;
+  border: 1px solid #ccfbf1;
+  padding: 18px 20px;
+  border-radius: 12px;
+}
+
+.location-box h2 {
+  color: #0f766e;
 }
 
 /* Medical Disclaimer Highlight Box */
@@ -140,7 +221,7 @@
   font-size: 0.95rem;
 }
 
-/* Contact Details Card */
+/* Contact Card */
 .contact-card {
   background-color: #f0fdfa;
   border: 1px solid #ccfbf1;
@@ -160,7 +241,6 @@
   font-size: 0.92rem;
 }
 
-/* Footer acknowledgment */
 .tnc-card-footer {
   margin-top: 36px;
   padding-top: 20px;

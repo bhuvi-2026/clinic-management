@@ -10,46 +10,77 @@
       @if (!isOtpSent) {
         <div class="mb-3">
           <label class="form-label small fw-semibold text-dark">Full Name</label>
-          <input type="text" [(ngModel)]="username" #nameRef="ngModel" (keypress)="blockNumbers($event)" 
-                 placeholder="Enter your name" pattern="[a-zA-Z ]*" class="form-control rounded-3 py-2">
+          <input 
+            type="text" 
+            [(ngModel)]="username" 
+            name="username"
+            #nameRef="ngModel" 
+            (keypress)="blockNumbers($event)"
+            (keydown.enter)="onRequestOtp()"
+            placeholder="Enter your name" 
+            pattern="[a-zA-Z ]*" 
+            class="form-control rounded-3 py-2" 
+            autocomplete="name">
         </div>
 
         <div class="mb-4">
           <label class="form-label small fw-semibold text-dark">Mobile Number</label>
           <div class="input-group">
             <span class="input-group-text bg-light text-secondary fw-semibold">+91</span>
-            <input type="tel" [(ngModel)]="mobileNumber" #mobileRef="ngModel" (keypress)="blockAlphabets($event)" 
-                   maxlength="10" pattern="[6-9][0-9]{9}" placeholder="Enter contact number" class="form-control rounded-end-3 py-2">
+            <input 
+              type="tel" 
+              [(ngModel)]="mobileNumber" 
+              name="mobileNumber"
+              #mobileRef="ngModel" 
+              (keypress)="blockAlphabets($event)"
+              (keydown.enter)="onRequestOtp()"
+              maxlength="10" 
+              pattern="[6-9][0-9]{9}" 
+              placeholder="Enter contact number" 
+              class="form-control rounded-end-3 py-2" 
+              autocomplete="tel">
           </div>
         </div>
 
-        <button class="btn btn-teal w-100 py-2 rounded-3 fw-bold" 
-                [disabled]="isLoading || nameRef.invalid || mobileRef.invalid || !username || mobileNumber.length !== 10" 
-                (click)="onRequestOtp()">
+        <button 
+          type="button" 
+          class="btn btn-teal w-100 py-2 rounded-3 fw-bold" 
+          [disabled]="!isRequestOtpValid()" 
+          (click)="onRequestOtp()">
           {{ isLoading ? 'Sending...' : 'Get OTP' }}
         </button>
       } @else {
         <div class="mb-4 text-center">
           <label class="form-label small fw-semibold text-dark">Enter 6-Digit OTP</label>
-          <input type="text" [(ngModel)]="otp" placeholder="000000" maxlength="6" 
-                 class="form-control text-center fs-4 fw-bold letter-spacing-2 rounded-3 py-2">
+          <input 
+            type="tel" 
+            [(ngModel)]="otp" 
+            name="otp"
+            maxlength="6" 
+            (keydown)="onOtpKeyDown($event)"
+            (keydown.enter)="onVerifyOtp()"
+            placeholder="000000" 
+            class="form-control text-center fs-4 fw-bold letter-spacing-2 rounded-3 py-2" 
+            autofocus>
           <p class="small text-secondary mt-2 mb-0">
             Sent to +91 {{ mobileNumber }}
-            <span role="button" class="text-teal fw-bold ms-1" (click)="isOtpSent = false">Change</span>
+            <span role="button" class="text-teal fw-bold ms-1" (click)="isOtpSent = false; otp = ''">Change</span>
           </p>
         </div>
 
-        <button class="btn btn-teal w-100 py-2 rounded-3 fw-bold" 
-                [disabled]="isLoading || !otp || otp.length !== 6" 
-                (click)="onVerifyOtp()">
+        <button 
+          type="button" 
+          class="btn btn-teal w-100 py-2 rounded-3 fw-bold" 
+          [disabled]="!isVerifyOtpValid()" 
+          (click)="onVerifyOtp()">
           {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
         </button>
+      }
 
-        @if (errorMessage) {
-          <div class="alert alert-danger py-2 mt-3 small text-center" role="alert">
-            {{ errorMessage }}
-          </div>
-        }
+      @if (errorMessage) {
+        <div class="alert alert-danger py-2 mt-3 small text-center" role="alert">
+          {{ errorMessage }}
+        </div>
       }
 
     </div>

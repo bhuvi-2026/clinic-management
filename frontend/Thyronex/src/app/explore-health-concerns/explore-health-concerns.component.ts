@@ -6,7 +6,7 @@ export interface DemographicCategory {
   id: string;
   title: string;
   categoryKey: string;
-  imageUrl: string; // Add your image URL here (e.g. 'assets/images/men.png')
+  imageUrl: string;
   badgeText?: string;
 }
 
@@ -31,50 +31,57 @@ export class ExploreHealthConcernsComponent {
   @Input() isLoggedIn: boolean = false;
   @Output() loginRequired = new EventEmitter<void>();
 
-  // 1. Primary Top Categories matching the 1st reference image style
+  // 1. Primary Top Demographic Categories (Exact DB Tag matching)
   primaryCategories: DemographicCategory[] = [
     {
       id: 'cat_men',
       title: 'Men',
-      categoryKey: 'MEN_HEALTH',
-      imageUrl: 'men.png' // Add your image source path
+      categoryKey: 'Men',
+      imageUrl: 'men.png'
     },
     {
       id: 'cat_women',
       title: 'Women',
-      categoryKey: 'WOMEN_HEALTH',
-      imageUrl: 'women.png' // Add your image source path
+      categoryKey: 'Women',
+      imageUrl: 'women.png'
     },
     {
       id: 'cat_sr_male',
       title: 'Senior Citizen Male',
-      categoryKey: 'SENIOR_CITIZEN_MALE',
-      imageUrl: 'Thaths.png' // Add your image source path
+      categoryKey: 'SeniorCtznMale',
+      imageUrl: 'Thaths.png'
     },
     {
       id: 'cat_sr_female',
       title: 'Senior Citizen Female',
-      categoryKey: 'SENIOR_CITIZEN_FEMALE',
-      imageUrl: 'ajjis.png' // Add your image source path
+      categoryKey: 'SeniorCtznFemale',
+      imageUrl: 'ajjis.png'
     },
     {
       id: 'cat_hair_skin',
       title: 'Hair & Skin',
-      categoryKey: 'HAIR_SKIN',
-      imageUrl: 'hair_skin.png' // Add your image source path
+      categoryKey: 'HairAndSkin',
+      imageUrl: 'hair_skin.png'
+    },
+    {
+      id: 'cat_vitamins',
+      title: 'Vitamins',
+      categoryKey: 'Vitamins',
+      imageUrl: 'Vitamin.png'
     }
   ];
 
-  // 2. Health Concerns Horizontal Carousel
+  // 2. Health Concerns Horizontal Carousel (Exact DB Tag matching)
   healthConcerns: HealthConcernItem[] = [
-    { id: '1', title: 'Heart', categoryKey: 'HEART_HEALTH', imageUrl: '01_Heart.png', bgClass: 'card-heart-theme' },
-    { id: '2', title: 'Thyroid', categoryKey: 'THYROID_PROFILE', imageUrl: '02_Thyroid.png', bgClass: 'card-thyroid-theme' },
-    { id: '3', title: 'Joint pain', categoryKey: 'BONE_PROFILE', imageUrl: '03_Joint_Pain.png', bgClass: 'card-joint-theme' },
-    { id: '4', title: 'Liver', categoryKey: 'LIVER_CARE', imageUrl: '04_Liver.png', bgClass: 'card-liver-theme' },
-    { id: '5', title: 'Lungs', categoryKey: 'LUNGS_CARE', imageUrl: '05_Lungs.png', bgClass: 'card-lungs-theme' },
-    { id: '6', title: 'Kidney', categoryKey: 'KIDNEY_CARE', imageUrl: '06_Kidney.png', bgClass: 'card-kidney-theme' },
-    { id: '7', title: 'PCOD Checkup', categoryKey: 'WOMEN_HEALTH', imageUrl: 'PCOD_Checkup_HD.png', bgClass: 'card-pcod-theme' },
-    { id: '8', title: 'Gastric Checkup', categoryKey: 'GASTRO_CARE', imageUrl: 'Gastric_Checkup_HD.png', bgClass: 'card-gastric-theme' }
+    { id: '1', title: 'Heart', categoryKey: 'HeartCare', imageUrl: '01_Heart.png', bgClass: 'card-heart-theme' },
+    { id: '2', title: 'Joint pain', categoryKey: 'JoinPain', imageUrl: '03_Joint_Pain.png', bgClass: 'card-joint-theme' },
+     { id: '3', title: 'Cancer', categoryKey: 'Cancer', imageUrl: 'cancer_related_checkups.png', bgClass: 'card-cancer-theme' },
+    { id: '4', title: 'Liver', categoryKey: 'Liver', imageUrl: '04_Liver.png', bgClass: 'card-liver-theme' },
+    { id: '5', title: 'Lungs', categoryKey: 'Lungs', imageUrl: '05_Lungs.png', bgClass: 'card-lungs-theme' },
+    { id: '6', title: 'Kidney', categoryKey: 'Kidney', imageUrl: '06_Kidney.png', bgClass: 'card-kidney-theme' },
+    { id: '7', title: 'PCOD Checkup', categoryKey: 'PCODCheck', imageUrl: 'PCOD_Checkup_HD.png', bgClass: 'card-pcod-theme' },
+    { id: '8', title: 'Gastric Checkup', categoryKey: 'GastricCheck', imageUrl: 'Gastric_Checkup_HD.png', bgClass: 'card-gastric-theme' },
+    { id: '9', title: 'Thyroid', categoryKey: 'Thyroid', imageUrl: '02_Thyroid.png', bgClass: 'card-thyroid-theme' },
   ];
 
   constructor(private router: Router) {}

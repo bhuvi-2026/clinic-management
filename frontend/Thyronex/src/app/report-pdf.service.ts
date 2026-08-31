@@ -39,7 +39,7 @@ export class ReportPdfService {
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
-    doc.text('THYRONEX CARE DIAGNOSTICS', 14, 12);
+    doc.text('Thyronex Health Care', 14, 12);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);

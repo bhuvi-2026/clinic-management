@@ -1,210 +1,289 @@
 <div class="tnc-page-wrapper">
-  <!-- Breadcrumb navigation (like 1mg style) -->
+  <!-- Breadcrumb navigation -->
   <div class="tnc-container">
     <nav class="tnc-breadcrumb" aria-label="breadcrumb">
       <a routerLink="/">Home</a>
       <span class="breadcrumb-separator">/</span>
-      <span class="active-crumb">Terms &amp; Conditions</span>
+      <span class="active-crumb">{{ isAboutUsTab ? 'About Us' : 'Terms & Conditions' }}</span>
     </nav>
   </div>
 
-  <!-- Main Legal Document Layout -->
+  <!-- Document Container Card -->
   <div class="tnc-container tnc-content-card">
-    <header class="tnc-header">
-      <h1 class="tnc-title">Terms &amp; Conditions</h1>
-      <p class="tnc-last-updated">Last Updated: <span>{{ lastUpdated }}</span></p>
-      <div class="tnc-divider"></div>
-      <p class="tnc-intro">
-        Welcome to <strong>Thyronex Health Care</strong>. These Terms &amp; Conditions govern your use of the Thyronex Health Care website, online services, laboratory diagnostic services, appointment booking, and home sample collection services available in <strong>Hassan and Bengaluru, Karnataka</strong>.
-      </p>
-      <p class="tnc-intro-sub">
-        By accessing our website or using our services, you agree to these Terms &amp; Conditions. If you do not agree with any part of these terms, please do not use our website or services.
-      </p>
-    </header>
 
-    <div class="tnc-body">
-      <!-- Section 1 -->
-      <section class="tnc-section">
-        <h2>1. About Thyronex Health Care</h2>
-        <p>Thyronex Health Care provides laboratory diagnostic and related healthcare services through its laboratory facilities and sample collection services.</p>
-        <p>Our services may include laboratory tests, health check-up packages, diagnostic investigations, report delivery, and home sample collection, subject to availability and applicable requirements.</p>
-      </section>
+    <!-- ========================================================================= -->
+    <!-- 1. ABOUT US SECTION (SHOWN WHEN isAboutUsTab === true) -->
+    <!-- ========================================================================= -->
+    @if (isAboutUsTab) {
+      <header class="tnc-header">
+        <h1 class="tnc-title">About Thyronex Care</h1>
+        <p class="tnc-last-updated">Trusted Diagnostic Healthcare Partner in <strong>Hassan &amp; Bengaluru, Karnataka</strong></p>
+        <div class="tnc-divider"></div>
+        <p class="tnc-intro">
+          <strong>Thyronex Care</strong> is a premier healthcare diagnostic and preventive wellness platform committed to delivering accurate, certified, and doorstep medical testing solutions.
+        </p>
+      </header>
 
-      <!-- Section 2 -->
-      <section class="tnc-section">
-        <h2>2. Eligibility</h2>
-        <p>You must provide accurate and complete information when booking a test, requesting home sample collection, or using any service provided by Thyronex Health Care.</p>
-        <p>If a booking is made on behalf of another person, the person making the booking confirms that they are authorized to provide the required information.</p>
-      </section>
+      <div class="tnc-body">
+        <!-- Mission & Overview -->
+        <section class="tnc-section about-card">
+          <h2>🏥 Who We Are</h2>
+          <p>
+            Thyronex Care provides comprehensive laboratory diagnostic and related healthcare services through state-of-the-art laboratory networks and professional home sample collection services across Karnataka.
+          </p>
+          <p>
+            Our service catalog spans over 1,200+ specialized parameters, covering routine health checkups, preventive full-body panels, diabetes tracking, thyroid profiles, cardiac risk markers, hormone screening, and advanced oncology markers.
+          </p>
+        </section>
 
-      <!-- Section 3 -->
-      <section class="tnc-section">
-        <h2>3. Test Booking and Appointments</h2>
-        <ul>
-          <li>Test bookings may be made through our website, telephone, WhatsApp, or other authorized channels.</li>
-          <li>Appointment availability is subject to the availability of collection staff and required laboratory services.</li>
-          <li>Thyronex Health Care may contact you to confirm or reschedule an appointment.</li>
-          <li>Certain tests may require specific preparation, such as fasting or medication-related instructions.</li>
-          <li>Customers are responsible for following the preparation instructions provided by Thyronex Health Care or the relevant healthcare professional.</li>
-        </ul>
-      </section>
+        <!-- Core Pillars -->
+        <section class="tnc-section">
+          <h2>🌟 Our Core Commitments</h2>
+          <div class="about-grid">
+            <div class="about-grid-item">
+              <h4>🏠 Free Home Sample Collection</h4>
+              <p>Certified, trained phlebotomists collect specimens hygienically right at your doorstep in designated service areas of Hassan and Bengaluru.</p>
+            </div>
+            <div class="about-grid-item">
+              <h4>❄️ Cold-Chain Logistics</h4>
+              <p>Specimens are transported under strict temperature-controlled networks to ensure biological sample integrity without degradation.</p>
+            </div>
+            <div class="about-grid-item">
+              <h4>🤖 Automated Lab Processing</h4>
+              <p>Automated robotic analyzers with standardized daily calibration perform testing to eliminate manual touchpoint errors.</p>
+            </div>
+            <div class="about-grid-item">
+              <h4>🩺 MD Pathologist Verification</h4>
+              <p>Every report is reviewed, double-checked for abnormal values, and clinically signed off by experienced pathologists.</p>
+            </div>
+          </div>
+        </section>
 
-      <!-- Section 4 -->
-      <section class="tnc-section">
-        <h2>4. Free Home Sample Collection</h2>
-        <p>Thyronex Health Care may provide <strong>free home sample collection</strong> in selected service areas of Hassan and Bengaluru, Karnataka.</p>
-        <ul>
-          <li>Free home collection is subject to service-area availability.</li>
-          <li>Appointment slots are subject to availability.</li>
-          <li>Additional charges may apply for services outside the applicable free-collection area, where communicated in advance.</li>
-          <li>Thyronex Health Care reserves the right to modify the areas, timings, eligibility, or conditions for free home collection.</li>
-          <li>If a sample cannot be collected because of inadequate preparation, unsuitable conditions, insufficient sample, or other collection-related reasons, a repeat collection may be required.</li>
-        </ul>
-      </section>
+        <!-- Service Locations -->
+        <section class="tnc-section location-box">
+          <h2>📍 Service Coverage</h2>
+          <p>We are actively serving patients and families across:</p>
+          <ul>
+            <li><strong>Hassan District &amp; Surrounding Regions</strong></li>
+            <li><strong>Bengaluru Metropolitan Area</strong></li>
+          </ul>
+        </section>
 
-      <!-- Section 5 -->
-      <section class="tnc-section">
-        <h2>5. Sample Collection and Processing</h2>
-        <p>Samples will be collected by authorized or designated personnel following applicable laboratory procedures.</p>
-        <p>Thyronex Health Care will make reasonable efforts to maintain sample integrity during collection, handling, transportation, and processing.</p>
-        <p>However, in certain circumstances, a sample may be rejected or require recollection, including but not limited to:</p>
-        <ul>
-          <li>Insufficient sample quantity</li>
-          <li>Improperly collected sample</li>
-          <li>Hemolysed, clotted, contaminated, or otherwise unsuitable sample</li>
-          <li>Incorrect patient/sample identification</li>
-          <li>Improper storage or transportation conditions</li>
-          <li>Technical or equipment-related issues</li>
-        </ul>
-        <p>Where recollection is required, Thyronex Health Care may arrange another collection appointment subject to availability.</p>
-      </section>
+        <!-- Contact Box -->
+        <section class="tnc-section contact-card">
+          <h2>📞 Get in Touch with Us</h2>
+          <p>Have questions regarding our health packages or need assistance booking a doorstep appointment?</p>
+          <div class="contact-details-grid">
+            <div><strong>Entity:</strong> Thyronex Care</div>
+            <div><strong>Email:</strong> care&#64;thyronexcare.com / bhuvis459&#64;gmail.com</div>
+            <div><strong>Helpline:</strong> +91 99000 00000</div>
+            <div><strong>Operating Hours:</strong> Mon – Sun (7:00 AM – 8:00 PM IST)</div>
+          </div>
+        </section>
+      </div>
+    }
 
-      <!-- Section 6 -->
-      <section class="tnc-section highlight-box">
-        <h2>6. Laboratory Reports</h2>
-        <p>Laboratory reports are prepared based on the sample received and the tests performed by the laboratory.</p>
-        <p>Test results should be interpreted by a qualified healthcare professional in conjunction with the patient's medical history, symptoms, physical examination, and other relevant investigations.</p>
-        <div class="medical-alert">
-          <strong>Laboratory test results should not be considered a substitute for professional medical diagnosis or treatment.</strong>
-        </div>
-        <p>Thyronex Health Care does not recommend starting, stopping, or changing medication solely on the basis of a laboratory report without consulting an appropriately qualified healthcare professional.</p>
-      </section>
+    <!-- ========================================================================= -->
+    <!-- 2. TERMS & CONDITIONS SECTION (SHOWN WHEN isAboutUsTab === false) -->
+    <!-- ========================================================================= -->
+    @else {
+      <header class="tnc-header">
+        <h1 class="tnc-title">Terms &amp; Conditions</h1>
+        <p class="tnc-last-updated">Last Updated: <span>{{ lastUpdated }}</span></p>
+        <div class="tnc-divider"></div>
+        <p class="tnc-intro">
+          Welcome to <strong>Thyronex Care</strong>. These Terms &amp; Conditions govern your use of the Thyronex Care website, online services, laboratory diagnostic services, appointment booking, and home sample collection services available in <strong>Hassan and Bengaluru, Karnataka</strong>.
+        </p>
+        <p class="tnc-intro-sub">
+          By accessing our website or using our services, you agree to these Terms &amp; Conditions. If you do not agree with any part of these terms, please do not use our website or services.
+        </p>
+      </header>
 
-      <!-- Section 7 -->
-      <section class="tnc-section">
-        <h2>7. Turnaround Time (TAT)</h2>
-        <p>The estimated turnaround time provided for a test or package is indicative and may vary due to:</p>
-        <ul>
-          <li>Test requirements</li>
-          <li>Sample quality</li>
-          <li>Repeat or confirmatory testing</li>
-          <li>Technical issues</li>
-          <li>Holidays or operational circumstances</li>
-          <li>Transportation or collection delays</li>
-          <li>Other circumstances beyond reasonable control</li>
-        </ul>
-        <p>Thyronex Health Care will make reasonable efforts to provide reports within the communicated timeframe.</p>
-      </section>
+      <div class="tnc-body">
+        <!-- Section 1 -->
+        <section class="tnc-section">
+          <h2>1. About Thyronex Care</h2>
+          <p>Thyronex Care provides laboratory diagnostic and related healthcare services through its laboratory facilities and sample collection services.</p>
+          <p>Our services may include laboratory tests, health check-up packages, diagnostic investigations, report delivery, and home sample collection, subject to availability and applicable requirements.</p>
+        </section>
 
-      <!-- Section 8 -->
-      <section class="tnc-section">
-        <h2>8. Payments</h2>
-        <p>Where applicable, payment must be made through the payment methods offered by Thyronex Health Care.</p>
-        <p>The applicable test or package price will be communicated before or during booking.</p>
-        <p>Prices may change from time to time. Any applicable price changes will generally apply to new bookings and will not affect a confirmed booking unless otherwise communicated.</p>
-      </section>
+        <!-- Section 2 -->
+        <section class="tnc-section">
+          <h2>2. Eligibility</h2>
+          <p>You must provide accurate and complete information when booking a test, requesting home sample collection, or using any service provided by Thyronex Care.</p>
+          <p>If a booking is made on behalf of another person, the person making the booking confirms that they are authorized to provide the required information.</p>
+        </section>
 
-      <!-- Section 9 -->
-      <section class="tnc-section">
-        <h2>9. Cancellation, Rescheduling and Refunds</h2>
-        <p>Customers may request cancellation or rescheduling of an appointment through our authorized communication channels.</p>
-        <p>Refund eligibility, where applicable, will depend on:</p>
-        <ul>
-          <li>Whether the sample has already been collected</li>
-          <li>Whether testing or processing has already commenced</li>
-          <li>The applicable payment method</li>
-          <li>The specific test/package purchased</li>
-          <li>Any applicable cancellation policy communicated at the time of booking</li>
-        </ul>
-        <p>Where a refund is approved, it may take reasonable processing time depending on the payment provider or banking system.</p>
-      </section>
+        <!-- Section 3 -->
+        <section class="tnc-section">
+          <h2>3. Test Booking and Appointments</h2>
+          <ul>
+            <li>Test bookings may be made through our website, telephone, WhatsApp, or other authorized channels.</li>
+            <li>Appointment availability is subject to the availability of collection staff and required laboratory services.</li>
+            <li>Thyronex Care may contact you to confirm or reschedule an appointment.</li>
+            <li>Certain tests may require specific preparation, such as fasting or medication-related instructions.</li>
+            <li>Customers are responsible for following the preparation instructions provided by Thyronex Care or the relevant healthcare professional.</li>
+          </ul>
+        </section>
 
-      <!-- Section 10 -->
-      <section class="tnc-section">
-        <h2>10. Patient Information</h2>
-        <p>Customers must provide accurate information, including where applicable: Name, Age / Date of Birth, Contact details, Test requirements, and relevant patient/sample information.</p>
-        <p>Thyronex Health Care shall not be responsible for errors in a report or booking resulting from incorrect information supplied by the customer.</p>
-      </section>
+        <!-- Section 4 -->
+        <section class="tnc-section">
+          <h2>4. Free Home Sample Collection</h2>
+          <p>Thyronex Care may provide <strong>free home sample collection</strong> in selected service areas of Hassan and Bengaluru, Karnataka.</p>
+          <ul>
+            <li>Free home collection is subject to service-area availability.</li>
+            <li>Appointment slots are subject to availability.</li>
+            <li>Additional charges may apply for services outside the applicable free-collection area, where communicated in advance.</li>
+            <li>Thyronex Care reserves the right to modify the areas, timings, eligibility, or conditions for free home collection.</li>
+            <li>If a sample cannot be collected because of inadequate preparation, unsuitable conditions, insufficient sample, or other collection-related reasons, a repeat collection may be required.</li>
+          </ul>
+        </section>
 
-      <!-- Section 11 -->
-      <section class="tnc-section">
-        <h2>11. Privacy and Confidentiality</h2>
-        <p>Thyronex Health Care respects patient and customer privacy. Personal, contact, booking, and diagnostic information is collected for scheduling, collection, testing, delivery, billing, and quality compliance in accordance with applicable laws.</p>
-      </section>
+        <!-- Section 5 -->
+        <section class="tnc-section">
+          <h2>5. Sample Collection and Processing</h2>
+          <p>Samples will be collected by authorized or designated personnel following applicable laboratory procedures.</p>
+          <p>Thyronex Care will make reasonable efforts to maintain sample integrity during collection, handling, transportation, and processing.</p>
+          <p>However, in certain circumstances, a sample may be rejected or require recollection, including but not limited to:</p>
+          <ul>
+            <li>Insufficient sample quantity</li>
+            <li>Improperly collected sample</li>
+            <li>Hemolysed, clotted, contaminated, or otherwise unsuitable sample</li>
+            <li>Incorrect patient/sample identification</li>
+            <li>Improper storage or transportation conditions</li>
+            <li>Technical or equipment-related issues</li>
+          </ul>
+          <p>Where recollection is required, Thyronex Care may arrange another collection appointment subject to availability.</p>
+        </section>
 
-      <!-- Section 12 -->
-      <section class="tnc-section">
-        <h2>12. Website Information</h2>
-        <p>We make reasonable efforts to keep information accurate and up to date. However, pricing, availability, collection areas, and packages may change without prior notice.</p>
-      </section>
+        <!-- Section 6 -->
+        <section class="tnc-section highlight-box">
+          <h2>6. Laboratory Reports</h2>
+          <p>Laboratory reports are prepared based on the sample received and the tests performed by the laboratory.</p>
+          <p>Test results should be interpreted by a qualified healthcare professional in conjunction with the patient's medical history, symptoms, physical examination, and other relevant investigations.</p>
+          <div class="medical-alert">
+            <strong>Laboratory test results should not be considered a substitute for professional medical diagnosis or treatment.</strong>
+          </div>
+          <p>Thyronex Care does not recommend starting, stopping, or changing medication solely on the basis of a laboratory report without consulting an appropriately qualified healthcare professional.</p>
+        </section>
 
-      <!-- Section 13 -->
-      <section class="tnc-section">
-        <h2>13. Medical Disclaimer</h2>
-        <p>Information provided on the website is for general informational purposes only and does not constitute emergency medical services or clinical diagnosis. In case of emergency, please visit an appropriate medical facility immediately.</p>
-      </section>
+        <!-- Section 7 -->
+        <section class="tnc-section">
+          <h2>7. Turnaround Time (TAT)</h2>
+          <p>The estimated turnaround time provided for a test or package is indicative and may vary due to:</p>
+          <ul>
+            <li>Test requirements</li>
+            <li>Sample quality</li>
+            <li>Repeat or confirmatory testing</li>
+            <li>Technical issues</li>
+            <li>Holidays or operational circumstances</li>
+            <li>Transportation or collection delays</li>
+            <li>Other circumstances beyond reasonable control</li>
+          </ul>
+          <p>Thyronex Care will make reasonable efforts to provide reports within the communicated timeframe.</p>
+        </section>
 
-      <!-- Section 14 -->
-      <section class="tnc-section">
-        <h2>14. Intellectual Property</h2>
-        <p>All logos, text, graphics, designs, and content belong to or are lawfully licensed by Thyronex Health Care and may not be reproduced without prior written permission.</p>
-      </section>
+        <!-- Section 8 -->
+        <section class="tnc-section">
+          <h2>8. Payments</h2>
+          <p>Where applicable, payment must be made through the payment methods offered by Thyronex Care.</p>
+          <p>The applicable test or package price will be communicated before or during booking.</p>
+          <p>Prices may change from time to time. Any applicable price changes will generally apply to new bookings and will not affect a confirmed booking unless otherwise communicated.</p>
+        </section>
 
-      <!-- Section 15 -->
-      <section class="tnc-section">
-        <h2>15. Prohibited Use</h2>
-        <p>Users must not engage in unlawful activity, security interference, transmission of malicious code, false bookings, or unauthorized data scraping.</p>
-      </section>
+        <!-- Section 9 -->
+        <section class="tnc-section">
+          <h2>9. Cancellation, Rescheduling and Refunds</h2>
+          <p>Customers may request cancellation or rescheduling of an appointment through our authorized communication channels.</p>
+          <p>Refund eligibility, where applicable, will depend on:</p>
+          <ul>
+            <li>Whether the sample has already been collected</li>
+            <li>Whether testing or processing has already commenced</li>
+            <li>The applicable payment method</li>
+            <li>The specific test/package purchased</li>
+            <li>Any applicable cancellation policy communicated at the time of booking</li>
+          </ul>
+          <p>Where a refund is approved, it may take reasonable processing time depending on the payment provider or banking system.</p>
+        </section>
 
-      <!-- Section 16 -->
-      <section class="tnc-section">
-        <h2>16. Third-Party Services</h2>
-        <p>Our website may interface with payment gateways, map providers, and communication tools whose operations are governed by their independent policies.</p>
-      </section>
+        <!-- Section 10 -->
+        <section class="tnc-section">
+          <h2>10. Patient Information</h2>
+          <p>Customers must provide accurate information, including where applicable: Name, Age / Date of Birth, Contact details, Test requirements, and relevant patient/sample information.</p>
+          <p>Thyronex Care shall not be responsible for errors in a report or booking resulting from incorrect information supplied by the customer.</p>
+        </section>
 
-      <!-- Section 17 -->
-      <section class="tnc-section">
-        <h2>17. Limitation of Liability</h2>
-        <p>To the extent permitted by law, Thyronex Health Care is not liable for indirect losses resulting from third-party disruptions, transit delays, or events beyond reasonable operational control.</p>
-      </section>
+        <!-- Section 11 -->
+        <section class="tnc-section">
+          <h2>11. Privacy and Confidentiality</h2>
+          <p>Thyronex Care respects patient and customer privacy. Personal, contact, booking, and diagnostic information is collected for scheduling, collection, testing, delivery, billing, and quality compliance in accordance with applicable laws.</p>
+        </section>
 
-      <!-- Section 18 -->
-      <section class="tnc-section">
-        <h2>18. Changes to Services and Terms</h2>
-        <p>Thyronex Health Care reserves the right to modify these Terms &amp; Conditions. Continued use of our platform constitutes acceptance of updated terms.</p>
-      </section>
+        <!-- Section 12 -->
+        <section class="tnc-section">
+          <h2>12. Website Information</h2>
+          <p>We make reasonable efforts to keep information accurate and up to date. However, pricing, availability, collection areas, and packages may change without prior notice.</p>
+        </section>
 
-      <!-- Section 19 -->
-      <section class="tnc-section">
-        <h2>19. Governing Law</h2>
-        <p>These terms are governed by the laws of India, subject to the jurisdiction of courts in Karnataka.</p>
-      </section>
+        <!-- Section 13 -->
+        <section class="tnc-section">
+          <h2>13. Medical Disclaimer</h2>
+          <p>Information provided on the website is for general informational purposes only and does not constitute emergency medical services or clinical diagnosis. In case of emergency, please visit an appropriate medical facility immediately.</p>
+        </section>
 
-      <!-- Section 20 -->
-      <section class="tnc-section contact-card">
-        <h2>20. Contact Us</h2>
-        <p>For questions regarding bookings, reports, home collection, or terms, please contact:</p>
-        <div class="contact-details-grid">
-          <div><strong>Entity:</strong> Thyronex Health Care</div>
-          <div><strong>Service Areas:</strong> Hassan &amp; Bengaluru, Karnataka</div>
-          <div><strong>Email:</strong> support&#64;thyronexcare.com</div>
-          <div><strong>Phone / WhatsApp:</strong> +91 [Insert Number]</div>
-        </div>
-      </section>
-    </div>
+        <!-- Section 14 -->
+        <section class="tnc-section">
+          <h2>14. Intellectual Property</h2>
+          <p>All logos, text, graphics, designs, and content belong to or are lawfully licensed by Thyronex Care and may not be reproduced without prior written permission.</p>
+        </section>
 
-    <footer class="tnc-card-footer">
-      <p>By using the Thyronex Health Care website or booking our services, you acknowledge that you have read, understood, and agreed to these Terms &amp; Conditions.</p>
-    </footer>
+        <!-- Section 15 -->
+        <section class="tnc-section">
+          <h2>15. Prohibited Use</h2>
+          <p>Users must not engage in unlawful activity, security interference, transmission of malicious code, false bookings, or unauthorized data scraping.</p>
+        </section>
+
+        <!-- Section 16 -->
+        <section class="tnc-section">
+          <h2>16. Third-Party Services</h2>
+          <p>Our website may interface with payment gateways, map providers, and communication tools whose operations are governed by their independent policies.</p>
+        </section>
+
+        <!-- Section 17 -->
+        <section class="tnc-section">
+          <h2>17. Limitation of Liability</h2>
+          <p>To the extent permitted by law, Thyronex Care is not liable for indirect losses resulting from third-party disruptions, transit delays, or events beyond reasonable operational control.</p>
+        </section>
+
+        <!-- Section 18 -->
+        <section class="tnc-section">
+          <h2>18. Changes to Services and Terms</h2>
+          <p>Thyronex Care reserves the right to modify these Terms &amp; Conditions. Continued use of our platform constitutes acceptance of updated terms.</p>
+        </section>
+
+        <!-- Section 19 -->
+        <section class="tnc-section">
+          <h2>19. Governing Law</h2>
+          <p>These terms are governed by the laws of India, subject to the jurisdiction of courts in Karnataka.</p>
+        </section>
+
+        <!-- Section 20 -->
+        <section class="tnc-section contact-card">
+          <h2>20. Contact Us</h2>
+          <p>For questions regarding bookings, reports, home collection, or terms, please contact:</p>
+          <div class="contact-details-grid">
+            <div><strong>Entity:</strong> Thyronex Care</div>
+            <div><strong>Service Areas:</strong> Hassan &amp; Bengaluru, Karnataka</div>
+            <div><strong>Email:</strong> care&#64;thyronexcare.com / bhuvis459&#64;gmail.com</div>
+            <div><strong>Helpline:</strong> +91 99000 00000</div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="tnc-card-footer">
+        <p>By using the Thyronex Care website or booking our services, you acknowledge that you have read, understood, and agreed to these Terms &amp; Conditions.</p>
+      </footer>
+    }
+
   </div>
 </div>

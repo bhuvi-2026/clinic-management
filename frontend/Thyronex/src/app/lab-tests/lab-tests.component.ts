@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Input, Output, Eve
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LabService, HomeBasicPkg } from '../lab.service';
+import { LabService, HomeBasicPkg, LabPackage } from '../lab.service';
 import { LabBookingModalComponent } from '../lab-booking-modal/lab-booking-modal.component';
 
 export interface PromoSlide {
@@ -15,6 +15,15 @@ export interface ProfileGroup {
   title: string;
   isOpen: boolean;
   subParameters: string[];
+}
+
+export interface DynamicVitalCard {
+  id: string;
+  dbLookupKey: string;     // Exact term or fragment to find in the database package list
+  displayName: string;     // Top card title
+  displaySubtitle?: string;
+  bgClass: string;
+  pkg?: LabPackage;        // Pure DB data populated from cache
 }
 
 @Component({
@@ -35,25 +44,39 @@ export class LabTestsComponent implements OnInit, OnDestroy {
   viewingDetailsPackage: any = null;
   parsedProfiles: ProfileGroup[] = [];
 
+  // ⭐ Only identifier and styling theme are stored here - Prices & Details come 100% from DB cache
+  vitalCards: DynamicVitalCard[] = [
+    {
+      id: 'hba1c',
+      dbLookupKey: 'hba1c',
+      displayName: 'HbA1c',
+      displaySubtitle: '(Glycated Hemoglobin)',
+      bgClass: 'vitals-card-mint'
+    },
+    {
+      id: 'lft',
+      dbLookupKey: 'liver function tests',
+      displayName: 'LIVER FUNCTION TESTS',
+      displaySubtitle: '(LFT - 12 Parameters)',
+      bgClass: 'vitals-card-cyan'
+    },
+    {
+      id: 'hscrp',
+      dbLookupKey: 'cardiac risk markers',
+      displayName: 'C-Reactive protein',
+      displaySubtitle: '(Hs-CRP / Cardiac Risk)',
+      bgClass: 'vitals-card-sage'
+    }
+  ];
+
   currentSlideIndex: number = 0;
   private slideInterval: any;
 
   slides: PromoSlide[] = [
-    {
-      id: 'HOME_COLLECTION',
-      badge: 'Doorstep Blood Collection',
-      imageUrl: 'image-card2.png'
-    },
-    {
-      id: 'BLOOD_TUBES',
-      badge: 'Ease at your doorstep',
-      imageUrl: 'image-card1.jpeg'
-    },
-    {
-      id: 'LAB_TESTING',
-      badge: 'Accurate report in 12 hours',
-      imageUrl: 'image-card.jpeg'
-    }
+    { id: 'HOME_COLLECTION', badge: 'Free Home Sample Collection', imageUrl: 'image-card2.png' },
+    { id: 'BLOOD_TUBES', badge: '10–12 hours fasting required before testing.', imageUrl: 'image-card1.jpeg' },
+    { id: 'LAB_TESTING', badge: 'Accurate Reports Within 20 to 24 Hours', imageUrl: 'image-card.jpeg' },
+    { id: 'LAB_SAFETY', badge: 'Fully Automated Centralized Lab Processing', imageUrl: 'Lab_1.jpeg' }
   ];
 
   constructor(
@@ -63,11 +86,42 @@ export class LabTestsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadHomePackages();
+    this.fetchVitalsFromCache();
     this.startAutoSlide();
   }
 
   ngOnDestroy(): void {
     this.stopAutoSlide();
+  }
+
+  // ⭐ Fetch from Cache (If not cached yet, getPackages caches it automatically)
+  fetchVitalsFromCache(): void {
+    this.labService.getPackages('ALL').subscribe({
+      next: (packages: LabPackage[]) => {
+        if (packages && packages.length > 0) {
+          this.vitalCards.forEach(card => {
+            const found = packages.find(p => p.name.toLowerCase().includes(card.dbLookupKey.toLowerCase()));
+            if (found) {
+              card.pkg = found; // Direct DB package assignment
+            }
+          });
+        }
+      },
+      error: (err) => console.error('Error fetching cached packages for vitals:', err)
+    });
+  }
+
+  onVitalCardClick(card: DynamicVitalCard): void {
+    if (!this.isLoggedIn) {
+      this.loginRequired.emit();
+      return;
+    }
+
+    if (card.pkg) {
+      this.selectedPackage = card.pkg;
+    } else {
+      this.router.navigate(['/test-packages']);
+    }
   }
 
   startAutoSlide(): void {
@@ -122,7 +176,7 @@ export class LabTestsComponent implements OnInit, OnDestroy {
       return;
     }
     this.viewingDetailsPackage = pkg;
-    this.parsedProfiles = this.parseParametersSummary(pkg.parametersSummary);
+    this.parsedProfiles = this.parseParametersSummary(pkg.parametersSummary || pkg.description);
   }
 
   closeDetailsModal(): void {
@@ -150,12 +204,10 @@ export class LabTestsComponent implements OnInit, OnDestroy {
         let titlePart = line.substring(0, colonIndex).trim();
         let paramsPart = line.substring(colonIndex + 1).trim();
 
-        // Strip the trailing line parenthesis if it closed the profile group
         if (paramsPart.endsWith(')')) {
           paramsPart = paramsPart.substring(0, paramsPart.length - 1).trim();
         }
 
-        // Balance opening parenthesis in the title (e.g., "(3 parameters" -> "(3 parameters)")
         const openParenCount = (titlePart.match(/\(/g) || []).length;
         const closeParenCount = (titlePart.match(/\)/g) || []).length;
         if (openParenCount > closeParenCount) {

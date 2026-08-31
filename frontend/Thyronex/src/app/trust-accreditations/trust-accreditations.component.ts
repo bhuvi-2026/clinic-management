@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface WorkflowCard {
@@ -10,11 +10,8 @@ export interface WorkflowCard {
 
 export interface AccreditationCard {
   iconType: string;
-  badge: string;
-  title: string;
-  subtitle: string;
+  imageUrl: string;
   description: string;
-  certInfo?: string;
 }
 
 @Component({
@@ -26,6 +23,8 @@ export interface AccreditationCard {
 })
 export class TrustAccreditationsComponent {
   // 8 Cards for "How does home sample collection work?" (4 per row on desktop)
+
+  @Input() showWorkflow: boolean = true;
   workflowCards: WorkflowCard[] = [
     {
       stepNumber: 1,
@@ -71,9 +70,9 @@ export class TrustAccreditationsComponent {
     },
     {
       stepNumber: 8,
-      title: 'Fast Reports (98% Within 10 to 15 Hours)',
-      description: '98% of reports are published within 10–15 hours of lab arrival, trusted by 9 out of 10 doctors across India for accuracy.',
-      imageUrl: '01_reports_06_hours.png'
+      title: 'Fast Reports (98% Within 20 to 24 Hours)',
+      description: '98% of reports are published within 20–24 hours of lab arrival, trusted by 9 out of 10 doctors across India for accuracy.',
+      imageUrl: '01_reports_06_hours.svg'
     }
   ];
 
@@ -81,27 +80,19 @@ export class TrustAccreditationsComponent {
   accreditationCards: AccreditationCard[] = [
     {
       iconType: 'nabl',
-      badge: '100% NABL Network',
-      title: 'NABL & ISO 15189:2022',
-      subtitle: 'Quality & Technical Competence',
+
+      imageUrl: '01_NABL.png',
       description: 'Accredited by the National Accreditation Board for Testing and Calibration Laboratories (QCI) under ISO 15189 standards.',
-      certInfo: 'Cert: MC-7014 (2024–2028)'
     },
     {
       iconType: 'cap',
-      badge: 'Global Gold Standard',
-      title: 'CAP Accreditation',
-      subtitle: 'College of American Pathologists',
+      imageUrl: '03_CAP.png',
       description: 'Adherence to comprehensive international laboratory quality, rigorous blind testing trials, and patient safety criteria.',
-      certInfo: 'International Standard'
     },
     {
       iconType: 'iso',
-      badge: 'Certified Management',
-      title: 'ISO 9001:2015',
-      subtitle: 'Quality Management System',
+      imageUrl: '02_ISO.png',
       description: 'Certified standardized operating procedures focused on total process consistency, customer satisfaction, and continuous improvement.',
-      certInfo: 'Certified QMS'
     }
   ];
 }

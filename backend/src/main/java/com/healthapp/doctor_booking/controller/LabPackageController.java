@@ -1,8 +1,8 @@
 package com.healthapp.doctor_booking.controller;
 
+import com.healthapp.doctor_booking.dto.LabPackageDTO;
 import com.healthapp.doctor_booking.model.LabBooking;
 import com.healthapp.doctor_booking.model.LabBookingRequest;
-import com.healthapp.doctor_booking.model.LabPackage;
 import com.healthapp.doctor_booking.service.EmailService;
 import com.healthapp.doctor_booking.service.LabService;
 import com.healthapp.doctor_booking.service.WhatsAppService;
@@ -19,8 +19,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/lab-packages")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE, RequestMethod.OPTIONS })
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LabPackageController {
 
     @Autowired
@@ -32,32 +31,33 @@ public class LabPackageController {
     @Autowired
     private WhatsAppService whatsAppService;
 
-    @Value("${admin.secret.key:ThyronexAdmin@2026}")
+    @Value("${admin.secret.key}")
     private String adminSecretKey;
 
-    @Value("${lab.owner.email:bhuvis459@gmail.com}")
+    @Value("${lab.owner.email}")
     private String defaultOwnerEmail;
 
-    @Value("${lab.contact.phone}")
+    @Value("${lab.contact.phone:}")
     private String contactPhone;
 
-    @Value("${lab.contact.name}")
+    @Value("${lab.contact.name:}")
     private String contactName;
 
-    @Value("${lab.contact.timings}")
+    @Value("${lab.contact.timings:}")
     private String contactTimings;
 
     // =========================================================================
-    // 1. GET ALL PACKAGES (Calls labService.getAllPackages())
+    // 1. GET PACKAGES (Supports ?category=FullBody, Diabetic, HeartCare, etc.)
     // =========================================================================
     @GetMapping
-    public ResponseEntity<List<LabPackage>> getAllLabPackages() {
-        List<LabPackage> packages = labService.getAllPackages();
+    public ResponseEntity<List<LabPackageDTO>> getLabPackages(
+            @RequestParam(value = "category", required = false, defaultValue = "ALL") String category) {
+        List<LabPackageDTO> packages = labService.getPackagesByCategory(category);
         return ResponseEntity.ok(packages);
     }
 
     // =========================================================================
-    // 2. CONFIRM BOOKING (Calls labService.bookTest(request))
+    // 2. CONFIRM BOOKING (Async Notification Pipeline)
     // =========================================================================
     @PostMapping(value = { "/confirm-booking", "/bookings" })
     public ResponseEntity<?> confirmBooking(
@@ -71,14 +71,10 @@ public class LabPackageController {
                 return ResponseEntity.badRequest().body(Map.of("error", "Patient phone number is required"));
             }
 
-            // 1. Save booking via your LabService
             LabBooking savedBooking = labService.bookTest(request);
+            final String resolvedOwnerEmail = (ownerEmailHeader != null && !ownerEmailHeader.trim().isEmpty()) 
+                    ? ownerEmailHeader : defaultOwnerEmail;
 
-            final String resolvedOwnerEmail = (ownerEmailHeader != null && !ownerEmailHeader.trim().isEmpty())
-                    ? ownerEmailHeader
-                    : defaultOwnerEmail;
-
-            // 2. Dispatch Email & WhatsApp asynchronously in background
             CompletableFuture.runAsync(() -> {
                 try {
                     emailService.sendLabBookingNotificationToOwner(resolvedOwnerEmail, savedBooking);
@@ -94,28 +90,25 @@ public class LabPackageController {
             });
 
             return ResponseEntity.ok(savedBooking);
-
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Failed to save booking: " + e.getMessage()));
         }
     }
 
     // =========================================================================
-    // 3. BOOKING HISTORY (Calls labService.getBookingsByMobile(mobile))
+    // 3. BOOKING HISTORY
     // =========================================================================
     @GetMapping(value = { "/history", "/bookings/history" })
     public ResponseEntity<?> getBookingHistory(@RequestParam("mobile") String mobile) {
         if (mobile == null || mobile.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Mobile parameter is required"));
         }
-        List<LabBooking> history = labService.getBookingsByMobile(mobile);
-        return ResponseEntity.ok(history);
+        return ResponseEntity.ok(labService.getBookingsByMobile(mobile));
     }
 
     // =========================================================================
-    // 4. ADMIN: GET ALL BOOKINGS (Calls labService.getAllBookings())
+    // 4. ADMIN: GET ALL BOOKINGS
     // =========================================================================
     @GetMapping("/admin/all-bookings")
     public ResponseEntity<?> getAllBookingsForAdmin(
@@ -123,13 +116,11 @@ public class LabPackageController {
         if (key == null || !key.equals(adminSecretKey)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Unauthorized access"));
         }
-        List<LabBooking> bookings = labService.getAllBookings();
-        return ResponseEntity.ok(bookings);
+        return ResponseEntity.ok(labService.getAllBookings());
     }
 
     // =========================================================================
-    // 5. ADMIN: SUBMIT REPORT & COMPLETE (Calls labService.completeBooking(id,
-    // json))
+    // 5. ADMIN: COMPLETE BOOKING & DISPATCH REPORT
     // =========================================================================
     @PostMapping("/bookings/{id}/submit-report")
     public ResponseEntity<?> submitReport(
@@ -145,10 +136,8 @@ public class LabPackageController {
             String reportJson = payload.get("reportJson") != null ? payload.get("reportJson").toString() : null;
             String pdfBase64 = payload.get("pdfBase64") != null ? payload.get("pdfBase64").toString() : null;
 
-            // Update status to COMPLETED and store report JSON via LabService
             LabBooking updatedBooking = labService.completeBooking(bookingId, reportJson);
 
-            // Dispatch PDF Report via Email & WhatsApp asynchronously
             CompletableFuture.runAsync(() -> {
                 try {
                     emailService.sendTestCompletionWithPdf(updatedBooking, pdfBase64);
@@ -163,27 +152,23 @@ public class LabPackageController {
             });
 
             return ResponseEntity.ok(updatedBooking);
-
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Failed to submit report: " + e.getMessage()));
         }
     }
 
+    // =========================================================================
+    // 6. CONTACT INFORMATION
+    // =========================================================================
     @GetMapping("/contact-info")
     public ResponseEntity<Map<String, String>> getContactInfo() {
-        try {
-            Map<String, String> info = new HashMap<>();
-            info.put("phone", contactPhone);
-            info.put("inCharge", contactName);
-            info.put("timings", contactTimings);
-            return ResponseEntity.ok(info);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to retrieve contact info: " + e.getMessage()));
-        }
+        Map<String, String> info = new HashMap<>();
+        info.put("phone", contactPhone);
+        info.put("inCharge", contactName);
+        info.put("timings", contactTimings);
+        return ResponseEntity.ok(info);
     }
 }

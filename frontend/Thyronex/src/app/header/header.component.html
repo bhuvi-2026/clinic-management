@@ -1,13 +1,13 @@
 <nav class="navbar">
-  <!-- Left Container: Logo & Brand Text -->
-  <div class="logo-container" aria-label="Thyronex Care Diagnostics">
+  <!-- Left Container: Logo & Brand Text (Navigates to Home) -->
+  <div class="logo-container" role="button" (click)="onLogoClick()" aria-label="Thyronex Health Care">
     <img
       class="logo-image"
-      src="/android-chrome-192x192.png"
-      alt="Thyronex Care Diagnostics logo"
+      src="logo.PNG"
+      alt="Thyronex Health Care logo"
     />
     <div class="brand-text-block">
-      <span class="logo-text">Thyronex Care</span>
+      <span class="logo-text">Thyronex Health Care</span>
       <div class="tagline-wrapper">
         <span class="tagline-line"></span>
         <span class="tagline">Where Accuracy Meets Care</span>
@@ -20,12 +20,14 @@
     <!-- Desktop Actions (Hidden on Mobile) -->
     <div class="nav-actions desktop-actions">
       @if (!isLoggedIn) {
-        <button class="login-trigger-btn" (click)="triggerLogin.emit()">Login</button>
+        <button class="login-trigger-btn" (click)="onLoginClick()">Login / Sign Up</button>
       } @else {
         <div class="user-session-group">
           <span class="welcome-label">Welcome, <strong>{{ userName }}</strong></span>
-          <button class="nav-link-btn" (click)="triggerDashboard.emit()">My Bookings</button>
-          <button class="logout-outline-btn" (click)="triggerLogout.emit()">Logout</button>
+          
+          <!-- ⭐ Routes to /dashboard on Desktop -->
+          <button class="nav-link-btn" (click)="onDashboardClick()">My Bookings</button>
+          <button class="logout-outline-btn" (click)="onLogoutClick()">Logout</button>
         </div>
       }
     </div>
@@ -53,7 +55,7 @@
   <div class="mobile-drawer-backdrop" (click)="closeMobileMenu()">
     <div class="mobile-drawer-card" (click)="$event.stopPropagation()">
       <div class="drawer-header">
-        <div class="drawer-brand">
+        <div class="drawer-brand" (click)="onLogoClick()">
           <img src="/android-chrome-192x192.png" class="drawer-logo" alt="Thyronex Care" />
           <span class="drawer-title">Thyronex Care</span>
         </div>
@@ -75,8 +77,9 @@
 
           <!-- Menu Links -->
           <div class="mobile-nav-list">
+            <!-- ⭐ Routes to /dashboard on Mobile -->
             <button class="mobile-menu-item" (click)="onDashboardClick()">
-              <span class="item-text">My Bookings</span>
+              <span class="item-text">📋 My Bookings</span>
             </button>
 
             <button class="mobile-menu-item logout-item" (click)="onLogoutClick()">

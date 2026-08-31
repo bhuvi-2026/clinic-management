@@ -1,0 +1,176 @@
+<div class="privacy-container">
+  <!-- Breadcrumb Navigation -->
+  <nav class="privacy-breadcrumb" aria-label="breadcrumb">
+    <a routerLink="/">Home</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="active-crumb">{{ isContactUsTab ? 'Contact Us' : 'Privacy Policy' }}</span>
+  </nav>
+
+  <div class="privacy-card shadow-sm">
+
+    <!-- ========================================================================= -->
+    <!-- 1. CONTACT US VIEW (SHOWN WHEN isContactUsTab === true) -->
+    <!-- ========================================================================= -->
+    @if (isContactUsTab) {
+      <div class="privacy-header">
+        <h1 class="page-title">Contact Thyronex Care</h1>
+        <p class="effective-date">Diagnostic Support &amp; Home Sample Collection Desk</p>
+      </div>
+
+      <div class="privacy-content">
+        <p class="lead-text">
+          Need help booking a health checkup, requesting doorstep sample collection, or tracking your diagnostic report? Reach out to our patient support team across <strong>Hassan &amp; Bengaluru</strong>.
+        </p>
+
+        <!-- 3 Contact Cards Grid -->
+        <div class="contact-grid">
+          
+          <div class="contact-card-box">
+            <div class="contact-icon-bubble">📞</div>
+            <h3>Helpline &amp; WhatsApp</h3>
+            <p><strong>Phone:</strong> +91 99000 00000</p>
+            <p><strong>WhatsApp:</strong> +91 99000 00000</p>
+            <span class="badge-time">Mon – Sun (7:00 AM – 8:00 PM)</span>
+          </div>
+
+          <div class="contact-card-box">
+            <div class="contact-icon-bubble">✉️</div>
+            <h3>Email Support</h3>
+            <p><strong>Support:</strong> <a href="mailto:care@thyronexcare.com">care&#64;thyronexcare.com</a></p>
+            <p><strong>Admin:</strong> <a href="mailto:bhuvis459@gmail.com">bhuvis459&#64;gmail.com</a></p>
+            <span class="badge-time">Guaranteed Response in 2-4 Hours</span>
+          </div>
+
+          <div class="contact-card-box">
+            <div class="contact-icon-bubble">🏠</div>
+            <h3>Free Sample Collection</h3>
+            <p><strong>Service Areas:</strong> Hassan &amp; Bengaluru, Karnataka</p>
+            <p><strong>Lab Partner:</strong> Centralized NABL/CAP Certified Lab Network (Thyrocare)</p>
+            <span class="badge-time">100% Doorstep Phlebotomy Service</span>
+          </div>
+
+        </div>
+
+        <hr class="section-divider" />
+
+
+      </div>
+    }
+
+    <!-- ========================================================================= -->
+    <!-- 2. PRIVACY POLICY VIEW (SHOWN WHEN isContactUsTab === false) -->
+    <!-- ========================================================================= -->
+    @else {
+      <!-- Header -->
+      <div class="privacy-header">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="effective-date">Last Updated: {{ lastUpdated }}</p>
+      </div>
+
+      <!-- Body Content -->
+      <div class="privacy-content">
+        <p class="lead-text">
+          <strong>Thyronex Care Healthcare Solutions</strong> ("Thyronex Care", "we", "our", or "us") values your privacy and is dedicated to safeguarding your personal and health-related data. This Privacy Policy describes the types of information we collect from you through our website, mobile site, and booking platforms, how we handle, process, share, and protect that data, and your rights regarding your personal information.
+        </p>
+
+        <hr class="section-divider" />
+
+        <!-- 1. Definitions -->
+        <section class="policy-section">
+          <h2>1. Definitions</h2>
+          <ul>
+            <li><strong>Cookies:</strong> Small data files placed on your device by our platform to remember your preferences and enhance your browsing experience.</li>
+            <li><strong>Data:</strong> Includes personal details, non-personal information, and sensitive health information that can identify you directly or indirectly.</li>
+            <li><strong>Laboratory Partners:</strong> Accredited pathology and diagnostic network laboratories fulfilling your sample processing and report generation.</li>
+            <li><strong>Service Providers:</strong> Contracted entities that provide payment processing, SMS/OTP gateways, customer communication, or cloud infrastructure on our behalf.</li>
+            <li><strong>User ("You"):</strong> Any individual who accesses, browses, or avails diagnostic testing and doorstep sample collection services on our platform.</li>
+          </ul>
+        </section>
+
+        <!-- 2. Data We Collect -->
+        <section class="policy-section">
+          <h2>2. What Data We Collect About You</h2>
+          <p>To provide accurate diagnostic testing and home sample collection services, we may collect the following categories of data:</p>
+          <ul>
+            <li><strong>Contact Information:</strong> Full name, phone number, email address, physical address for home sample collection, and pincode.</li>
+            <li><strong>Health &amp; Diagnostic Data:</strong> Medical history details, physician prescriptions uploaded by you, requested diagnostic tests, specimen collection notes, fasting status, and laboratory test reports.</li>
+            <li><strong>Technical &amp; Device Information:</strong> IP address, browser type, device information, operating system, and website usage statistics.</li>
+            <li><strong>Transaction &amp; Payment Data:</strong> Transaction ID, order history, package selection, and mode of payment.</li>
+          </ul>
+        </section>
+
+        <!-- 3. How We Collect Data -->
+        <section class="policy-section">
+          <h2>3. How We Collect Data</h2>
+          <ul>
+            <li><strong>Information Provided Directly by You:</strong> When you book a test or full-body health package, sign in using mobile OTP, provide sample collection addresses, or upload doctor prescriptions.</li>
+            <li><strong>Information Collected Automatically:</strong> When you navigate through our diagnostic catalogue or portal via cookies and session storage.</li>
+            <li><strong>Information from Laboratory Processing:</strong> When our accredited central processing laboratories clinically validate and release your diagnostic reports.</li>
+          </ul>
+        </section>
+
+        <!-- 4. How We Use Your Data -->
+        <section class="policy-section">
+          <h2>4. How We Use Your Data</h2>
+          <p>Thyronex Care processes your data for legitimate healthcare and operational purposes:</p>
+          <ul>
+            <li>To schedule, assign, and dispatch certified phlebotomists to your doorstep for sample collection.</li>
+            <li>To transfer biological specimens safely with barcode traceability to certified diagnostic testing laboratories.</li>
+            <li>To generate, clinically review, and deliver diagnostic reports securely to your registered phone number/email/dashboard.</li>
+            <li>To send OTPs, appointment reminders, booking status confirmations, and sample collection updates via SMS or WhatsApp.</li>
+            <li>To respond to your customer care inquiries, booking modifications, or feedback.</li>
+          </ul>
+        </section>
+
+        <!-- 5. Sharing of Data -->
+        <section class="policy-section">
+          <h2>5. Sharing of Data</h2>
+          <p>We do <strong>not</strong> sell or rent your personal information to third parties. Data is shared strictly on a need-to-know basis:</p>
+          <ul>
+            <li><strong>Certified Phlebotomists &amp; Logistics:</strong> Shared strictly to locate your address and complete hygienic specimen collection.</li>
+            <li><strong>Accredited Diagnostic Laboratories:</strong> Shared with testing pathology labs to process specimens and release MD Pathologist-signed test reports.</li>
+            <li><strong>Authorized Service Providers:</strong> Trusted cloud hosts, SMS gateways, and payment partners bound by strict data confidentiality agreements.</li>
+          </ul>
+        </section>
+
+        <!-- 6. Data Security & Storage -->
+        <section class="policy-section">
+          <h2>6. Keeping Data Secure &amp; Storage</h2>
+          <p>
+            Your data is stored on secure, encrypted servers located within <strong>India</strong>. We employ industry-standard technical and organizational security measures to protect against unauthorized access, alteration, or disclosure.
+          </p>
+        </section>
+
+        <!-- 7. Data Retention & Your Rights -->
+        <section class="policy-section">
+          <h2>7. Your Rights &amp; Data Retention</h2>
+          <p>
+            We retain diagnostic and booking records in compliance with applicable healthcare record guidelines. You have the right to access and review your records, request contact corrections, or withdraw promotional communication consent.
+          </p>
+        </section>
+
+        <!-- 8. Minors -->
+        <section class="policy-section">
+          <h2>8. Minors</h2>
+          <p>
+            Our services for diagnostic booking and sample collection for individuals below 18 years of age must be initiated with the consent and involvement of a parent or legal guardian.
+          </p>
+        </section>
+
+        <!-- 9. Contact Us Box -->
+        <section class="policy-section contact-box">
+          <h2>9. Contact Us / Grievance Redressal</h2>
+          <p>If you have any questions or concerns regarding your personal data or this Privacy Policy, please contact our support team:</p>
+          <div class="contact-details">
+            <p><strong>Thyronex Care Healthcare Solutions</strong></p>
+            <p>Email: <a href="mailto:care@thyronexcare.com">care&#64;thyronexcare.com</a> / <a href="mailto:bhuvis459@gmail.com">bhuvis459&#64;gmail.com</a></p>
+            <p>Customer Support Helpline: +91 99000 00000</p>
+            <p>Hours: Monday – Sunday (7:00 AM to 8:00 PM IST)</p>
+          </div>
+        </section>
+
+      </div>
+    }
+
+  </div>
+</div>

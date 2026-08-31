@@ -1,39 +1,50 @@
+/* Logout Backdrop & Popup */
+.logout-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* --- Action Button --- */
-.btn-primary {
+.logout-modal-card {
+  background: #ffffff;
+  border-radius: 22px;
+  animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.logout-icon-bubble {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-teal {
   background-color: #1a5f6e;
-  color: white;
-  padding: 16px 32px;
+  color: #ffffff;
   border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px 0 rgba(26, 95, 110, 0.39);
+  transition: background-color 0.2s ease;
 }
 
-.btn-primary:hover {
-  background-color: #144a56;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26, 95, 110, 0.23);
-}
-
-.main-content {
-  min-height: 80vh;
-  /* padding-top: 80px; Adjust this height according to your header's height */
-}
-
-.back-link {
-  background: none;
-  border: none;
-  color: #0056b3;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 20px 0;
-  font-size: 1.1rem;
-}
-
-.back-link:hover {
-  text-decoration: underline;
+.btn-teal:hover {
+  background-color: #134753;
+  color: #ffffff;
 }

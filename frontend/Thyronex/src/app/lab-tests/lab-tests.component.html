@@ -1,10 +1,10 @@
 <div class="lab-container">
 
-  <!-- 1. HEALTH CONCERN SECTION WITH PROMO BANNER ON LEFT -->
+  <!-- 1. HEALTH CONCERN SECTION WITH PROMO BANNER -->
   <section class="category-section">
     <div class="category-left-container">
       <div class="category-header">
-        <h2>Find Tests & Packages by Health Concern</h2>
+        <h2>Find Tests &amp; Packages by Health Concern</h2>
         <p>Select a category to explore diagnostic tests tailored for you</p>
       </div>
 
@@ -32,7 +32,7 @@
     <div class="category-right-container">
       <div class="category-grid">
         <div class="category-mason-col">
-          <div class="category-card primary-card heart-pastel" (click)="onSelectCategory('HEART_HEALTH')">
+          <div class="category-card primary-card heart-pastel" (click)="onSelectCategory('HeartCare')">
             <div class="category-top-row">
               <h3 class="category-title">Heart Care <span>Package</span></h3>
               <div class="chevron-circle">
@@ -53,7 +53,7 @@
             </div>
           </div>
 
-          <div class="category-card secondary-card diabetic-pastel" (click)="onSelectCategory('DIABETIC_CARE')">
+          <div class="category-card secondary-card diabetic-pastel" (click)="onSelectCategory('FullBody')">
             <div class="category-top-row">
               <h3 class="category-title">Full Body <span>Package</span></h3>
               <div class="chevron-circle">
@@ -81,7 +81,7 @@
         </div>
 
         <div class="category-mason-col">
-          <div class="category-card secondary-card bone-pastel" (click)="onSelectCategory('BONE_PROFILE')">
+          <div class="category-card secondary-card bone-pastel" (click)="onSelectCategory('Diabetic')">
             <div class="category-top-row">
               <h3 class="category-title">Diabetic <span>Package</span></h3>
               <div class="chevron-circle">
@@ -92,18 +92,16 @@
               </div>
             </div>
             <div class="category-illustration">
-              <div class="category-illustration">
-                <div class="icon-circle diabetic-bg">
-                  <svg viewBox="0 0 64 64" fill="none">
-                    <path d="M32 4C20 16 8 28 8 40c0 14 10 20 24 20s24-6 24-20C56 28 44 16 32 4z" fill="#ffffff" />
-                    <rect x="26" y="32" width="12" height="18" rx="2" fill="#1a5f6e" opacity="0.85" />
-                  </svg>
-                </div>
+              <div class="icon-circle diabetic-bg">
+                <svg viewBox="0 0 64 64" fill="none">
+                  <path d="M32 4C20 16 8 28 8 40c0 14 10 20 24 20s24-6 24-20C56 28 44 16 32 4z" fill="#ffffff" />
+                  <rect x="26" y="32" width="12" height="18" rx="2" fill="#1a5f6e" opacity="0.85" />
+                </svg>
               </div>
             </div>
           </div>
 
-          <div class="category-card primary-card thyroid-pastel" (click)="onSelectCategory('THYROID_PROFILE')">
+          <div class="category-card primary-card thyroid-pastel" (click)="onSelectCategory('Thyroid')">
             <div class="category-top-row">
               <h3 class="category-title">Thyroid <span>Profile</span></h3>
               <div class="chevron-circle">
@@ -134,7 +132,53 @@
     </div>
   </section>
 
-  <!-- 2. POPULAR DIAGNOSTIC PACKAGES CAROUSEL -->
+  <!-- ========================================================================= -->
+  <!-- 2. KEEP A TAB ON YOUR VITALS (100% DYNAMIC FROM DB CACHE) -->
+  <!-- ========================================================================= -->
+  <section class="vitals-section">
+    <div class="vitals-header-box">
+      <h2 class="vitals-main-title">KEEP A TAB ON YOUR VITALS</h2>
+      <div class="vitals-title-line"></div>
+    </div>
+
+    <div class="vitals-cards-grid">
+      @for (card of vitalCards; track card.id) {
+        <div class="vital-card shadow-sm" [ngClass]="card.bgClass" (click)="onVitalCardClick(card)">
+          
+          <!-- Background Decor -->
+          <div class="vital-bg-bubble bubble-left"></div>
+          <div class="vital-bg-bubble bubble-right"></div>
+
+          <!-- Title -->
+          <div class="vital-card-top">
+            <span class="vital-title-line">{{ card.displayName }}</span>
+            @if (card.displaySubtitle) {
+              <span class="vital-subtitle-text">{{ card.displaySubtitle }}</span>
+            }
+          </div>
+
+          <!-- Bottom Right Price Disc from DB (card.pkg) -->
+          <div class="vital-price-disc">
+            @if (card.pkg?.originalPrice && card.pkg!.originalPrice! > card.pkg!.price) {
+              <div class="vital-old-price-row">
+                <span class="vital-old-price-text">
+                  <span class="curr-symbol">&#8377;</span>{{ card.pkg?.originalPrice }}
+                </span>
+              </div>
+            }
+
+            <div class="vital-current-price-row">
+              <span class="vital-curr-symbol">&#8377;</span>
+              <span class="vital-current-amount">{{ card.pkg?.price || '--' }}</span>
+            </div>
+          </div>
+
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- 3. POPULAR DIAGNOSTIC PACKAGES CAROUSEL -->
   <section class="packages-section">
     <div class="packages-header">
       <div class="packages-header-text">
@@ -164,9 +208,9 @@
           <h3 class="package-title">{{ pkg.name }}</h3>
 
           <div class="price-section">
-            <span class="current-price">₹ {{ pkg.price }}</span>
+            <span class="current-price">&#8377; {{ pkg.price }}</span>
             @if (pkg.originalPrice) {
-            <span class="old-price">₹ {{ pkg.originalPrice }}</span>
+            <span class="old-price">&#8377; {{ pkg.originalPrice }}</span>
             }
           </div>
         </div>
@@ -238,7 +282,7 @@
 
       <div class="modal-footer-action">
         <button class="book-modal-btn" (click)="bookFromDetailsModal(viewingDetailsPackage)">
-          Book Now (₹{{ viewingDetailsPackage.price }})
+          Book Now (&#8377;{{ viewingDetailsPackage.price }})
         </button>
       </div>
     </div>

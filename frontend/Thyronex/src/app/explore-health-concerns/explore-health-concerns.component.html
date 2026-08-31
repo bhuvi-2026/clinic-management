@@ -1,7 +1,7 @@
 <div class="concerns-main-wrapper">
 
   <!-- ========================================================================= -->
-  <!-- 1. BROWSE BY CATEGORY (CIRCULAR AVATAR CARDS MATCHING 1ST IMAGE) -->
+  <!-- 1. BROWSE BY CATEGORY (CIRCULAR AVATAR CARDS) -->
   <!-- ========================================================================= -->
   <section class="browse-category-section">
     <div class="section-title-box">
@@ -15,7 +15,7 @@
             @if (cat.imageUrl) {
               <img [src]="cat.imageUrl" [alt]="cat.title" class="circle-img" loading="lazy" />
             } @else {
-              <!-- Clean SVG Fallback vector matching medical pastel theme -->
+              <!-- Fallback vector icon -->
               <div class="circle-fallback-icon">
                 @switch (cat.id) {
                   @case ('cat_men') {
@@ -58,7 +58,7 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- 2. EXPLORE TESTS BY HEALTH CONCERNS (CAROUSEL WITH NEXT ARROW) -->
+  <!-- 2. EXPLORE TESTS BY HEALTH CONCERNS (CAROUSEL) -->
   <!-- ========================================================================= -->
   <section class="concerns-section pt-4">
     <div class="concerns-header">

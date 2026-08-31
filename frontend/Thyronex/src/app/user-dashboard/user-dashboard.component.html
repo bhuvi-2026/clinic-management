@@ -1,64 +1,234 @@
-<div class="w-100">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="fw-bold text-teal m-0">My Diagnostic Bookings</h4>
-    <span class="badge bg-light text-secondary border px-3 py-2">
-      Contact: +91 {{ mobile || 'User' }}
-    </span>
-  </div>
+<div class="dashboard-page-container">
+  <div class="dashboard-container">
+    
+    <!-- Top Navigation -->
+    <div class="dashboard-top-nav">
+      <button class="back-home-btn" (click)="goBackHome()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to Home
+      </button>
 
-  @if (bookings && bookings.length > 0) {
-    <div class="table-responsive rounded-3 border">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th class="py-3 px-3 text-secondary text-uppercase small">Booking ID</th>
-            <th class="py-3 px-3 text-secondary text-uppercase small">Test Package</th>
-            <th class="py-3 px-3 text-secondary text-uppercase small">Patients</th>
-            <th class="py-3 px-3 text-secondary text-uppercase small">Slot</th>
-            <th class="py-3 px-3 text-secondary text-uppercase small">Status</th>
-            <th class="py-3 px-3 text-secondary text-uppercase small text-center">Diagnostic Reports</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (booking of bookings; track booking.id) {
-            <tr>
-              <td class="px-3 fw-bold text-teal">#{{ booking.id }}</td>
-              <td class="fw-semibold px-3 text-dark">{{ booking.packageName || 'Lab Test' }}</td>
-              <td class="px-3 small text-secondary">{{ booking.patientName || 'Valued Patient' }}</td>
-              <td class="px-3 text-secondary small">{{ booking.schedule || 'Scheduled' }}</td>
-              <td class="px-3">
-                <span class="badge rounded-pill px-3 py-1" 
-                      [class.bg-success-subtle]="booking.status === 'COMPLETED'"
-                      [class.text-success]="booking.status === 'COMPLETED'"
-                      [class.bg-warning-subtle]="booking.status === 'CONFIRMED'"
-                      [class.text-warning]="booking.status === 'CONFIRMED'">
-                  {{ booking.status === 'COMPLETED' ? 'COMPLETED' : 'IN PROCESS' }}
-                </span>
-              </td>
-              <td class="px-3 text-center">
-                @if (booking.status === 'COMPLETED') {
-                  <div class="d-flex flex-column gap-1 align-items-center">
-                    @for (rep of getPatientReports(booking); track $index) {
-                      <button class="btn btn-sm btn-teal rounded-pill px-3 shadow-sm text-nowrap" (click)="downloadSpecificReport(rep, rep.patientName)">
-                        📥 Download {{ rep.patientName }}'s Report
-                      </button>
+      <div class="user-meta-pill">
+        <span class="user-avatar-dot"></span>
+        <span class="meta-mobile">+91 {{ userMobile || 'User' }}</span>
+      </div>
+    </div>
+
+    <!-- Header Banner Card -->
+    <div class="dashboard-header-card shadow-sm">
+      <div class="header-left">
+        <div class="header-icon-box">📋</div>
+        <div>
+          <h1 class="header-title">My Diagnostic Bookings</h1>
+          <p class="header-subtitle">Track doorstep collection status &amp; download certified lab reports</p>
+        </div>
+      </div>
+
+      <div class="header-action-badge">
+        <span class="booking-count-badge">{{ bookings.length }} Total Bookings</span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="loading-state-card shadow-sm">
+        <div class="spinner"></div>
+        <p>Loading your diagnostic appointments and reports...</p>
+      </div>
+    } @else {
+
+      @if (bookings && bookings.length > 0) {
+        <div class="dashboard-list-card shadow-sm">
+          
+          <!-- Table Header (Desktop Only) -->
+          <div class="dashboard-table-header hide-mobile hide-tab">
+            <div class="col-id">Booking ID</div>
+            <div class="col-pkg">Test / Package</div>
+            <div class="col-patient">Patient Details</div>
+            <div class="col-slot">Collection Slot</div>
+            <div class="col-status">Status</div>
+            <div class="col-report text-center">Diagnostic Reports</div>
+          </div>
+
+          <!-- Bookings Rows -->
+          <div class="bookings-list">
+            @for (booking of bookings; track booking.id) {
+              <div class="booking-card-item" [class.expanded-card]="booking.isExpanded">
+                
+                <!-- 1. STABLE ROW -->
+                <div class="stable-row" (click)="toggleRow(booking)">
+                  
+                  <!-- ID (Desktop & Tab) -->
+                  <div class="col-id hide-mobile">
+                    <span class="booking-id-tag">#{{ booking.id }}</span>
+                  </div>
+
+                  <!-- Test / Package Name (All views) -->
+                  <div class="col-pkg">
+                    <div class="package-name-cell">
+                      <!-- Mobile Mini ID -->
+                      <span class="mobile-id-badge show-mobile">#{{ booking.id }}</span>
+                      <strong>{{ booking.packageName || 'Diagnostic Checkup' }}</strong>
+                      <span class="collection-type-tag">Doorstep Collection</span>
+                    </div>
+                  </div>
+
+                  <!-- Patient (Desktop Only) -->
+                  <div class="col-patient hide-mobile hide-tab">
+                    <div class="patient-cell">
+                      <span class="patient-name">{{ booking.patientName || 'Valued Patient' }}</span>
+                      @if (booking.age || booking.gender) {
+                        <span class="patient-meta">{{ booking.age ? booking.age + ' yrs' : '' }} {{ booking.gender ? '• ' + booking.gender : '' }}</span>
+                      }
+                    </div>
+                  </div>
+
+                  <!-- Slot (Desktop Only) -->
+                  <div class="col-slot hide-mobile hide-tab">
+                    <div class="slot-cell">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <span>{{ booking.schedule || 'Scheduled' }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Status (All views) -->
+                  <div class="col-status">
+                    <span class="status-pill" 
+                      [class.status-completed]="booking.status === 'COMPLETED'"
+                      [class.status-in-process]="booking.status !== 'COMPLETED'">
+                      <span class="status-bullet"></span>
+                      {{ booking.status === 'COMPLETED' ? 'COMPLETED' : 'IN PROCESS' }}
+                    </span>
+                  </div>
+
+                  <!-- Diagnostic Report (Desktop Only) -->
+                  <div class="col-report hide-mobile hide-tab text-end">
+                    @if (booking.status === 'COMPLETED') {
+                      <div class="report-action-wrap">
+                        @for (rep of getPatientReports(booking); track $index) {
+                          <button class="download-report-btn" (click)="$event.stopPropagation(); downloadSpecificReport(rep, rep.patientName)">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                              <polyline points="7 10 12 15 17 10"></polyline>
+                              <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Download {{ rep.patientName }}'s PDF</span>
+                          </button>
+                        }
+                      </div>
+                    } @else {
+                      <span class="processing-report-pill">
+                        ⏳ Report awaited
+                      </span>
                     }
                   </div>
-                } @else {
-                  <span class="badge bg-light text-muted border px-2 py-1 small">
-                    ⏳ Report processing
-                  </span>
+
+                  <!-- Small Arrow Mark (Tab & Mobile Only) -->
+                  <div class="col-toggle show-mobile show-tab text-end">
+                    <button class="row-expand-btn" [class.rotated]="booking.isExpanded" (click)="$event.stopPropagation(); toggleRow(booking)" aria-label="Toggle Details">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+
+                </div>
+
+                <!-- 2. EXPANDABLE TRAY -->
+                @if (booking.isExpanded) {
+                  <div class="expanded-tray show-mobile show-tab">
+                    
+                    <!-- TABLET: 3 Fields in 1 row -->
+                    <div class="tray-grid-tab show-tab">
+                      <div class="tray-col">
+                        <span class="tray-label">👤 Patient Details</span>
+                        <strong class="tray-val">{{ booking.patientName || 'Valued Patient' }} ({{ booking.age ? booking.age + 'y' : '' }}{{ booking.gender ? '/' + booking.gender : '' }})</strong>
+                      </div>
+                      
+                      <div class="tray-col">
+                        <span class="tray-label">🕒 Collection Slot</span>
+                        <span class="tray-val">{{ booking.schedule || 'Scheduled Time' }}</span>
+                      </div>
+
+                      <div class="tray-col text-end">
+                        <span class="tray-label">📄 Diagnostic Report</span>
+                        @if (booking.status === 'COMPLETED') {
+                          @for (rep of getPatientReports(booking); track $index) {
+                            <button class="download-report-btn w-100 justify-content-center mt-1" (click)="$event.stopPropagation(); downloadSpecificReport(rep, rep.patientName)">
+                              📥 Download PDF
+                            </button>
+                          }
+                        } @else {
+                          <span class="processing-report-pill mt-1">⏳Report Awaited</span>
+                        }
+                      </div>
+                    </div>
+
+                    <!-- MOBILE: 2 Fields in Row 1 + Report Download in Row 2 -->
+                    <div class="tray-grid-mobile show-mobile">
+                      
+                      <!-- Row 1: Patient & Slot (2 fields in 1 row) -->
+                      <div class="mobile-two-fields-row">
+                        <div class="tray-col">
+                          <span class="tray-label">👤 Patient</span>
+                          <strong class="tray-val">{{ booking.patientName || 'Valued Patient' }}</strong>
+                          <span class="tray-subval">{{ booking.age ? booking.age + ' yrs' : '' }} {{ booking.gender ? '• ' + booking.gender : '' }}</span>
+                        </div>
+
+                        <div class="tray-col">
+                          <span class="tray-label">🕒 Collection Slot</span>
+                          <span class="tray-val">{{ booking.schedule || 'Scheduled' }}</span>
+                        </div>
+                      </div>
+
+                      <!-- Row 2: Report Status / Download Button -->
+                      <div class="mobile-report-row">
+                        @if (booking.status === 'COMPLETED') {
+                          @for (rep of getPatientReports(booking); track $index) {
+                            <button class="download-report-btn w-100 justify-content-center" (click)="$event.stopPropagation(); downloadSpecificReport(rep, rep.patientName)">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                              </svg>
+                              Download {{ rep.patientName }}'s PDF
+                            </button>
+                          }
+                        } @else {
+                          <div class="processing-report-pill w-100 text-center">
+                            ⏳ Report Awaited
+                          </div>
+                        }
+                      </div>
+
+                    </div>
+
+                  </div>
                 }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  } @else {
-    <div class="text-center py-5">
-      <div class="fs-1 mb-2">🧪</div>
-      <h4 class="fw-bold text-teal">No lab bookings found</h4>
-    </div>
-  }
+
+              </div>
+            }
+          </div>
+
+        </div>
+      } @else {
+        <!-- Empty State -->
+        <div class="empty-dashboard-card shadow-sm">
+          <div class="empty-icon-bubble">🧪</div>
+          <h2>No Diagnostic Bookings Found</h2>
+          <p>You haven't booked any doorstep lab tests or health checkups with this mobile number yet.</p>
+          <button class="explore-tests-btn" (click)="goBackHome()">
+            Explore Tests &amp; Packages
+          </button>
+        </div>
+      }
+
+    }
+
+  </div>
 </div>

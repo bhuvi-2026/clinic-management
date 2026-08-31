@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/home-basic-pkgs")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class HomeBasicPackageController {
 
     private final LabService labService;
@@ -19,8 +19,8 @@ public class HomeBasicPackageController {
     }
 
     @GetMapping
-    public List<HomeBasicPackage> getHomeBasicPackages() {
-        return labService.getAllHomeBasicPackages();
+    public ResponseEntity<List<HomeBasicPackage>> getHomeBasicPackages() {
+        return ResponseEntity.ok(labService.getAllHomeBasicPackages());
     }
 
     @PostMapping

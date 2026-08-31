@@ -24,6 +24,9 @@ public class LabPackage {
     @Column(columnDefinition = "TEXT")
     private String detailsJson;
 
+    @Column(length = 500)
+    private String categoryTags;
+
     public LabPackage() {}
 
     public Long getId() { return id; }
@@ -49,4 +52,7 @@ public class LabPackage {
 
     public String getDetailsJson() { return detailsJson; }
     public void setDetailsJson(String detailsJson) { this.detailsJson = detailsJson; }
+
+    public String getCategoryTags() { return categoryTags; }
+    public void setCategoryTags(String categoryTags) { this.categoryTags = categoryTags; }
 }

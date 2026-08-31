@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export interface PatientUploadSlot {
   patientName: string;
@@ -39,6 +40,7 @@ export class AdminComponent implements OnInit {
   successModalMessage: string = '';
   successBookingDetails: any = null;
 
+  //private API_URL = `${environment.apiUrl}/lab-packages`;
   private API_URL = 'http://localhost:8080/api/lab-packages';
 
   constructor(private http: HttpClient) {}

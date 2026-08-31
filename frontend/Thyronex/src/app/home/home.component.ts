@@ -5,13 +5,12 @@ import { LoginComponent } from "../login/login.component";
 import { UserDashboardComponent } from "../user-dashboard/user-dashboard.component";
 import { LabService } from '../lab.service';
 import { ExploreHealthConcernsComponent } from '../explore-health-concerns/explore-health-concerns.component';
-import { TrustAccreditationsComponent } from '../trust-accreditations/trust-accreditations.component';
 import { AdminComponent } from "../admin/admin.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, LabTestsComponent, ExploreHealthConcernsComponent, TrustAccreditationsComponent, LoginComponent, UserDashboardComponent, AdminComponent],
+  imports: [CommonModule, LabTestsComponent, ExploreHealthConcernsComponent, LoginComponent, UserDashboardComponent, AdminComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

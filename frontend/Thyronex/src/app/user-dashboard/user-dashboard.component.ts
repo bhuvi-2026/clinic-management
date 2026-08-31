@@ -1,53 +1,77 @@
-import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { LabService } from '../lab.service';
+
+export interface BookingItem {
+  id: number;
+  packageName?: string;
+  patientName?: string;
+  age?: number;
+  gender?: string;
+  schedule?: string;
+  status: string;
+  reportData?: string;
+  isExpanded?: boolean; // ⭐ Tracks accordion state
+}
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-  @Input() name: string = '';
-  @Input() email: string = '';
-  @Input() mobile: string = '';
-  @Output() backToHome = new EventEmitter<void>();
+  userName: string = '';
+  userEmail: string = '';
+  userMobile: string = '';
+  
+  bookings: BookingItem[] = [];
+  isLoading: boolean = true;
 
-  bookings: any[] = [];
-
-  constructor(private labService: LabService) { }
+  constructor(
+    private labService: LabService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    const targetMobile = this.mobile || localStorage.getItem('userMobile') || '';
-    if (targetMobile) {
-      this.fetchHistory(targetMobile);
-    }
-  }
+    this.userName = localStorage.getItem('userName') || 'Valued Patient';
+    this.userEmail = localStorage.getItem('userEmail') || '';
+    this.userMobile = localStorage.getItem('userMobile') || '';
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mobile'] && this.mobile) {
-      this.fetchHistory(this.mobile);
-    } else if (!this.mobile) {
-      const cached = localStorage.getItem('userMobile');
-      if (cached) {
-        this.fetchHistory(cached);
-      }
+    if (this.userMobile) {
+      this.fetchHistory(this.userMobile);
+    } else {
+      this.isLoading = false;
     }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   fetchHistory(mobile: string): void {
-    if (!mobile) return;
+    this.isLoading = true;
     this.labService.getLabBookingHistory(mobile).subscribe({
       next: (data) => {
-        this.bookings = data || [];
+        // Initialize every booking with isExpanded: false
+        this.bookings = (data || []).map((b: any) => ({
+          ...b,
+          isExpanded: false
+        }));
+        this.isLoading = false;
       },
-      error: (err: any) => console.error('Failed to load booking history', err)
+      error: (err: any) => {
+        console.error('Failed to load booking history', err);
+        this.isLoading = false;
+      }
     });
   }
 
-  // Parses individual reports from booking.reportData
+  // ⭐ Toggles expansion on mobile/tablet
+  toggleRow(booking: BookingItem): void {
+    booking.isExpanded = !booking.isExpanded;
+  }
+
   getPatientReports(booking: any): any[] {
     if (!booking.reportData) return [];
     try {
@@ -69,7 +93,7 @@ export class UserDashboardComponent implements OnInit {
 
   downloadSpecificReport(report: any, defaultName: string): void {
     if (!report.pdfBase64 || !report.pdfBase64.includes('base64,')) {
-      alert('Report file not found.');
+      alert('Report file not available yet.');
       return;
     }
 
@@ -92,5 +116,9 @@ export class UserDashboardComponent implements OnInit {
       console.error('Download error:', e);
       alert('Could not download report.');
     }
+  }
+
+  goBackHome(): void {
+    this.router.navigate(['/']);
   }
 }

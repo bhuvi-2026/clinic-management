@@ -11,11 +11,55 @@
   <router-outlet (activate)="onRouteActivate($event)"></router-outlet>
 </main>
 
+@if (!isAdminRoute) {
+    <div class="global-trust-wrapper container">
+      <app-trust-accreditations [showWorkflow]="isHomePage"></app-trust-accreditations>
+    </div>
+  }
+
+<!-- Login Modal -->
 @if (showLoginOverlay && !isAdminRoute) {
   <app-login 
     (loginSuccess)="onLoginSuccess($event)" 
     (closeLogin)="handleModalClose()">
   </app-login>
+}
+
+<!-- ⭐ Logged Out Confirmation Modal Screen -->
+@if (showLogoutModal) {
+  <div class="modal fade show d-block logout-backdrop" tabindex="-1" (click)="closeLogoutModal()">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 rounded-4 shadow-lg p-4 text-center position-relative logout-modal-card">
+        
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" (click)="closeLogoutModal()"></button>
+
+        <!-- Logout Vector Icon -->
+        <div class="logout-icon-bubble mx-auto mb-3">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1a5f6e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </div>
+
+        <h4 class="fw-bold text-dark mb-1">Logged Out Successfully</h4>
+        <p class="text-secondary small mb-4">
+          You have safely ended your session with <strong>Thyronex Care</strong>.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="d-flex flex-column gap-2">
+          <button type="button" class="btn btn-teal w-100 py-2 rounded-3 fw-bold" (click)="reopenLogin()">
+            Login Again
+          </button>
+          <button type="button" class="btn btn-light w-100 py-2 rounded-3 text-secondary fw-semibold border" (click)="closeLogoutModal()">
+            Done
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 }
 
 <app-footer></app-footer>

@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { TrustAccreditationsComponent } from './trust-accreditations/trust-accreditations.component';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
     RouterOutlet, 
     HeaderComponent, 
     FooterComponent, 
+    TrustAccreditationsComponent,
     LoginComponent
   ],
   templateUrl: './app.component.html',
@@ -28,30 +30,34 @@ export class AppComponent implements OnInit {
   loggedInUserMobile: string = '';
   showLoginOverlay: boolean = false;
   isAdminRoute: boolean = false;
+  isHomePage: boolean = true;
+
+  // ⭐ New Logout Modal State
+  showLogoutModal: boolean = false;
+  logoutTimer: any = null;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // ⭐ Restore 4-Hour Session on Initial Load / Page Refresh
     this.restoreSession();
 
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        this.isAdminRoute = event.urlAfterRedirects.includes('/admin');
+        const currentUrl = event.urlAfterRedirects.split('?')[0];
+        this.isAdminRoute = currentUrl.includes('/admin');
+        // true only on "/" or ""
+        this.isHomePage = currentUrl === '/' || currentUrl === '';
       });
   }
-
-  // =========================================================================
-  // 🕒 RESTORE 4-HOUR SESSION CHECK
-  // =========================================================================
+  
   restoreSession(): void {
     const sessionStr = localStorage.getItem('user_session');
     if (sessionStr) {
       try {
         const session = JSON.parse(sessionStr);
         const currentTime = new Date().getTime();
-        const fourHoursInMillis = 4 * 60 * 60 * 1000; // 4 Hours
+        const fourHoursInMillis = 4 * 60 * 60 * 1000;
 
         if (session.loginTime && (currentTime - session.loginTime < fourHoursInMillis)) {
           this.isLoggedIn = true;
@@ -59,7 +65,6 @@ export class AppComponent implements OnInit {
           this.userEmail = session.email || '';
           this.loggedInUserMobile = session.mobile || localStorage.getItem('userMobile') || '';
         } else {
-          // Session expired after 4 hours
           this.handleLogout();
         }
       } catch (e) {
@@ -95,12 +100,13 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onLoginSuccess(userData: { name: string; email: string }) {
+  onLoginSuccess(userData: { name: string; email: string }): void {
     this.isLoggedIn = true;
     this.userName = userData.name || 'User';
     this.userEmail = userData.email || '';
     this.loggedInUserMobile = localStorage.getItem('userMobile') || '';
     this.showLoginOverlay = false;
+    this.closeLogoutModal();
 
     if (this.activeHomeRef) {
       this.activeHomeRef.isLoggedIn = true;
@@ -114,6 +120,7 @@ export class AppComponent implements OnInit {
     this.showLoginOverlay = false;
   }
 
+  // ⭐ Cleans user state and shows the Logged Out Screen
   handleLogout(): void {
     this.isLoggedIn = false;
     this.userName = '';
@@ -134,6 +141,26 @@ export class AppComponent implements OnInit {
     if (window.location.pathname.includes('test-packages')) {
       this.router.navigate(['/']);
     }
+
+    // Show the Logout Popup & start auto-close timer (3.5s)
+    this.showLogoutModal = true;
+    if (this.logoutTimer) clearTimeout(this.logoutTimer);
+    this.logoutTimer = setTimeout(() => {
+      this.closeLogoutModal();
+    }, 3500);
+  }
+
+  closeLogoutModal(): void {
+    this.showLogoutModal = false;
+    if (this.logoutTimer) {
+      clearTimeout(this.logoutTimer);
+      this.logoutTimer = null;
+    }
+  }
+
+  reopenLogin(): void {
+    this.closeLogoutModal();
+    this.showLoginOverlay = true;
   }
 
   handleNavigateToDashboard(): void {

@@ -56,7 +56,7 @@ public class EmailService {
                     + "Address: " + details.getAddress() + "\n"
                     + "Patient Phone: " + details.getPatientPhone() + "\n"
                     + "Patient Email: " + (details.getEmail() != null ? details.getEmail() : "N/A") + "\n\n"
-                    + "Regards,\nThyronex Care Diagnostics";
+                    + "Regards,\nThyronex Health Care";
 
             message.setText(content);
             mailSender.send(message);
@@ -92,7 +92,7 @@ public class EmailService {
                     + "Address: " + details.getAddress() + "\n"
                     + "Contact Phone: " + details.getPatientPhone() + "\n\n"
                     + "Our representative will arrive at your address during the scheduled time slot.\n\n"
-                    + "Regards,\nThyronex Care Diagnostics Team";
+                    + "Regards,\nThyronex Health Care Team";
 
             message.setText(content);
             mailSender.send(message);
@@ -121,7 +121,7 @@ public class EmailService {
 
             String htmlBody = "<div style='font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto;'>"
                     + "<div style='background-color: #1a5f6e; padding: 18px; border-radius: 8px 8px 0 0; text-align: center; color: white;'>"
-                    + "<h2 style='margin: 0;'>THYRONEX CARE DIAGNOSTICS</h2>"
+                    + "<h2 style='margin: 0;'>Thyronex Health Care</h2>"
                     + "<p style='margin: 4px 0 0 0; font-size: 13px;'>Official Diagnostic Test Reports</p>"
                     + "</div>"
                     + "<div style='padding: 20px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;'>"
@@ -131,7 +131,7 @@ public class EmailService {
                     + "<p>Please find attached the official PDF report softcopies.</p>"
                     + "<p>You can also download your reports anytime from <strong>'My Bookings'</strong> on our portal.</p>"
                     + "<hr style='border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;'>"
-                    + "<p style='font-size: 12px; color: #64748b;'>Thyronex Care Diagnostics & Laboratory<br>Toll Free: +91 80880 73507</p>"
+                    + "<p style='font-size: 12px; color: #64748b;'>Thyronex Health Care & Laboratory<br>Toll Free: +91 80880 73507</p>"
                     + "</div></div>";
 
             helper.setText(htmlBody, true);
@@ -192,7 +192,7 @@ public class EmailService {
                     + "Package: " + details.getPackageName() + "\n"
                     + "Schedule: " + details.getSchedule() + "\n\n"
                     + "Your report will be available in your portal shortly. Thank you for choosing us!\n\n"
-                    + "Regards,\nThyronex Care Diagnostics Team";
+                    + "Regards,\nThyronex Health Care Team";
 
             message.setText(content);
             mailSender.send(message);

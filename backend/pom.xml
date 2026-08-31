@@ -14,7 +14,7 @@
     <artifactId>doctor-booking</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>doctor-booking</name>
-    <description>Thyronex Care Diagnostics Backend</description>
+    <description>Thyronex Health Care Backend</description>
 
     <properties>
         <java.version>17</java.version>

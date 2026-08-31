@@ -6,9 +6,7 @@
   box-sizing: border-box;
 }
 
-/* ========================================================================= */
-/* 1. HOW DOES HOME SAMPLE COLLECTION WORK? */
-/* ========================================================================= */
+/* Workflow Section */
 .collection-workflow-section {
   width: 100%;
   margin-bottom: 56px;
@@ -39,7 +37,6 @@
   font-weight: 800;
 }
 
-/* 4 Cards per row on Desktop (2 rows of 4) */
 .workflow-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -57,7 +54,7 @@
   flex-direction: column;
   box-sizing: border-box;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-  min-height: 310px;
+  min-height: 264px;
 }
 
 .collection-step-card:hover {
@@ -112,13 +109,12 @@
   z-index: 2;
 }
 
-/* Mobile Icon Badge - Hidden by default on Desktop */
 .mobile-step-badge {
   display: none;
 }
 
 .step-body {
-  padding: 16px 14px;
+  padding: 0px 14px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -139,9 +135,7 @@
   margin: 0;
 }
 
-/* ========================================================================= */
-/* 4-COLUMN BOTTOM FEATURE STRIP */
-/* ========================================================================= */
+/* Bottom Feature Strip */
 .bottom-features-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -194,9 +188,7 @@
   margin: 0;
 }
 
-/* ========================================================================= */
-/* 2. WHY TRUST THYRONEX CARE SECTION */
-/* ========================================================================= */
+/* Why Trust Section */
 .trust-section {
   width: 100%;
 }
@@ -272,6 +264,7 @@
   font-weight: 600;
 }
 
+/* Accreditation Cards Container */
 .trust-cards-container {
   background: linear-gradient(180deg, #f0fdf9 0%, #ecfdf5 100%);
   border: 1.5px solid #ccfbf1;
@@ -283,19 +276,21 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
 }
 
 .quality-card {
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
   border-radius: 20px;
-  padding: 24px 20px;
+  padding: 6px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  text-align: center;
   transition: transform 0.22s ease, box-shadow 0.22s ease;
-  min-height: 230px;
+  min-height: 184px;
   box-sizing: border-box;
 }
 
@@ -305,72 +300,40 @@
   border-color: #1a5f6e;
 }
 
-.card-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.card-icon-wrapper {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background-color: #f0fdfa;
-  border: 1px solid #99f6e4;
+.accreditation-image-box {
+  width: 100%;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 6px;
 }
 
-.card-svg {
-  width: 24px;
-  height: 24px;
-}
-
-.card-badge {
-  display: inline-block;
-  background: #f1f5f9;
-  color: #475569;
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 6px;
-  text-transform: uppercase;
-}
-
-.card-title {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 4px;
-  line-height: 1.25;
-}
-
-.card-subtitle {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #1a5f6e;
-  margin: 0 0 8px;
+.accreditation-logo {
+  max-width: 130px;
+  max-height: 64px;
+  object-fit: contain;
+  display: block;
 }
 
 .card-desc {
-  font-size: 0.82rem;
-  color: #64748b;
-  line-height: 1.45;
+  font-size: 0.88rem;
+  color: #323c49;
+  line-height: 1.5;
   margin: 0;
+  flex-grow: 1;
 }
 
 .cert-pill {
-  margin-top: 12px;
+  margin-top: 14px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.72rem;
-  color: #1e293b;
+  padding: 5px 12px;
+  border-radius: 50rem;
+  font-size: 0.76rem;
+  color: #0f172a;
   font-weight: 700;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
 }
@@ -406,9 +369,7 @@
   color: #166534;
 }
 
-/* ========================================================================= */
-/* TABLET RESPONSIVENESS (768px - 1200px) */
-/* ========================================================================= */
+/* Tablet & Mobile Breakpoints */
 @media (max-width: 1200px) {
   .workflow-cards-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -424,16 +385,12 @@
   }
 }
 
-/* ========================================================================= */
-/* MOBILE RESPONSIVENESS (MATCHING 1ST ATTACHED SCREENSHOT COMPACT LIST) */
-/* ========================================================================= */
 @media (max-width: 767px) {
   .workflow-main-title,
   .trust-main-title {
     font-size: 1.45rem;
   }
 
-  /* Compact Card Container on Mobile */
   .workflow-cards-grid {
     display: flex;
     flex-direction: column;
@@ -445,7 +402,6 @@
     margin-bottom: 20px;
   }
 
-  /* Compact Horizontal List Item */
   .collection-step-card {
     flex-direction: row;
     align-items: flex-start;
@@ -463,12 +419,10 @@
     border-bottom: none;
   }
 
-  /* Hide Large Desktop Image */
   .step-image-container {
     display: none;
   }
 
-  /* Show Compact Left Number Badge */
   .mobile-step-badge {
     display: flex;
     align-items: center;
@@ -484,7 +438,6 @@
     box-shadow: 0 2px 6px rgba(3, 105, 161, 0.12);
   }
 
-  /* Typography Optimization for Mobile */
   .step-body {
     padding: 0;
   }
@@ -502,7 +455,6 @@
     line-height: 1.4;
   }
 
-  /* Bottom Feature Strip on Mobile */
   .bottom-features-strip {
     grid-template-columns: 1fr;
     gap: 14px;
