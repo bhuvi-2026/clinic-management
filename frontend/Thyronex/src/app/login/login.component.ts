@@ -21,9 +21,16 @@ export class LoginComponent {
   isLoading = false;
   errorMessage = '';
 
+  // Demo lookup helper to guide demo users
+  demoHintMap: Record<string, string> = {
+    '9513951931': '111111',
+    '8310351368': '222222',
+    '9900000001': '333333'
+  };
+  detectedDemoOtp: string | null = null;
+
   constructor(private authService: AuthService) { }
 
-  // Check if form is valid before submitting
   isRequestOtpValid(): boolean {
     const isNameValid = !!this.username && this.username.trim().length > 0 && /^[a-zA-Z\s]+$/.test(this.username);
     const isMobileValid = !!this.mobileNumber && /^[6-9][0-9]{9}$/.test(this.mobileNumber);
@@ -46,19 +53,29 @@ export class LoginComponent {
 
     this.isLoading = true;
     this.errorMessage = '';
+    
     this.authService.requestOtp(this.mobileNumber).subscribe({
       next: () => {
         this.isOtpSent = true;
         this.isLoading = false;
+        
+        // Show demo hint if matching test account
+        const cleanMobile = this.mobileNumber.trim();
+        this.detectedDemoOtp = this.demoHintMap[cleanMobile] || '123456';
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Failed to send OTP';
+        this.errorMessage = err.error?.message || err.message || 'Failed to send OTP';
         this.isLoading = false;
       }
     });
   }
 
-  // Allow Enter (code 13), Backspace, Tab, and letter characters
+  fillDemoOtp(): void {
+    if (this.detectedDemoOtp) {
+      this.otp = this.detectedDemoOtp;
+    }
+  }
+
   blockNumbers(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.onRequestOtp();
@@ -70,7 +87,6 @@ export class LoginComponent {
     }
   }
 
-  // Allow Enter (code 13), Backspace, Tab, and digit characters
   blockAlphabets(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.onRequestOtp();
@@ -100,7 +116,7 @@ export class LoginComponent {
       next: (res: any) => {
         if (res.success) {
           const patientName = this.username.trim() || 'User';
-          const patientEmail = res.userEmail || '';
+          const patientEmail = res.userEmail || ('patient.' + this.mobileNumber + '@thyronex.com');
 
           const sessionPayload = {
             name: patientName,
@@ -120,7 +136,7 @@ export class LoginComponent {
         this.isLoading = false;
       },
       error: (err: any) => {
-        this.errorMessage = err.error?.message || 'Invalid OTP entered. Please try again.';
+        this.errorMessage = err.error?.message || err.message || 'Invalid OTP entered. Please try again.';
         this.otp = '';
         this.isLoading = false;
       }

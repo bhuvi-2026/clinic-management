@@ -8,7 +8,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.4</version>
-        <relativePath /> </parent>
+        <relativePath />
+    </parent>
 
     <groupId>com.healthapp</groupId>
     <artifactId>doctor-booking</artifactId>
@@ -61,6 +62,17 @@
     </dependencies>
 
     <build>
+        <!-- Ensures .ebextensions folder is included inside the JAR -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/ebextensions</directory>
+                <targetPath>.ebextensions</targetPath>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

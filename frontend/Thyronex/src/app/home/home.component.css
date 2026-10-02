@@ -58,14 +58,17 @@
   gap: clamp(16px, 1.8vw, 28px);
   width: 100%;
 }
+
 .card-c {
   background: linear-gradient(135deg, #c1abf0 0%, #dcf3f4 100%);
   border-color: #e9d5ff;
 }
+
 .card-p {
   background: linear-gradient(125deg, #e8a252 0%, #f0f0f0 100%);
   border-color: #fde68a;
 }
+
 .card-w {
   background: linear-gradient(125deg, #69d1aa 0%, #f3f8f6 100%);
   border-color: #bbf7d0;
@@ -211,13 +214,23 @@
   border: 2px solid #bae6fd;
 }
 
-.contact-detail-box {
+/* Clickable Contact Link Component */
+.contact-detail-link {
   background-color: #f8fafc;
   border-color: #e2e8f0;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.text-teal {
-  color: #1a5f6e !important;
+.contact-detail-link:hover {
+  background-color: #f0fdfa;
+  border-color: #1a5f6e !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(26, 95, 110, 0.12);
+}
+
+.bg-teal-subtle {
+  background-color: #ccfbf1 !important;
 }
 
 .btn-teal {

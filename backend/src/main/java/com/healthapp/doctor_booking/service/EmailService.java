@@ -23,10 +23,10 @@ public class EmailService {
     @Autowired(required = false)
     private JavaMailSender mailSender;
 
-    @Value("${spring.mail.username:blrrudresh972@gmail.com}")
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
-    @Value("${lab.owner.email:bhuvis459@gmail.com}")
+    @Value("${lab.owner.email}")
     private String defaultOwnerEmail;
 
     private final ObjectMapper objectMapper = new ObjectMapper();

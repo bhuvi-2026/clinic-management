@@ -50,7 +50,7 @@
           {{ isLoading ? 'Sending...' : 'Get OTP' }}
         </button>
       } @else {
-        <div class="mb-4 text-center">
+        <div class="mb-3 text-center">
           <label class="form-label small fw-semibold text-dark">Enter 6-Digit OTP</label>
           <input 
             type="tel" 
@@ -62,6 +62,15 @@
             placeholder="000000" 
             class="form-control text-center fs-4 fw-bold letter-spacing-2 rounded-3 py-2" 
             autofocus>
+
+          @if (detectedDemoOtp) {
+            <div class="mt-2">
+              <span class="badge bg-light text-teal border px-2 py-1 small" role="button" (click)="fillDemoOtp()">
+                🔑 Demo OTP: <strong>{{ detectedDemoOtp }}</strong> (Click to fill)
+              </span>
+            </div>
+          }
+
           <p class="small text-secondary mt-2 mb-0">
             Sent to +91 {{ mobileNumber }}
             <span role="button" class="text-teal fw-bold ms-1" (click)="isOtpSent = false; otp = ''">Change</span>

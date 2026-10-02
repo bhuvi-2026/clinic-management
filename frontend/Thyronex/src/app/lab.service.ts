@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
+import { environment } from '../environments/environment.prod';
 
 export interface LabPackage {
   id: number;
@@ -29,8 +30,10 @@ export interface HomeBasicPkg {
   providedIn: 'root'
 })
 export class LabService {
-  private apiUrl = 'http://localhost:8080/api/lab-packages';
-  private homeBasicApiUrl = 'http://localhost:8080/api/home-basic-pkgs';
+  private apiUrl = `${environment.apiUrl}/lab-packages`;
+  // private apiUrl = 'http://localhost:8080/api/lab-packages';
+  private homeBasicApiUrl = `${environment.apiUrl}/home-basic-pkgs`;
+  // private homeBasicApiUrl = 'http://localhost:8080/api/home-basic-pkgs';
 
   // In-Memory Cache
   private packagesCache: Map<string, LabPackage[]> = new Map<string, LabPackage[]>();
@@ -72,10 +75,7 @@ export class LabService {
   }
 
   saveLabBooking(bookingData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Clinic-Owner-Email': 'bhuvis459@gmail.com'
-    });
-    return this.http.post(`${this.apiUrl}/confirm-booking`, bookingData, { headers });
+    return this.http.post(`${this.apiUrl}/confirm-booking`, bookingData);
   }
 
   getContactInfo(): Observable<{ phone: string; inCharge: string; timings: string }> {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.prod';
 
 export interface PatientUploadSlot {
   patientName: string;
@@ -40,8 +40,10 @@ export class AdminComponent implements OnInit {
   successModalMessage: string = '';
   successBookingDetails: any = null;
 
-  //private API_URL = `${environment.apiUrl}/lab-packages`;
-  private API_URL = 'http://localhost:8080/api/lab-packages';
+  private API_URL = `${environment.apiUrl}/lab-packages`;
+
+  // Maximum allowed file size for Elastic Beanstalk (800 KB raw = ~1 MB Base64)
+  private readonly MAX_FILE_SIZE_BYTES = 850 * 1024; // 850 KB
 
   constructor(private http: HttpClient) {}
 
@@ -166,11 +168,14 @@ export class AdminComponent implements OnInit {
 
     if (file.type !== 'application/pdf') {
       alert('Please select a valid PDF document (.pdf).');
+      event.target.value = '';
       return;
     }
 
-    if (file.size > 15 * 1024 * 1024) {
-      alert('File size exceeds 15MB limit. Please compress the file.');
+    // Strict client-side check to prevent HTTP 413
+    if (file.size > this.MAX_FILE_SIZE_BYTES) {
+      alert(`File size (${this.getFileSize(file.size)}) exceeds the allowed limit of 800 KB for direct transfer.\n\nPlease optimize or compress the PDF before uploading.`);
+      event.target.value = '';
       return;
     }
 
@@ -218,6 +223,7 @@ export class AdminComponent implements OnInit {
 
     const reportJson = JSON.stringify(reportPayload);
 
+    // Provide the first patient's PDF directly for fallback handling
     const payload = {
       reportJson: reportJson,
       pdfBase64: this.patientUploadSlots[0]?.pdfBase64 || ''
@@ -243,7 +249,7 @@ export class AdminComponent implements OnInit {
         error: (err) => {
           this.isUploading = false;
           console.error('Upload report error:', err);
-          const errorMsg = err.error?.error || err.error?.message || err.message || 'Server error';
+          const errorMsg = err.error?.error || err.error?.message || (err.status === 0 ? 'Gateway payload error or CORS restriction' : err.message) || 'Server error';
           alert('Failed to send reports: ' + errorMsg);
         }
       });
