@@ -123,20 +123,7 @@ You can also view and re-download your reports anytime under 'My Bookings' on ou
 
 Thank you for choosing Thyronex Care!`;
 
-    try {
-        // Resolve the chat instance directly to bypass WhatsApp Web's media memoize bug
-        let chat;
-        try {
-            chat = await client.getChatById(patientJid);
-        } catch (e) {
-            console.log(`[WARN] getChatById failed, attempting getContactById fallback for ${patientJid}`);
-        }
-
-        if (!chat) {
-            const contact = await client.getContactById(patientJid);
-            chat = await contact.getChat();
-        }
-
+   try {
         if (pdfBase64 && pdfBase64.length > 50) {
             // Support both data URI prefix and raw base64 strings
             const cleanBase64 = pdfBase64.includes('base64,') 
@@ -149,14 +136,15 @@ Thank you for choosing Thyronex Care!`;
                 `Thyronex_Report_Booking_${bookingId}.pdf`
             );
 
-            // Send via the resolved chat object as an attachment
-            await chat.sendMessage(media, { 
+            // Send directly via client to patientJid
+            await client.sendMessage(patientJid, media, { 
                 caption: messageText, 
                 sendMediaAsDocument: true 
             });
             console.log(`[LOG] Successfully sent completion WhatsApp with PDF document to: ${patientJid}`);
         } else {
-            await chat.sendMessage(messageText);
+            // Send directly via client to patientJid
+            await client.sendMessage(patientJid, messageText);
             console.log(`[LOG] Successfully sent completion text notification to: ${patientJid}`);
         }
 
