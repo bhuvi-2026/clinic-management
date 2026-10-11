@@ -125,7 +125,17 @@ Thank you for choosing Thyronex Care!`;
 
     try {
         // Resolve the chat instance directly to bypass WhatsApp Web's media memoize bug
-        const chat = await client.getChatById(patientJid);
+        let chat;
+        try {
+            chat = await client.getChatById(patientJid);
+        } catch (e) {
+            console.log(`[WARN] getChatById failed, attempting getContactById fallback for ${patientJid}`);
+        }
+
+        if (!chat) {
+            const contact = await client.getContactById(patientJid);
+            chat = await contact.getChat();
+        }
 
         if (pdfBase64 && pdfBase64.length > 50) {
             // Support both data URI prefix and raw base64 strings
