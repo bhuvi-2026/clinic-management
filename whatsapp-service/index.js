@@ -99,7 +99,7 @@ Thank you for choosing Thyronex Care!`;
 
 // 2. Complete Test Endpoint (Supports sending PDF Softcopy Attachment)
 app.post('/api/whatsapp/send-completion', async (req, res) => {
-    const { bookingId, patientPhone, packageName, schedule, pdfBase64 } = req.body;
+    const { bookingId, patientPhone, packageName, schedule } = req.body;
 
     console.log(`[LOG] Processing WhatsApp completion notification for ID: #${bookingId}`);
 
@@ -109,6 +109,9 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
 
     const patientJid = formatPhone(patientPhone);
 
+    // Direct report download link or portal link
+    const downloadUrl = `http://thyronexcare-frontend-2026.s3-website.ap-south-1.amazonaws.com/booking-status?id=${bookingId}`;
+
     const messageText = 
 `🏥 *Thyronex Health Care* - Test Report Ready!
 -----------------------------------
@@ -117,37 +120,17 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
 📅 *Completed Schedule:* ${schedule || 'Recent'}
 -----------------------------------
 Dear Customer, your diagnostic test report has been verified by our clinical pathologists. 
-Please find your attached *Official Diagnostic Softcopy Report (PDF)* above.
+
+📄 *Download Your Softcopy Report (PDF):*
+👉 ${downloadUrl}
 
 You can also view and re-download your reports anytime under 'My Bookings' on our portal.
 
 Thank you for choosing Thyronex Care!`;
 
-   try {
-        if (pdfBase64 && pdfBase64.length > 50) {
-            // Support both data URI prefix and raw base64 strings
-            const cleanBase64 = pdfBase64.includes('base64,') 
-                ? pdfBase64.split('base64,')[1] 
-                : pdfBase64;
-
-            const media = new MessageMedia(
-                'application/pdf', 
-                cleanBase64.trim(), 
-                `Thyronex_Report_Booking_${bookingId}.pdf`
-            );
-
-            // Send directly via client to patientJid
-            await client.sendMessage(patientJid, media, { 
-                caption: messageText, 
-                sendMediaAsDocument: true 
-            });
-            console.log(`[LOG] Successfully sent completion WhatsApp with PDF document to: ${patientJid}`);
-        } else {
-            // Send directly via client to patientJid
-            await client.sendMessage(patientJid, messageText);
-            console.log(`[LOG] Successfully sent completion text notification to: ${patientJid}`);
-        }
-
+    try {
+        await client.sendMessage(patientJid, messageText);
+        console.log(`[LOG] Successfully sent completion WhatsApp notification to: ${patientJid}`);
         return res.status(200).json({ success: true, message: 'WhatsApp completion message sent successfully' });
     } catch (err) {
         console.error(`[ERROR] Failed to send WhatsApp completion message for booking #${bookingId}:`, err);
