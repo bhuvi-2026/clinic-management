@@ -42,8 +42,8 @@ export class AdminComponent implements OnInit {
 
   private API_URL = `${environment.apiUrl}/lab-packages`;
 
-  // Maximum allowed file size for Elastic Beanstalk (800 KB raw = ~1 MB Base64)
-  private readonly MAX_FILE_SIZE_BYTES = 850 * 1024; // 850 KB
+  // ✅ Allowed file size updated to 15 MB to match modal requirement
+  private readonly MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024; // 15 MB
 
   constructor(private http: HttpClient) {}
 
@@ -85,14 +85,11 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Live Filtering getter based on Tab + Search Query
   get filteredBookings(): any[] {
     return this.bookings.filter(item => {
-      // 1. Tab Filter
       if (this.selectedTab === 'PENDING' && item.status === 'COMPLETED') return false;
       if (this.selectedTab === 'COMPLETED' && item.status !== 'COMPLETED') return false;
 
-      // 2. Search Query Filter
       if (this.searchQuery && this.searchQuery.trim()) {
         const query = this.searchQuery.trim().toLowerCase();
         const idMatch = `#${item.id}`.includes(query) || `${item.id}` === query;
@@ -172,9 +169,9 @@ export class AdminComponent implements OnInit {
       return;
     }
 
-    // Strict client-side check to prevent HTTP 413
+    // ✅ Checked against the updated 15 MB limit
     if (file.size > this.MAX_FILE_SIZE_BYTES) {
-      alert(`File size (${this.getFileSize(file.size)}) exceeds the allowed limit of 800 KB for direct transfer.\n\nPlease optimize or compress the PDF before uploading.`);
+      alert(`File size (${this.getFileSize(file.size)}) exceeds the allowed limit of 15 MB.\n\nPlease select a smaller or compressed PDF.`);
       event.target.value = '';
       return;
     }
@@ -223,7 +220,6 @@ export class AdminComponent implements OnInit {
 
     const reportJson = JSON.stringify(reportPayload);
 
-    // Provide the first patient's PDF directly for fallback handling
     const payload = {
       reportJson: reportJson,
       pdfBase64: this.patientUploadSlots[0]?.pdfBase64 || ''
