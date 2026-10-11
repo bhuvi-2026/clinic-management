@@ -13,7 +13,7 @@ public class WhatsAppService {
 
     private final WebClient webClient;
 
-    @Value("${lab.owner.whatsapp:919513951931}")
+    @Value("${lab.owner.whatsapp}")
     private String defaultOwnerPhone;
 
     public WhatsAppService(@Value("${whatsapp.api.url:http://localhost:3000}") String whatsappApiUrl) {

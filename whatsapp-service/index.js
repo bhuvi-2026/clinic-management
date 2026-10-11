@@ -12,49 +12,65 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const OWNER_PHONE_ENV = process.env.LAB_OWNER_WHATSAPP_NUMBER || '919513951931';
 
 const client = new Client({
-  authStrategy: new LocalAuth(),
-  puppeteer: {
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  }
+    authStrategy: new LocalAuth({
+        dataPath: '/home/ubuntu/whatsapp-service/.wwebjs_auth'
+    }),
+    puppeteer: {
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--disable-gpu',
+            '--disable-extensions',
+            '--disable-software-rasterizer',
+            '--disk-cache-size=0',
+            '--media-cache-size=0',
+            '--aggressive-cache-discard'
+        ]
+    }
 });
 
 client.on('qr', (qr) => {
-  console.log('--- SCAN THIS QR CODE WITH YOUR WHATSAPP APP ---');
-  qrcode.generate(qr, { small: true });
+    console.log('--- SCAN THIS QR CODE WITH YOUR WHATSAPP APP ---');
+    qrcode.generate(qr, { small: true });
 });
 
 client.on('ready', () => {
-  console.log('WhatsApp Service is ready and authenticated!');
+    console.log('WhatsApp Service is ready and authenticated!');
 });
 
 client.initialize().catch(err => {
-  console.error('WhatsApp client initialization failed:', err);
+    console.error('WhatsApp client initialization failed:', err);
 });
 
 // Helper function to normalize and format phone number for whatsapp-web.js
 function formatPhone(phone) {
-  let cleaned = phone.replace(/[^0-9]/g, '');
-  if (cleaned.length === 10) {
-    cleaned = '91' + cleaned;
-  }
-  return `${cleaned}@c.us`;
+    let cleaned = phone.replace(/[^0-9]/g, '');
+    if (cleaned.length === 10) {
+        cleaned = '91' + cleaned;
+    }
+    return `${cleaned}@c.us`;
 }
 
 // 1. Confirm Booking Endpoint
 app.post('/api/whatsapp/send-booking', async (req, res) => {
-  const { bookingId, patientPhone, patientEmail, ownerEmail, packageName, schedule, address, patientCount, ownerPhone } = req.body;
+    const { bookingId, patientPhone, patientEmail, ownerEmail, packageName, schedule, address, patientCount, ownerPhone } = req.body;
 
-  console.log(`[LOG] Processing WhatsApp booking notification for ID: #${bookingId}`);
+    console.log(`[LOG] Processing WhatsApp booking notification for ID: #${bookingId}`);
 
-  if (!patientPhone) {
-    return res.status(400).json({ success: false, error: 'Patient phone is required' });
-  }
+    if (!patientPhone) {
+        return res.status(400).json({ success: false, error: 'Patient phone is required' });
+    }
 
-  const patientJid = formatPhone(patientPhone);
-  const resolvedOwnerPhone = ownerPhone || OWNER_PHONE_ENV;
-  const ownerJid = formatPhone(resolvedOwnerPhone);
+    const patientJid = formatPhone(patientPhone);
+    const resolvedOwnerPhone = ownerPhone || OWNER_PHONE_ENV;
+    const ownerJid = formatPhone(resolvedOwnerPhone);
 
-  const messageText = 
+    const messageText = 
 `🏥 *Thyronex Health Care* - Booking Confirmed!
 -----------------------------------
 🧪 *Booking ID:* #${bookingId}
@@ -66,41 +82,39 @@ app.post('/api/whatsapp/send-booking', async (req, res) => {
 -----------------------------------
 Thank you for choosing Thyronex Care!`;
 
-  try {
-    // Send message to Patient
-    await client.sendMessage(patientJid, messageText);
-    console.log(`[LOG] Successfully sent booking confirmation to Patient JID: ${patientJid}`);
+    try {
+        await client.sendMessage(patientJid, messageText);
+        console.log(`[LOG] Successfully sent booking confirmation to Patient JID: ${patientJid}`);
 
-    // Send notification alert to Lab Owner
-    const ownerText = `🚨 *NEW LAB TEST BOOKED*\n\n${messageText}\n📧 *Owner Email:* ${ownerEmail || 'N/A'}`;
-    await client.sendMessage(ownerJid, ownerText);
-    console.log(`[LOG] Successfully sent booking notification to Lab Owner JID: ${ownerJid}`);
+        const ownerText = `🚨 *NEW LAB TEST BOOKED*\n\n${messageText}\n📧 *Owner Email:* ${ownerEmail || 'N/A'}`;
+        await client.sendMessage(ownerJid, ownerText);
+        console.log(`[LOG] Successfully sent booking notification to Lab Owner JID: ${ownerJid}`);
 
-    return res.status(200).json({ success: true, message: 'WhatsApp sent successfully' });
-  } catch (err) {
-    console.error(`[ERROR] Failed to send WhatsApp notification for booking #${bookingId}:`, err);
-    return res.status(500).json({ success: false, error: err.message });
-  }
+        return res.status(200).json({ success: true, message: 'WhatsApp sent successfully' });
+    } catch (err) {
+        console.error(`[ERROR] Failed to send WhatsApp notification for booking #${bookingId}:`, err);
+        return res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 2. Complete Test Endpoint (Supports sending PDF Softcopy Attachment)
 app.post('/api/whatsapp/send-completion', async (req, res) => {
-  const { bookingId, patientPhone, packageName, schedule, pdfBase64 } = req.body;
+    const { bookingId, patientPhone, packageName, schedule, pdfBase64 } = req.body;
 
-  console.log(`[LOG] Processing WhatsApp completion notification for ID: #${bookingId}`);
+    console.log(`[LOG] Processing WhatsApp completion notification for ID: #${bookingId}`);
 
-  if (!patientPhone) {
-    return res.status(400).json({ success: false, error: 'Patient phone is required' });
-  }
+    if (!patientPhone) {
+        return res.status(400).json({ success: false, error: 'Patient phone is required' });
+    }
 
-  const patientJid = formatPhone(patientPhone);
+    const patientJid = formatPhone(patientPhone);
 
-  const messageText = 
+    const messageText = 
 `🏥 *Thyronex Health Care* - Test Report Ready!
 -----------------------------------
 🧪 *Booking ID:* #${bookingId}
-🧪 *Package:* ${packageName}
-📅 *Completed Schedule:* ${schedule}
+🧪 *Package:* ${packageName || 'Diagnostic Health Package'}
+📅 *Completed Schedule:* ${schedule || 'Recent'}
 -----------------------------------
 Dear Customer, your diagnostic test report has been verified by our clinical pathologists. 
 Please find your attached *Official Diagnostic Softcopy Report (PDF)* above.
@@ -109,24 +123,38 @@ You can also view and re-download your reports anytime under 'My Bookings' on ou
 
 Thank you for choosing Thyronex Care!`;
 
-  try {
-    // If PDF Base64 is provided, attach it as a PDF Document
-    if (pdfBase64 && pdfBase64.includes('base64,')) {
-      const cleanBase64 = pdfBase64.split('base64,')[1];
-      const media = new MessageMedia('application/pdf', cleanBase64, `Thyronex_Report_Booking_${bookingId}.pdf`);
-      await client.sendMessage(patientJid, media, { caption: messageText });
-      console.log(`[LOG] Successfully sent completion WhatsApp with PDF document to: ${patientJid}`);
-    } else {
-      // Fallback: Send plain text message
-      await client.sendMessage(patientJid, messageText);
-      console.log(`[LOG] Successfully sent completion text notification to: ${patientJid}`);
-    }
+    try {
+        // Resolve the chat instance directly to bypass WhatsApp Web's media memoize bug
+        const chat = await client.getChatById(patientJid);
 
-    return res.status(200).json({ success: true, message: 'WhatsApp completion message sent successfully' });
-  } catch (err) {
-    console.error(`[ERROR] Failed to send WhatsApp completion message for booking #${bookingId}:`, err);
-    return res.status(500).json({ success: false, error: err.message });
-  }
+        if (pdfBase64 && pdfBase64.length > 50) {
+            // Support both data URI prefix and raw base64 strings
+            const cleanBase64 = pdfBase64.includes('base64,') 
+                ? pdfBase64.split('base64,')[1] 
+                : pdfBase64;
+
+            const media = new MessageMedia(
+                'application/pdf', 
+                cleanBase64.trim(), 
+                `Thyronex_Report_Booking_${bookingId}.pdf`
+            );
+
+            // Send via the resolved chat object as an attachment
+            await chat.sendMessage(media, { 
+                caption: messageText, 
+                sendMediaAsDocument: true 
+            });
+            console.log(`[LOG] Successfully sent completion WhatsApp with PDF document to: ${patientJid}`);
+        } else {
+            await chat.sendMessage(messageText);
+            console.log(`[LOG] Successfully sent completion text notification to: ${patientJid}`);
+        }
+
+        return res.status(200).json({ success: true, message: 'WhatsApp completion message sent successfully' });
+    } catch (err) {
+        console.error(`[ERROR] Failed to send WhatsApp completion message for booking #${bookingId}:`, err);
+        return res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 const PORT = process.env.PORT || 3000;

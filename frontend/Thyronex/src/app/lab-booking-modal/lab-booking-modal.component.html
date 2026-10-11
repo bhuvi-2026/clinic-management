@@ -126,7 +126,7 @@
 
         <div class="mb-2">
           <label class="form-label small fw-semibold text-dark m-0">
-            Email Address <span class="text-muted fw-normal">(Optional for softcopy)</span>
+            Email Address
           </label>
           <input 
             type="email" 
@@ -222,23 +222,6 @@
             </h6>
             <div class="row row-cols-2 g-2 mb-3">
               @for (slot of morningSlots; track slot) {
-                <div class="col">
-                  <button 
-                    class="btn btn-sm w-100 rounded-3 slot-btn"
-                    [class.btn-teal]="tempSlot === slot"
-                    [class.btn-outline-secondary]="tempSlot !== slot"
-                    (click)="tempSlot = slot">
-                    {{ slot }}
-                  </button>
-                </div>
-              }
-            </div>
-
-            <h6 class="fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
-              <span>🌇Evening Slots (PM)</span>
-            </h6>
-            <div class="row row-cols-2 g-2 mb-3">
-              @for (slot of eveningSlots; track slot) {
                 <div class="col">
                   <button 
                     class="btn btn-sm w-100 rounded-3 slot-btn"
