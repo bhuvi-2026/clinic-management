@@ -109,9 +109,7 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
 
     const patientJid = formatPhone(patientPhone);
 
-    // Direct report download link or portal link
-    const downloadUrl = `http://thyronexcare-frontend-2026.s3-website.ap-south-1.amazonaws.com/booking-status?id=${bookingId}`;
-
+  
     const messageText = 
 `🏥 *Thyronex Health Care* - Test Report Ready!
 -----------------------------------
@@ -120,10 +118,7 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
 📅 *Completed Schedule:* ${schedule || 'Recent'}
 -----------------------------------
 Dear Customer, your diagnostic test report has been verified by our clinical pathologists. 
-
-📄 *Download Your Softcopy Report (PDF):*
-👉 ${downloadUrl}
-
+Please find your softcopy report attached Official Diagnostic Softcopy Report(PDF).
 You can also view and re-download your reports anytime under 'My Bookings' on our portal.
 
 Thank you for choosing Thyronex Care!`;
