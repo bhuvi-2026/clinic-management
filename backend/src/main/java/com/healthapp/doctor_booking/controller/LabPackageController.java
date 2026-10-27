@@ -123,45 +123,67 @@ public class LabPackageController {
     // 5. ADMIN: COMPLETE BOOKING & DISPATCH REPORT
     // =========================================================================
     @PostMapping("/bookings/{id}/submit-report")
-    public ResponseEntity<?> submitReport(
-            @PathVariable("id") Long bookingId,
-            @RequestBody Map<String, Object> payload,
-            @RequestHeader(value = "X-Admin-Key", required = false) String key) {
+public ResponseEntity<?> submitReport(
+        @PathVariable("id") Long bookingId,
+        @RequestBody Map<String, Object> payload,
+        @RequestHeader(value = "X-Admin-Key", required = false) String key) {
 
-        if (key == null || !key.equals(adminSecretKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Unauthorized Admin Key"));
-        }
-
-        try {
-            String reportJson = payload.get("reportJson") != null ? payload.get("reportJson").toString() : null;
-            String pdfBase64 = payload.get("pdfBase64") != null ? payload.get("pdfBase64").toString() : null;
-
-            LabBooking updatedBooking = labService.completeBooking(bookingId, reportJson);
-
-            CompletableFuture.runAsync(() -> {
-                try {
-                    emailService.sendTestCompletionWithPdf(updatedBooking, pdfBase64);
-                } catch (Exception ex) {
-                    System.err.println("[EMAIL COMPLETION ERROR] " + ex.getMessage());
-                }
-                try {
-                    whatsAppService.sendCompletionWhatsAppWithPdf(updatedBooking, pdfBase64);
-                } catch (Exception ex) {
-                    System.err.println("[WHATSAPP COMPLETION ERROR] " + ex.getMessage());
-                }
-            });
-
-            return ResponseEntity.ok(updatedBooking);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to submit report: " + e.getMessage()));
-        }
+    if (key == null || !key.equals(adminSecretKey)) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Unauthorized Admin Key"));
     }
 
-    // =========================================================================
-    // 6. CONTACT INFORMATION
+    try {
+        String reportJson = payload.get("reportJson") != null ? payload.get("reportJson").toString() : null;
+        String pdfBase64 = payload.get("pdfBase64") != null ? payload.get("pdfBase64").toString() : null;
+        String fileName = payload.get("fileName") != null ? payload.get("fileName").toString() : null;
+
+        // Extract PDF from reports array inside reportJson if root pdfBase64 was omitted
+        if ((pdfBase64 == null || pdfBase64.trim().isEmpty()) && reportJson != null) {
+            try {
+                com.fasterxml.jackson.databind.JsonNode root = new com.fasterxml.jackson.databind.ObjectMapper().readTree(reportJson);
+                if (root.has("reports") && root.get("reports").isArray() && root.get("reports").size() > 0) {
+                    com.fasterxml.jackson.databind.JsonNode firstReport = root.get("reports").get(0);
+                    if (firstReport.has("pdfBase64")) {
+                        pdfBase64 = firstReport.get("pdfBase64").asText();
+                    }
+                    if (fileName == null && firstReport.has("fileName")) {
+                        fileName = firstReport.get("fileName").asText();
+                    }
+                }
+            } catch (Exception ex) {
+                System.err.println("[WARN] Failed to parse reports array: " + ex.getMessage());
+            }
+        }
+
+        final String finalPdf = pdfBase64;
+        final String finalFileName = (fileName != null && !fileName.trim().isEmpty()) 
+                ? fileName : ("Thyronex_Report_Booking_" + bookingId + ".pdf");
+
+        // 1. Save to database for 'My Bookings' download portal
+        LabBooking updatedBooking = labService.completeBooking(bookingId, reportJson);
+
+        // 2. Dispatch Email and WhatsApp with the extracted PDF
+        CompletableFuture.runAsync(() -> {
+            try {
+                emailService.sendTestCompletionWithPdf(updatedBooking, finalPdf);
+            } catch (Exception ex) {
+                System.err.println("[EMAIL COMPLETION ERROR] " + ex.getMessage());
+            }
+            try {
+                whatsAppService.sendCompletionWhatsAppWithPdf(updatedBooking, finalPdf, finalFileName);
+            } catch (Exception ex) {
+                System.err.println("[WHATSAPP COMPLETION ERROR] " + ex.getMessage());
+            }
+        });
+
+        return ResponseEntity.ok(updatedBooking);
+    } catch (IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "Failed to submit report: " + e.getMessage()));
+    }
+}// 6. CONTACT INFORMATION
     // =========================================================================
     @GetMapping("/contact-info")
     public ResponseEntity<Map<String, String>> getContactInfo() {

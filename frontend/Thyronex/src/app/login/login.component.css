@@ -1,17 +1,40 @@
-.text-teal { color: var(--primary-teal, #1a5f6e); }
+.text-teal {
+  color: var(--primary-teal, #1a5f6e);
+}
+
 .popup-overlay {
   background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(4px);
   z-index: 1080;
 }
-.letter-spacing-2 {
-  letter-spacing: 4px;
+
+.text-teal {
+  color: #1a5f6e !important;
 }
+
 .btn-teal {
-  background-color: var(--primary-teal, #1a5f6e);
+  background-color: #1a5f6e;
+  color: #ffffff;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-teal:hover:not(:disabled) {
+  background-color: #144955;
   color: #ffffff;
 }
-.btn-teal:hover {
-  background-color: var(--primary-teal-dark, #134753);
-  color: #ffffff;
+
+.letter-spacing-2 {
+  letter-spacing: 6px;
+}
+
+.info-note {
+  background: #f8fafc;
+  border-left: 3px solid #1a5f6e;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.wa-icon {
+  font-size: 1.1rem;
 }

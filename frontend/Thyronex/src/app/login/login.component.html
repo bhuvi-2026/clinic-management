@@ -5,9 +5,10 @@
       <button type="button" class="btn-close position-absolute top-0 end-0 m-3" (click)="closeLogin.emit()"></button>
 
       <h3 class="fw-bold text-teal mb-1">{{ isOtpSent ? 'Verify OTP' : 'Login / Signup' }}</h3>
-      <p class="text-secondary small mb-4">Please enter your details to continue</p>
+      <p class="text-secondary small mb-3">Please enter your details to continue</p>
 
       @if (!isOtpSent) {
+        <!-- Full Name Input -->
         <div class="mb-3">
           <label class="form-label small fw-semibold text-dark">Full Name</label>
           <input 
@@ -23,7 +24,8 @@
             autocomplete="name">
         </div>
 
-        <div class="mb-4">
+        <!-- Mobile Number Input -->
+        <div class="mb-2">
           <label class="form-label small fw-semibold text-dark">Mobile Number</label>
           <div class="input-group">
             <span class="input-group-text bg-light text-secondary fw-semibold">+91</span>
@@ -42,14 +44,32 @@
           </div>
         </div>
 
+        <!-- Inform User Prior to Sending OTP -->
+        <div class="info-note mb-4 d-flex align-items-center">
+          <span class="wa-icon me-2">💬</span>
+          <small class="text-muted">
+            A 6-digit OTP will be sent to this WhatsApp contact number for verification.
+          </small>
+        </div>
+
         <button 
           type="button" 
           class="btn btn-teal w-100 py-2 rounded-3 fw-bold" 
           [disabled]="!isRequestOtpValid()" 
           (click)="onRequestOtp()">
-          {{ isLoading ? 'Sending...' : 'Get OTP' }}
+          {{ isLoading ? 'Sending OTP...' : 'Get OTP' }}
         </button>
+
       } @else {
+        <!-- Banner Displayed After Sending OTP -->
+        <div class="alert alert-success d-flex align-items-center py-2 px-3 mb-3 rounded-3 border-0 bg-success-subtle">
+          <span class="fs-5 me-2">📲</span>
+          <div class="small text-success-emphasis text-start">
+            <strong>OTP Sent!</strong> We've dispatched your 6-digit verification code to your WhatsApp at <strong>+91 {{ mobileNumber }}</strong>.
+          </div>
+        </div>
+
+        <!-- OTP Input Section -->
         <div class="mb-3 text-center">
           <label class="form-label small fw-semibold text-dark">Enter 6-Digit OTP</label>
           <input 
@@ -58,22 +78,14 @@
             name="otp"
             maxlength="6" 
             (keydown)="onOtpKeyDown($event)"
-            (keydown.enter)="onVerifyOtp()"
+            (keydown.enter)="onVerifyOtp()" 
             placeholder="000000" 
             class="form-control text-center fs-4 fw-bold letter-spacing-2 rounded-3 py-2" 
             autofocus>
 
-          @if (detectedDemoOtp) {
-            <div class="mt-2">
-              <span class="badge bg-light text-teal border px-2 py-1 small" role="button" (click)="fillDemoOtp()">
-                🔑 Demo OTP: <strong>{{ detectedDemoOtp }}</strong> (Click to fill)
-              </span>
-            </div>
-          }
-
           <p class="small text-secondary mt-2 mb-0">
-            Sent to +91 {{ mobileNumber }}
-            <span role="button" class="text-teal fw-bold ms-1" (click)="isOtpSent = false; otp = ''">Change</span>
+            Didn't receive code? Check your WhatsApp or 
+            <span role="button" class="text-teal fw-bold ms-1 text-decoration-underline" (click)="isOtpSent = false; otp = ''">Change Number</span>
           </p>
         </div>
 

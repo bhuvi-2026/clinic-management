@@ -205,24 +205,34 @@ export class AdminComponent implements OnInit {
     this.isUploading = true;
 
     const token = this.adminKeyInput || sessionStorage.getItem('admin_token') || 'ThyronexAdmin@2026';
-    const headers = new HttpHeaders({ 
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-Admin-Key': token 
+      'X-Admin-Key': token
     });
 
-    const reportPayload = {
+    const firstFileName = this.patientUploadSlots[0]?.fileName || `Thyronex_Report_Booking_${this.activeBookingForUpload.id}.pdf`;
+
+    // 1. Put the PDF into reportMetadata so it is stored in PostgreSQL for 'My Bookings' download
+    const reportMetadata = {
       bookingId: this.activeBookingForUpload.id,
       patientCount: this.patientUploadSlots.length,
       uploadedAt: new Date().toISOString(),
       remarks: this.adminRemarks,
-      reports: this.patientUploadSlots
+      reports: this.patientUploadSlots.map(slot => ({
+        patientName: slot.patientName,
+        fileName: slot.fileName,
+        fileSize: slot.fileSize,
+        pdfBase64: slot.pdfBase64
+      }))
     };
 
-    const reportJson = JSON.stringify(reportPayload);
+    const reportJsonString = JSON.stringify(reportMetadata);
 
+    // 2. Set root pdfBase64 to empty string "" so we DO NOT double the request size to 17.7MB!
     const payload = {
-      reportJson: reportJson,
-      pdfBase64: this.patientUploadSlots[0]?.pdfBase64 || ''
+      reportJson: reportJsonString,
+      pdfBase64: '', 
+      fileName: firstFileName
     };
 
     this.http.post(`${this.API_URL}/bookings/${this.activeBookingForUpload.id}/submit-report`, payload, { headers })
@@ -230,13 +240,13 @@ export class AdminComponent implements OnInit {
         next: () => {
           this.isUploading = false;
           this.activeBookingForUpload.status = 'COMPLETED';
-          this.activeBookingForUpload.reportData = reportJson;
+          this.activeBookingForUpload.reportData = reportJsonString;
 
           this.successBookingDetails = {
             id: this.activeBookingForUpload.id,
             patientPhone: this.activeBookingForUpload.patientPhone
           };
-          this.successModalMessage = `All diagnostic reports have been verified and dispatched to the patient's registered WhatsApp and Email.`;
+          this.successModalMessage = `All diagnostic reports have been verified, saved to the database, and dispatched to the patient's registered WhatsApp and Email.`;
 
           this.closeUploadModal();
           this.showSuccessModal = true;

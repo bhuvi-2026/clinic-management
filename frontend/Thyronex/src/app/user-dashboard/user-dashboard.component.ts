@@ -12,7 +12,7 @@ export interface BookingItem {
   schedule?: string;
   status: string;
   reportData?: string;
-  isExpanded?: boolean; // ⭐ Tracks accordion state
+  isExpanded?: boolean;
 }
 
 @Component({
@@ -53,7 +53,6 @@ export class UserDashboardComponent implements OnInit {
     this.isLoading = true;
     this.labService.getLabBookingHistory(mobile).subscribe({
       next: (data) => {
-        // Initialize every booking with isExpanded: false
         this.bookings = (data || []).map((b: any) => ({
           ...b,
           isExpanded: false
@@ -67,7 +66,6 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
-  // ⭐ Toggles expansion on mobile/tablet
   toggleRow(booking: BookingItem): void {
     booking.isExpanded = !booking.isExpanded;
   }
@@ -75,30 +73,38 @@ export class UserDashboardComponent implements OnInit {
   getPatientReports(booking: any): any[] {
     if (!booking.reportData) return [];
     try {
-      const parsed = JSON.parse(booking.reportData);
+      const parsed = typeof booking.reportData === 'string'
+        ? JSON.parse(booking.reportData)
+        : booking.reportData;
+
       if (parsed.reports && Array.isArray(parsed.reports)) {
         return parsed.reports;
       } else if (parsed.pdfBase64) {
         return [{
           patientName: booking.patientName || 'Patient',
-          fileName: parsed.fileName || 'Thyronex_Report.pdf',
+          fileName: parsed.fileName || `Thyronex_Report_Booking_${booking.id}.pdf`,
           pdfBase64: parsed.pdfBase64
         }];
       }
     } catch (e) {
+      console.warn('Could not parse reports from reportData', e);
       return [];
     }
     return [];
   }
 
   downloadSpecificReport(report: any, defaultName: string): void {
-    if (!report.pdfBase64 || !report.pdfBase64.includes('base64,')) {
+    if (!report.pdfBase64 || report.pdfBase64.trim().length === 0) {
       alert('Report file not available yet.');
       return;
     }
 
     try {
-      const base64Content = report.pdfBase64.split('base64,')[1];
+      // Support both raw Base64 and data URL formatted strings
+      const base64Content = report.pdfBase64.includes('base64,')
+        ? report.pdfBase64.split('base64,')[1].trim()
+        : report.pdfBase64.trim();
+
       const byteCharacters = atob(base64Content);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
@@ -109,7 +115,7 @@ export class UserDashboardComponent implements OnInit {
 
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = report.fileName || `Thyronex_${defaultName.replace(/[^a-zA-Z0-9]/g, '_')}_Report.pdf`;
+      link.download = report.fileName || `Thyronex_${defaultName.replace(/[^a-zA-Z0-9_-]/g, '_')}_Report.pdf`;
       link.click();
       URL.revokeObjectURL(link.href);
     } catch (e) {
