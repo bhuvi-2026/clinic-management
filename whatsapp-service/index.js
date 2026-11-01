@@ -1,6 +1,8 @@
 const express = require('express');
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 
@@ -15,6 +17,7 @@ const client = new Client({
     }),
     puppeteer: {
         headless: true,
+        protocolTimeout: 300000, // 5 minutes timeout to prevent Runtime.callFunctionOn timeouts
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -46,7 +49,7 @@ client.initialize().catch(err => {
 });
 
 function formatPhone(phone) {
-    let cleaned = phone.replace(/[^0-9]/g, '');
+    let cleaned = (phone || '').replace(/[^0-9]/g, '');
     if (cleaned.length === 10) {
         cleaned = '91' + cleaned;
     }
@@ -54,7 +57,7 @@ function formatPhone(phone) {
 }
 
 // -------------------------------------------------------------
-// NEW: OTP Verification Message Endpoint
+// OTP Verification Message Endpoint
 // -------------------------------------------------------------
 app.post('/api/whatsapp/send-otp', async (req, res) => {
     const { patientPhone, otp } = req.body;
@@ -83,7 +86,9 @@ Thank you for choosing Thyronex Care!`;
     }
 });
 
+// -------------------------------------------------------------
 // 1. Confirm Booking Endpoint
+// -------------------------------------------------------------
 app.post('/api/whatsapp/send-booking', async (req, res) => {
     const { bookingId, patientPhone, patientEmail, ownerEmail, packageName, schedule, address, patientCount, ownerPhone } = req.body;
 
@@ -101,21 +106,21 @@ app.post('/api/whatsapp/send-booking', async (req, res) => {
 `🏥 *Thyronex Health Care* - Booking Confirmed!
 -----------------------------------
 🧪 *Booking ID:* #${bookingId}
-🧪 *Package:* ${packageName}
-📅 *Schedule:* ${schedule}
-👥 *Patients:* ${patientCount}
-📍 *Address:* ${address}
+🧪 *Package:* ${packageName || 'Diagnostic Health Checkup'}
+📅 *Schedule:* ${schedule || 'Scheduled'}
+👥 *Patients:* ${patientCount || 1}
+📍 *Address:* ${address || 'Home Visit'}
 📞 *Contact:* ${patientPhone}
 -----------------------------------
 Thank you for choosing Thyronex Care!`;
 
     try {
         await client.sendMessage(patientJid, messageText);
-        console.log(`[LOG] Successfully sent booking confirmation to Patient JID: ${patientJid}`);
+        console.log(`[LOG] Successfully sent booking confirmation to Patient: ${patientJid}`);
 
         const ownerText = `🚨 *NEW LAB TEST BOOKED*\n\n${messageText}\n📧 *Owner Email:* ${ownerEmail || 'N/A'}`;
         await client.sendMessage(ownerJid, ownerText);
-        console.log(`[LOG] Successfully sent booking notification to Lab Owner JID: ${ownerJid}`);
+        console.log(`[LOG] Successfully sent booking notification to Owner: ${ownerJid}`);
 
         return res.status(200).json({ success: true, message: 'WhatsApp sent successfully' });
     } catch (err) {
@@ -124,7 +129,9 @@ Thank you for choosing Thyronex Care!`;
     }
 });
 
-// 2. Complete Test Endpoint (Supports sending PDF Softcopy Attachment)
+// -------------------------------------------------------------
+// 2. Complete Test Endpoint (Large PDF Disk-Stream + Download Link)
+// -------------------------------------------------------------
 app.post('/api/whatsapp/send-completion', async (req, res) => {
     const { bookingId, patientPhone, packageName, schedule, pdfBase64, fileName } = req.body;
 
@@ -135,6 +142,7 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
     }
 
     const patientJid = formatPhone(patientPhone);
+    const portalUrl = `http://thyronexcare-frontend-2026.s3-website.ap-south-1.amazonaws.com/booking-status?id=${bookingId}`;
 
     const messageText = 
 `🏥 *Thyronex Health Care* - Test Report Ready!
@@ -143,28 +151,55 @@ app.post('/api/whatsapp/send-completion', async (req, res) => {
 🧪 *Package:* ${packageName || 'Diagnostic Health Package'}
 📅 *Completed Schedule:* ${schedule || 'Recent'}
 -----------------------------------
-Dear Customer, your diagnostic test report has been verified by our clinical pathologists. 
-Please find your softcopy report attached (PDF).
+Dear Customer, your diagnostic test report has been verified by our clinical pathologists.
+
+📄 *View / Download Report Online:*
+👉 ${portalUrl}
+
+Please find your official softcopy report document attached below.
 You can also view and re-download your reports anytime under 'My Bookings' on our portal.
 
 Thank you for choosing Thyronex Care!`;
 
+    let tempFilePath = null;
     try {
-        if (pdfBase64 && pdfBase64.trim().length > 0) {
-            const cleanBase64 = pdfBase64.replace(/^data:application\/pdf;base64,/, '').trim();
-            const documentName = fileName || `Thyronex_Report_Booking_${bookingId}.pdf`;
-            const media = new MessageMedia('application/pdf', cleanBase64, documentName);
+        // Step A: Send text confirmation first
+        await client.sendMessage(patientJid, messageText);
+        console.log(`[LOG] Sent completion message to: ${patientJid}`);
 
-            await client.sendMessage(patientJid, media, { caption: messageText });
-            console.log(`[SUCCESS] PDF attachment sent to: ${patientJid}`);
-        } else {
-            await client.sendMessage(patientJid, messageText);
+        // Step B: Send PDF file if provided
+        if (pdfBase64 && pdfBase64.trim().length > 50) {
+            const cleanBase64 = pdfBase64.includes('base64,')
+                ? pdfBase64.split('base64,')[1].replace(/\s/g, '')
+                : pdfBase64.replace(/\s/g, '');
+
+            const documentName = fileName || `Thyronex_Report_Booking_${bookingId}.pdf`;
+            tempFilePath = path.join('/tmp', `Report_${bookingId}_${Date.now()}.pdf`);
+
+            // Write to disk first to avoid Chromium memory timeouts
+            fs.writeFileSync(tempFilePath, Buffer.from(cleanBase64, 'base64'));
+
+            const media = MessageMedia.fromFilePath(tempFilePath);
+            media.filename = documentName;
+
+            await client.sendMessage(patientJid, media, {
+                sendMediaAsDocument: true
+            });
+            console.log(`[SUCCESS] PDF document delivered to: ${patientJid}`);
         }
 
         return res.status(200).json({ success: true, message: 'WhatsApp dispatched successfully' });
     } catch (err) {
-        console.error(`[ERROR] Failed to send WhatsApp message:`, err);
+        console.error(`[ERROR] Failed to send WhatsApp completion payload:`, err);
         return res.status(500).json({ success: false, error: err.message });
+    } finally {
+        if (tempFilePath && fs.existsSync(tempFilePath)) {
+            try {
+                fs.unlinkSync(tempFilePath);
+            } catch (cleanupErr) {
+                console.error(`[WARN] Failed to delete temp file ${tempFilePath}:`, cleanupErr.message);
+            }
+        }
     }
 });
 

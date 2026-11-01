@@ -18,6 +18,7 @@ public class WhatsAppService {
     private String defaultOwnerPhone;
 
     public WhatsAppService(@Value("${whatsapp.api.url:http://localhost:3000}") String whatsappApiUrl) {
+        // Configure 50MB in-memory buffer for sending large PDF payloads
         ExchangeStrategies strategies = ExchangeStrategies.builder()
                 .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(50 * 1024 * 1024))
                 .build();
@@ -28,7 +29,6 @@ public class WhatsAppService {
                 .build();
     }
 
-    // 1. Dispatch OTP notification to patient's WhatsApp
     public void sendOtpWhatsApp(String patientPhone, String otp) {
         try {
             Map<String, Object> payload = new HashMap<>();
