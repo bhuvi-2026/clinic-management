@@ -40,29 +40,8 @@ client.on('qr', (qr) => {
     qrcode.generate(qr, { small: true });
 });
 
-client.on('ready', async () => {
+client.on('ready', () => {
     console.log('WhatsApp Service is ready and authenticated!');
-    
-    // Upstream hotfix: Patch window.WWebJS.sendMessage in the active browser page
-    // Prevents "Data passed to getter must include an id property" by stripping __x_id
-    try {
-        if (client.pupPage) {
-            await client.pupPage.evaluate(() => {
-                if (window.WWebJS && window.WWebJS.sendMessage) {
-                    const originalSendMessage = window.WWebJS.sendMessage;
-                    window.WWebJS.sendMessage = async function(chat, content, options = {}) {
-                        if (options && options.sendMediaAsDocument) {
-                            delete options.__x_id;
-                        }
-                        return originalSendMessage.apply(this, arguments);
-                    };
-                }
-            });
-            console.log('[LOG] Applied runtime in-browser __x_id memoize safety patch.');
-        }
-    } catch (e) {
-        console.warn('[WARN] Could not attach runtime in-page hook:', e.message);
-    }
 });
 
 client.initialize().catch(err => {
@@ -98,7 +77,7 @@ Thank you for choosing Thyronex Care!`;
 
     try {
         await client.sendMessage(patientJid, otpMessage);
-        return res.status(200).json({ success: true, message: 'OTP sent via WhatsApp' });
+        return res.status(200).json({ success: true, message: 'OTP sent' });
     } catch (err) {
         return res.status(500).json({ success: false, error: err.message });
     }
@@ -132,14 +111,14 @@ Thank you for choosing Thyronex Care!`;
         await client.sendMessage(patientJid, messageText);
         const ownerText = `🚨 *NEW LAB TEST BOOKED*\n\n${messageText}\n📧 *Owner Email:* ${ownerEmail || 'N/A'}`;
         await client.sendMessage(ownerJid, ownerText);
-        return res.status(200).json({ success: true, message: 'WhatsApp sent successfully' });
+        return res.status(200).json({ success: true, message: 'Booking sent' });
     } catch (err) {
         return res.status(500).json({ success: false, error: err.message });
     }
 });
 
 // -------------------------------------------------------------
-// 2. Complete Test Endpoint (Direct PDF Document Attachment Only)
+// 2. Complete Test Endpoint (Attaches PDF file directly - No Links)
 // -------------------------------------------------------------
 app.post('/api/whatsapp/send-completion', async (req, res) => {
     const { bookingId, patientPhone, packageName, schedule, pdfBase64, fileName } = req.body;
@@ -177,11 +156,25 @@ Thank you for choosing Thyronex Care!`;
             // 1. Write the clean binary buffer to a temp file on disk
             fs.writeFileSync(tempFilePath, Buffer.from(cleanBase64, 'base64'));
 
-            // 2. Load media from the disk file
+            // 2. Ensure WhatsApp Web browser context doesn't crash on memoize
+            if (client.pupPage) {
+                await client.pupPage.evaluate(() => {
+                    if (window.WWebJS && !window.WWebJS.__memoizeFixed) {
+                        const originalSendMessage = window.WWebJS.sendMessage;
+                        window.WWebJS.sendMessage = async function(chat, content, options = {}) {
+                            const res = await originalSendMessage.apply(this, arguments);
+                            return res;
+                        };
+                        window.WWebJS.__memoizeFixed = true;
+                    }
+                }).catch(() => {});
+            }
+
+            // 3. Load media from the disk file
             const media = MessageMedia.fromFilePath(tempFilePath);
             media.filename = documentName;
 
-            // 3. Send the attached PDF document directly with caption
+            // 4. Send the attached PDF document directly with caption
             await client.sendMessage(patientJid, media, {
                 caption: captionText,
                 sendMediaAsDocument: true
@@ -189,7 +182,7 @@ Thank you for choosing Thyronex Care!`;
 
             console.log(`[SUCCESS] PDF Document attached & delivered directly to: ${patientJid}`);
         } else {
-            // Text-only fallback if no PDF is uploaded
+            // Text-only fallback if no PDF was provided
             await client.sendMessage(patientJid, captionText);
             console.log(`[LOG] Sent text notification to: ${patientJid}`);
         }
@@ -203,7 +196,7 @@ Thank you for choosing Thyronex Care!`;
             try {
                 fs.unlinkSync(tempFilePath);
             } catch (cleanupErr) {
-                // Ignore temporary file unlink errors
+                // Ignore cleanup error
             }
         }
     }
