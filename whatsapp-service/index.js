@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-const OWNER_PHONE_ENV = process.env.LAB_OWNER_WHATSAPP_NUMBER || '919513951931';
+const OWNER_PHONE_ENV = process.env.LAB_OWNER_WHATSAPP_NUMBER;
 
 const client = new Client({
     authStrategy: new LocalAuth({
